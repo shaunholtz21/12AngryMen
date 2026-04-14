@@ -7,10 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!seasonSelect || !weekSelect || !loadBtn || !contentDiv) return;
 
   // 🔹 Seasons you support (only touch this once a year)
-  const seasons = ["2025", "2024"];
+  const seasons = ["2026", "2025"];
 
   // 🔹 How many regular season weeks you want
-  const MAX_WEEKS = 18;
+  const MAX_WEEKS = 17;
 
   // Populate seasons
   seasons.forEach(season => {
