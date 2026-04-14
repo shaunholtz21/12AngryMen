@@ -369,8 +369,8 @@
       <div class="nav-select-wrap">
         <select id="year-select" onchange="updateWeeks()">
           <option value="">— Season —</option>
-          <option value="2025">2025</option>
-          <option value="2024">2024</option>
+          <option value="2025">2026</option>
+          <option value="2024">2025</option>
           <!-- ADD NEW SEASONS HERE as option value="2026" etc -->
         </select>
       </div>
@@ -488,13 +488,28 @@
   // To add a new season: add a new key with its weeks array.
   // ─────────────────────────────────────────────
   const recaps = {
-    "2025": [
+    "2026": [
       // ADD NEW 2025 WEEKS HERE as you go — most recent first
       // { label: "Week 1", file: "recaps/2025-week-01.html" },
     ],
     "2024": [
-      { label: "Week 17 — Championship", file: "recaps/2024-week-17.html" },
-      { label: "Week 14",                file: "recaps/2024-week-14.html" },
+      { label: "Week 17 — Championship", file: "recaps/Week17-ChampionshipRecap.html" },
+	  { label: "Week 16 — Playoff Round 2", file: "Week16-PlayoffsRecap.html" },
+	  { label: "Week 15 — Playoff Round 1", file: "Week15-PlayoffsRecap.html" },
+      { label: "Week 14",                file: "recaps/Week14-Recap.html" },
+	  { label: "Week 13",                file: "recaps/Week13-Recap.html" },
+	  { label: "Week 12",                file: "recaps/Week12-Recap.html" },
+	  { label: "Week 11",                file: "recaps/Week11-Recap.html" },
+	  { label: "Week 10",                file: "recaps/Week10-Recap.html" },
+	  { label: "Week 9",                file: "recaps/Week09-Recap.html" },
+	  { label: "Week 8",                file: "recaps/Week08-Recap.html" },
+	  { label: "Week 7",                file: "recaps/Week07-Recap.html" },
+	  { label: "Week 6",                file: "recaps/Week06-Recap.html" },
+	  { label: "Week 5",                file: "recaps/Week05-Recap.html" },
+	  { label: "Week 4",                file: "recaps/Week04-Recap.html" },
+	  { label: "Week 3",                file: "recaps/Week03-Recap.html" },
+	  { label: "Week 2",                file: "recaps/Week02-Recap.html" },
+	  { label: "Week 1",                file: "recaps/Week01-Recap.html" },
       // ADD MORE 2024 WEEKS HERE
     ]
   };
