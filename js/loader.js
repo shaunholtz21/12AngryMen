@@ -4,8 +4,40 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadBtn = document.getElementById("loadRecapBtn");
   const contentDiv = document.getElementById("content");
 
-  if (!seasonSelect || !weekSelect || !loadBtn || !contentDiv) return;
+  // Load manifest
+  fetch("recaps.json")
+    .then(res => res.json())
+    .then(manifest => {
+      // Populate seasons
+      Object.keys(manifest)
+        .sort()
+        .reverse()
+        .forEach(season => {
+          const opt = document.createElement("option");
+          opt.value = season;
+          opt.textContent = season;
+          seasonSelect.appendChild(opt);
+        });
 
+      // Populate weeks when season changes
+      seasonSelect.addEventListener("change", () => {
+        const season = seasonSelect.value;
+        const weeks = manifest[season] || [];
+
+        weekSelect.innerHTML = "";
+        weeks.forEach(w => {
+          const opt = document.createElement("option");
+          opt.value = w;
+          opt.textContent = w.replace("week", "Week ");
+          weekSelect.appendChild(opt);
+        });
+      });
+
+      // Trigger initial load
+      seasonSelect.dispatchEvent(new Event("change"));
+    });
+
+  // Load recap
   loadBtn.addEventListener("click", () => {
     const season = seasonSelect.value;
     const week = weekSelect.value;
@@ -14,9 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fetch(filePath)
       .then(response => {
-        if (!response.ok) {
-          throw new Error("Recap not found");
-        }
+        if (!response.ok) throw new Error("Not found");
         return response.text();
       })
       .then(html => {
