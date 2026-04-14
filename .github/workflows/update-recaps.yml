@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4   # Updated for Node 24
 
       - name: Build recap manifest
         run: |
@@ -32,7 +32,7 @@ jobs:
           echo "}" >> recaps.json
 
       - name: Commit manifest
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6   # Updated for Node 24
         with:
           commit_message: "Update recap manifest"
           file_pattern: recaps.json
