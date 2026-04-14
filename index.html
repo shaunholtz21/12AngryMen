@@ -116,6 +116,45 @@
 
           <section class="card">
             <div class="card-header">
+              <section class="card">
+  <div class="card-header">
+    <h3 class="card-title">Weekly Recaps</h3>
+    <div class="card-meta">Select & Load</div>
+  </div>
+
+  <div class="card-body">
+
+    <label for="seasonSelect" style="font-size: 0.8rem; color: var(--muted);">Season</label>
+    <select id="seasonSelect" style="width: 100%; margin-bottom: 0.75rem;">
+      <option value="2025">2025</option>
+      <option value="2024">2024</option>
+    </select>
+
+    <label for="weekSelect" style="font-size: 0.8rem; color: var(--muted);">Week</label>
+    <select id="weekSelect" style="width: 100%; margin-bottom: 0.75rem;">
+      <option value="week1">Week 1</option>
+      <option value="week2">Week 2</option>
+      <option value="week3">Week 3</option>
+      <option value="week4">Week 4</option>
+      <option value="week5">Week 5</option>
+    </select>
+
+    <button id="loadRecapBtn" style="
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    ">
+      Load Recap
+    </button>
+
+  </div>
+</section>
               <h3 class="card-title">League Info</h3>
               <div class="card-meta">At a Glance</div>
             </div>
@@ -147,5 +186,6 @@
     </footer>
 
   </div>
+  <script src="js/loader.js"></script>
 </body>
 </html>
