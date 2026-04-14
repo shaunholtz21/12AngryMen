@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadBtn = document.getElementById("loadRecapBtn");
   const contentDiv = document.getElementById("content");
 
+  if (!seasonSelect || !weekSelect || !loadBtn || !contentDiv) return;
+
   loadBtn.addEventListener("click", () => {
     const season = seasonSelect.value;
     const week = weekSelect.value;
