@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>12 Angry Men Fantasy League</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-alt: #101218;
+      --card: #151822;
+      --accent: #e53935;
+      --accent-soft: rgba(229, 57, 53, 0.12);
+      --text: #f5f5f5;
+      --muted: #a0a4b8;
+      --border-subtle: #262a36;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #151822 0, #050608 55%);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top bar */
+
+    header {
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(5, 6, 8, 0.96);
+      backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      background: radial-gradient(circle at 30% 0, #2b2f3f 0, #050608 70%);
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.7), 0 0 18px rgba(229, 57, 53, 0.35);
+    }
+
+    .nav-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .nav-title-main {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nav-title-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 0.15rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.18s ease-out;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Main layout */
+
+    main {
+      flex: 1;
+    }
+
+    .shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.75rem 1.25rem 3rem;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 880px) {
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .nav {
+        flex-wrap: wrap;
+      }
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+    }
+
+    /* Hero */
+
+    .hero {
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(229, 57, 53, 0.5);
+      background: linear-gradient(90deg, rgba(229, 57, 53, 0.16), transparent);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(229, 57, 53, 0.7);
+    }
+
+    .hero-title {
+      font-size: clamp(1.9rem, 3vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 34rem;
+    }
+
+    /* Section headings */
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .section-pill {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 18, 26, 0.9);
+    }
+
+    /* Cards */
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .card {
+      border-radius: 0.9rem;
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at top left, #22263a 0, #151822 40%, #050608 100%);
+      padding: 0.9rem 1rem;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .card-soft {
+      background: linear-gradient(135deg, rgba(229, 57, 53, 0.12), rgba(15, 18, 26, 0.9));
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-meta {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .card-body {
+      font-size: 0.9rem;
+      color: #e3e5f0;
+    }
+
+    .card-body p + p {
+      margin-top: 0.4rem;
+    }
+
+    .matchup-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.75rem;
+      margin-top: 0.55rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .matchup-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    /* Sidebar */
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .badge-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .badge-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.7rem;
+    }
+
+    .badge-value {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 1.25rem 1.25rem 1.75rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="nav">
+        <div class="nav-left">
+          <div class="logo-mark">12</div>
+          <div class="nav-title">
+            <div class="nav-title-main">12 Angry Men</div>
+            <div class="nav-title-sub">Fantasy Football League</div>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="#angry-bowl">Angry Bowl V</a>
+          <a href="#season-recap">Season Recap</a>
+          <a href="#weekly-notes">Weekly Notes</a>
+          <a href="#hall-of-shame">Hall of Shame</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="shell">
+        <!-- Main column -->
+        <section>
+          <div class="hero">
+            <div class="hero-tag">
+              <span class="hero-tag-dot"></span>
+              <span>Live from the deliberation room</span>
+            </div>
+            <h1 class="hero-title">The Official Record of 12 Angry Men</h1>
+            <p class="hero-sub">
+              Trash talk, receipts, and the occasionally competent roster move. This is the running chronicle of the
+              12 Angry Men Fantasy Football League.
+            </p>
+          </div>
+
+          <!-- Angry Bowl V -->
+          <section id="angry-bowl">
+            <div class="section-header">
+              <h2 class="section-title">Angry Bowl V</h2>
+              <span class="section-pill">Championship Docket</span>
+            </div>
+
+            <article class="card card-soft">
+              <div class="card-header">
+                <h3 class="card-title">[Replace with your Angry Bowl V headline]</h3>
+                <div class="card-meta">Final • Week 17</div>
+              </div>
+              <div class="card-body">
+                <p>
+                  Drop your full Angry Bowl V write‑up here. The narrative, the meltdown, the miracle Monday night
+                  stat correction—whatever actually happened, this is the crown jewel.
+                </p>
+                <p>
+                  You can paste your existing recap paragraphs straight into this block. I’ll help you format them
+                  once you drop the real text.
+                </p>
+
+                <div class="matchup-meta">
+                  <span><span class="dot"></span>Champion: [Team Name]</span>
+                  <span>Runner‑up: [Team Name]</span>
+                  <span>Score: [XXX.X – YYY.Y]</span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <!-- Season recap -->
+          <section id="season-recap" style="margin-top: 1.75rem;">
+            <div class="section-header">
+              <h2 class="section-title">Season recap</h2>
+              <span class="section-pill">Big picture</span>
+            </div>
+
+            <div class="stack">
+              <article class="card">
+                <div class="card-header">
+                  <h3 class="card-title">[Season arc headline]</h3>
+                  <div class="card-meta">Year in review</div>
+                </div>
+                <div class="card-body">
+                  <p>
+                    Paste your long‑form season recap here—who started hot, who cratered, who lucked into the
+                    playoffs, and who is banned from drafting tight ends ever again.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Weekly notes / matchups -->
+          <section id="weekly-notes" style="margin-top: 1.75rem;">
+            <div class="section-header">
+              <h2 class="section-title">Weekly notes &amp; matchups</h2>
+              <span class="section-pill">Running commentary</span>
+            </div>
+
+            <div class="stack">
+              <!-- Example matchup card; duplicate for each week -->
+              <article class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Week 1 • [Team A] vs [Team B]</h3>
+                  <div class="card-meta">Regular season</div>
+                </div>
+                <div class="card-body">
+                  <p>
+                    Drop your existing Week 1 write‑up here. Keep the tone exactly how you’ve been writing it—sarcastic,
+                    specific, and petty in all the right ways.
+                  </p>
+                  <div class="matchup-meta">
+                    <span><span class="dot"></span>Final: [XXX.X – YYY.Y]</span>
+                    <span>Angriest manager: [Name]</span>
+                    <span>Crime: [e.g., Benching 30‑point WR]</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Add more cards for Week 2, 3, etc. -->
+            </div>
+          </section>
+
+          <!-- Hall of shame -->
+          <section id="hall-of-shame" style="margin-top: 1.75rem;">
+            <div class="section-header">
+              <h2 class="section-title">Hall of shame</h2>
+              <span class="section-pill">Documented malpractice</span>
+            </div>
+
+            <div class="stack">
+              <article class="card">
+                <div class="card-header">
+                  <h3 class="card-title">[Legendary blunder #1]</h3>
+                  <div class="card-meta">Exhibit A</div>
+                </div>
+                <div class="card-body">
+                  <p>
+                    This is where you immortalize the worst trades, waiver moves, and lineup decisions in league
+                    history. Screenshots optional, ridicule mandatory.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <section class="card">
+            <div class="card-header">
+              <h3 class="card-title">League dossier</h3>
+              <div class="card-meta">At a glance</div>
+            </div>
+            <div class="card-body">
+              <div class="badge-list">
+                <div class="badge-row">
+                  <span class="badge-label">Founded</span>
+                  <span class="badge-value">[Year]</span>
+                </div>
+                <div class="badge-row">
+                  <span class="badge-label">Teams</span>
+                  <span class="badge-value">12</span>
+                </div>
+                <div class="badge-row">
+                  <span class="badge-label">Format</span>
+                  <span class="badge-value">PPR / Sleeper / ESPN / etc.</span>
+                </div>
+                <div class="badge-row">
+                  <span class="badge-label">Commissioner</span>
+                  <span class="badge-value">[Name]</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-header">
+              <h3 class="card-title">Past champions</h3>
+              <div class="card-meta">Banner row</div>
+            </div>
+            <div class="card-body">
+              <ul class="badge-list">
+                <li class="badge-row">
+                  <span class="badge-label">Year [X]</span>
+                  <span class="badge-value">[Team Name]</span>
+                </li>
+                <li class="badge-row">
+                  <span class="badge-label">Year [Y]</span>
+                  <span class="badge-value">[Team Name]</span>
+                </li>
+                <!-- Add more as needed -->
+              </ul>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-header">
+              <h3 class="card-title">Running jokes &amp; bylaws</h3>
+              <div class="card-meta">Fine print</div>
+            </div>
+            <div class="card-body">
+              <p style="font-size: 0.85rem; color: var(--muted);">
+                Use this space for league rules, punishments, draft‑day traditions, or the official stance on vetoes.
+              </p>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        12 Angry Men Fantasy Football League • All objections overruled.
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
