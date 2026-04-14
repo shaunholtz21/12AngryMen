@@ -6,11 +6,36 @@
 
   <div class="card-body">
 
+    <style>
+      .match-sep {
+        border: none;
+        margin: 2.5rem 0;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--accent),
+          transparent
+        );
+        position: relative;
+      }
+      .match-sep::after {
+        content: "•";
+        position: absolute;
+        top: -0.65rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--accent);
+        font-size: 1.4rem;
+        line-height: 1;
+      }
+    </style>
+
     <!-- MATCHUP 1 -->
-    <section class="matchup-block" style="margin-bottom: 2rem;">
+    <section class="matchup-block">
       <h2 class="matchup-title">Hooligans (111.42) vs. 🎆 <strong>SHOULDA PLAYED THE OTHER GUY</strong> (140.42)</h2>
-      <div class="result">Result: Shoulda Played The Other Guy wins by 29</div>
-      <div class="mood">Mood: One team brought fireworks, the other brought a sparkler</div>
+      <div class="result"><strong>Result: Shoulda Played The Other Guy wins by 29</strong></div>
+      <div class="mood"><em>Mood: One team brought fireworks, the other brought a sparkler</em></div>
 
       <p><strong>Shoulda Played The Other Guy</strong> drafted like they were trying to win Week 1 and Week 1 only — and it worked. Henry went full beast mode, Egbuka lit up the FLEX spot, and even the kicker dropped a 14‑point flex bomb.</p>
       <p><strong>Hooligans</strong> had a solid foundation — McCaffrey and McCarthy did their jobs — but the rest of the lineup felt like it hit snooze. Worthy posted a zero, and the kicker might’ve been kicking Nerf balls.</p>
@@ -20,14 +45,16 @@
       <p><strong>Bench Regrets:</strong><br>
       <strong>Hooligans</strong>: No major regrets, but Stafford and Ferguson could’ve added a little polish.</p>
 
-      <p><strong>Shoulda Played The Other Guy</strong> didn’t just win — they styled on ‘em. Starting Egbuka in Week 1 was either genius or madness, and it paid off like a lottery ticket. <strong>Hooligans</strong>? Solid bones, but they’ll need more than McCaffrey’s cape next week. Maybe check if Worthy’s cleats were even laced.</p>
+      <p><strong>Shoulda Played The Other Guy</strong> didn’t just win — they styled on ‘em. Starting Egbuka in Week 1 was either genius or madness, and it paid off like a lottery ticket.</p>
     </section>
 
+    <hr class="match-sep">
+
     <!-- MATCHUP 2 -->
-    <section class="matchup-block" style="margin-bottom: 2rem;">
+    <section class="matchup-block">
       <h2 class="matchup-title">The Prison Wallets (104.42) vs. 🔥 <strong>HUPHERS</strong> (114.96)</h2>
-      <div class="result">Result: HuPhers wins by 10</div>
-      <div class="mood">Mood: One team brought a toolbox, the other brought a flamethrower</div>
+      <div class="result"><strong>Result: HuPhers wins by 10</strong></div>
+      <div class="mood"><em>Mood: One team brought a toolbox, the other brought a flamethrower</em></div>
 
       <p><strong>HuPhers</strong> didn’t dominate — they just hit the right buttons. Lamar went nuclear, Broncos D/ST dropped a surprise 16, and JSN showed up like he’d been waiting all offseason to prove a point.</p>
       <p><strong>The Prison Wallets</strong> had a solid floor — no disasters, no heroics. RBs were fine, WRs were fine, QB was fine. But when your defense scores 1 and your bench TE outscores your starter, “fine” doesn’t win matchups.</p>
@@ -35,17 +62,19 @@
       <p class="one-liner"><strong>One team rode a QB heater and a surprise defense. The other played it safe and got burned by it.</strong></p>
 
       <p><strong>Bench Regrets:</strong><br>
-      <strong>The Prison Wallets</strong>: Left 10 points on the table by starting Steelers D/ST over Packers. Freiermuth also outscored Kittle by 0.7.<br>
+      <strong>The Prison Wallets</strong>: Left 10 points on the table by starting Steelers D/ST over Packers.<br>
       <strong>HuPhers</strong>: Deebo Samuel exploded for 22.6 on the bench.</p>
 
-      <p><strong>HuPhers</strong> didn’t win with perfection — they won with timing. Lamar and the Broncos D/ST carried the day while <strong>The Prison Wallets</strong> quietly posted a respectable loss.</p>
+      <p><strong>HuPhers</strong> didn’t win with perfection — they won with timing.</p>
     </section>
 
+    <hr class="match-sep">
+
     <!-- MATCHUP 3 -->
-    <section class="matchup-block" style="margin-bottom: 2rem;">
+    <section class="matchup-block">
       <h2 class="matchup-title">Dirty Beers (99.82) vs. 🌸 <strong>TEAM PARKER</strong> (106.72)</h2>
-      <div class="result">Result: Team Parker wins by 6.9</div>
-      <div class="mood">Mood: One team spilled their beer, the other sipped their way to victory</div>
+      <div class="result"><strong>Result: Team Parker wins by 6.9</strong></div>
+      <div class="mood"><em>Mood: One team spilled their beer, the other sipped their way to victory</em></div>
 
       <p><strong>Team Parker</strong> didn’t blow the doors off — they just let Zay Flowers do the decorating. A monster 28.1 from the WR2 slot carried a lineup that otherwise looked like it was still stretching.</p>
       <p><strong>Dirty Beers</strong> had Mahomes cooking, Pearsall popping, and then… a whole lot of undercooked sides. Hockenson flopped, Amon‑Ra fizzled, and the RBs barely broke double digits.</p>
@@ -56,14 +85,16 @@
       <strong>Dirty Beers</strong>: Tillman, Sampson, Odunze, and Henry all outscored starters.<br>
       <strong>Team Parker</strong>: No major misses.</p>
 
-      <p><strong>Team Parker</strong> didn’t win with dominance — they won with Flowers. <strong>Dirty Beers</strong> had Mahomes and a bench full of fireworks, but forgot to light the fuse.</p>
+      <p><strong>Team Parker</strong> didn’t win with dominance — they won with Flowers.</p>
     </section>
 
+    <hr class="match-sep">
+
     <!-- MATCHUP 4 -->
-    <section class="matchup-block" style="margin-bottom: 2rem;">
+    <section class="matchup-block">
       <h2 class="matchup-title">🐐 <strong>GOAT</strong> (129.86) vs. The Max (111.72)</h2>
-      <div class="result">Result: GOAT wins by 18.14</div>
-      <div class="mood">Mood: One team brought a stampede, the other brought a spreadsheet</div>
+      <div class="result"><strong>Result: GOAT wins by 18.14</strong></div>
+      <div class="mood"><em>Mood: One team brought a stampede, the other brought a spreadsheet</em></div>
 
       <p><strong>GOAT</strong> didn’t need perfection — they had Josh Allen. Nearly 40 points from the QB slot set the tone, and Etienne, Breece Hall, and Butker followed suit.</p>
       <p><strong>The Max</strong> had flashes — Bijan balled out, Pittman Jr. delivered, and LaPorta looked like a TE1. But Burrow’s dud and a quiet day from Tyreek Hill kept the ceiling low.</p>
@@ -74,14 +105,16 @@
       <strong>GOAT</strong>: Javonte Williams and Jayden Reed both outscored starters.<br>
       <strong>The Max</strong>: Keenan Allen and Palmer could’ve made this a nail‑biter.</p>
 
-      <p><strong>GOAT</strong> didn’t just win — they let Josh Allen do the heavy lifting while the rest of the squad played support.</p>
+      <p><strong>GOAT</strong> didn’t just win — they let Josh Allen do the heavy lifting.</p>
     </section>
 
+    <hr class="match-sep">
+
     <!-- MATCHUP 5 -->
-    <section class="matchup-block" style="margin-bottom: 2rem;">
+    <section class="matchup-block">
       <h2 class="matchup-title">🎯 <strong>TEAM BAUNE</strong> (137.78) vs. Team Greenwell (126.72)</h2>
-      <div class="result">Result: Team Baune wins by 11.06</div>
-      <div class="mood">Mood: One team brought a balanced attack, the other brought a highlight reel and a headache</div>
+      <div class="result"><strong>Result: Team Baune wins by 11.06</strong></div>
+      <div class="mood"><em>Mood: One team brought a balanced attack, the other brought a highlight reel and a headache</em></div>
 
       <p><strong>Team Baune</strong> didn’t need fireworks — they just hit every note. Baker outperformed, Cook and Achane ran wild, and Boswell booted a 15‑point kicker line.</p>
       <p><strong>Team Greenwell</strong> had the flash — Fields dropped nearly 30, Jefferson and Conner held steady — but the supporting cast couldn’t keep pace.</p>
@@ -95,11 +128,13 @@
       <p><strong>Team Baune</strong> didn’t win with flash — they won with fundamentals.</p>
     </section>
 
+    <hr class="match-sep">
+
     <!-- MATCHUP 6 -->
-    <section class="matchup-block" style="margin-bottom: 2rem;">
+    <section class="matchup-block">
       <h2 class="matchup-title">Team Corbett (73.78) vs. 🦵 <strong>TEAM HANKSON</strong> (87.44)</h2>
-      <div class="result">Result: Team Hankson wins by 13.66</div>
-      <div class="mood">Mood: One team tripped over their own shoelaces, the other limped across the finish line</div>
+      <div class="result"><strong>Result: Team Hankson wins by 13.66</strong></div>
+      <div class="mood"><em>Mood: One team tripped over their own shoelaces, the other limped across the finish line</em></div>
 
       <p><strong>Team Hankson</strong> didn’t exactly light it up — Bo Nix face‑planted, WRs fizzled, and the kicker barely showed up. But Kelce, Chuba, and Olave did just enough.</p>
       <p><strong>Team Corbett</strong> had Hurts doing his job, Lamb holding steady, and then… chaos. Pacheco vanished, Andrews ghosted, and the Ravens D/ST posted a negative score.</p>
