@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12 Angry Men — Fantasy Football</title>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Oswald:wght@400;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F4EFE0;
+    --ink: #1A1208;
+    --ink-mid: #3D3020;
+    --red: #8B1A1A;
+    --red-bright: #C0392B;
+    --gold: #B8860B;
+    --paper: #FAF6EC;
+    --border: #D8D0BC;
+    --muted: #999;
+    --sidebar-w: 220px;
+    --typewriter: 'Courier Prime', monospace;
+    --display: 'Oswald', sans-serif;
+    --body: 'Special Elite', cursive;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--ink); font-family: var(--body); min-height: 100vh; }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    border-bottom: 3px double var(--gold);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+  .logo-main {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--cream);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .logo-sub {
+    font-family: var(--typewriter);
+    font-size: 9px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .header-nav { display: flex; gap: 4px; }
+  .header-nav a {
+    font-family: var(--display);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #777;
+    text-decoration: none;
+    padding: 8px 14px;
+    transition: color 0.15s;
+  }
+  .header-nav a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--ink);
+    padding: 48px 24px 40px;
+    text-align: center;
+    border-bottom: 1px solid #2a2a2a;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px);
+  }
+  .hero-eyebrow {
+    font-family: var(--typewriter);
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hero-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(48px, 9vw, 90px);
+    color: var(--cream);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    line-height: 0.95;
+  }
+  .hero-title span { color: var(--red-bright); }
+  .hero-rule { width: 70px; height: 2px; background: var(--gold); margin: 18px auto; }
+  .hero-tagline {
+    font-family: var(--typewriter);
+    font-style: italic;
+    font-size: 14px;
+    color: #666;
+  }
+
+  /* ── LAYOUT ── */
+  .page-wrap { background: var(--paper); }
+  .layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: var(--sidebar-w) 1fr;
+    gap: 32px;
+    padding: 36px 24px 64px;
+    align-items: start;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar { position: sticky; top: 88px; }
+
+  .sidebar-section { margin-bottom: 28px; }
+
+  .sidebar-heading {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+
+  .sidebar-year {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin: 10px 0 4px;
+  }
+
+  .sidebar-links { list-style: none; }
+  .sidebar-links li { border-bottom: 1px solid var(--border); }
+  .sidebar-links a {
+    display: block;
+    font-family: var(--typewriter);
+    font-size: 13px;
+    color: var(--ink-mid);
+    text-decoration: none;
+    padding: 7px 8px;
+    transition: background 0.12s, color 0.12s;
+    border-left: 3px solid transparent;
+  }
+  .sidebar-links a:hover {
+    background: #F0EAD6;
+    color: var(--red);
+    border-left-color: var(--red);
+  }
+  .sidebar-links a.current {
+    background: #F0EAD6;
+    color: var(--red);
+    border-left-color: var(--gold);
+    font-weight: 700;
+  }
+
+  .sidebar-award-links { list-style: none; }
+  .sidebar-award-links li { border-bottom: 1px solid var(--border); }
+  .sidebar-award-links a {
+    display: block;
+    font-family: var(--typewriter);
+    font-size: 13px;
+    color: var(--ink-mid);
+    text-decoration: none;
+    padding: 7px 8px;
+    transition: background 0.12s, color 0.12s;
+    border-left: 3px solid transparent;
+  }
+  .sidebar-award-links a:hover {
+    background: #F0EAD6;
+    color: var(--red);
+    border-left-color: var(--red);
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main-content { min-width: 0; }
+
+  .content-label {
+    font-family: var(--typewriter);
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .content-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  /* ── MATCHUP CARDS ── */
+  .matchup {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    border-radius: 2px;
+    padding: 22px 24px;
+    margin-bottom: 24px;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.04);
+  }
+
+  .matchup h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: 1px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .result {
+    font-family: var(--display);
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .mood {
+    font-family: var(--typewriter);
+    font-style: italic;
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 14px;
+    padding-left: 10px;
+    border-left: 2px solid var(--border);
+  }
+
+  .matchup p {
+    font-family: var(--typewriter);
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--ink-mid);
+    margin-bottom: 10px;
+  }
+
+  .one-liner {
+    font-family: var(--body);
+    font-size: 15px;
+    color: var(--ink);
+    background: #F5F0E4;
+    border-left: 3px solid var(--gold);
+    padding: 10px 14px;
+    margin: 14px 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    border-top: 3px double var(--gold);
+    padding: 22px;
+    text-align: center;
+  }
+  footer p {
+    font-family: var(--typewriter);
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 1px;
+  }
+  footer p span { color: var(--gold); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 680px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .hero-title { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <a class="logo-main" href="index.html">12 Angry Men</a>
+      <div class="logo-sub">Fantasy Football League</div>
+    </div>
+    <nav class="header-nav">
+      <a href="awards.html">Awards</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">ESPN Fantasy Football &nbsp;·&nbsp; 2025 Season</div>
+  <div class="hero-title"><span>12</span> Angry Men</div>
+  <div class="hero-rule"></div>
+  <div class="hero-tagline">"Somebody is lying, and I want to know who."</div>
+</div>
+
+<div class="page-wrap">
+  <div class="layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading">2025 Season</div>
+        <ul class="sidebar-links">
+          <!-- ADD NEW WEEKS AT THE TOP OF THIS LIST -->
+          <li><a href="recaps/2025-week-14.html">Week 14</a></li>
+          <li><a href="recaps/2025-week-13.html">Week 13</a></li>
+          <li><a href="recaps/2025-week-12.html">Week 12</a></li>
+          <li><a href="recaps/2025-week-11.html">Week 11</a></li>
+          <li><a href="recaps/2025-week-10.html">Week 10</a></li>
+          <li><a href="recaps/2025-week-09.html">Week 9</a></li>
+          <li><a href="recaps/2025-week-08.html">Week 8</a></li>
+          <li><a href="recaps/2025-week-07.html">Week 7</a></li>
+          <li><a href="recaps/2025-week-06.html">Week 6</a></li>
+          <li><a href="recaps/2025-week-05.html">Week 5</a></li>
+          <li><a href="recaps/2025-week-04.html">Week 4</a></li>
+          <li><a href="recaps/2025-week-03.html">Week 3</a></li>
+          <li><a href="recaps/2025-week-02.html">Week 2</a></li>
+          <li><a href="recaps/2025-week-01.html">Week 1</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading">2024 Season</div>
+        <ul class="sidebar-links">
+          <li><a href="recaps/2024-week-17.html">Week 17 — Championship</a></li>
+          <li><a href="recaps/2024-week-14.html">Week 14</a></li>
+          <!-- ADD MORE 2024 WEEKS HERE -->
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Awards</div>
+        <ul class="sidebar-award-links">
+          <li><a href="awards.html#high-points">Weekly High Points</a></li>
+          <li><a href="awards.html#last-man">Last Man Standing</a></li>
+          <li><a href="awards.html#end-of-season">End of Season</a></li>
+        </ul>
+      </div>
+
+    </aside>
+
+    <!-- ── MAIN — Latest Recap ── -->
+    <main class="main-content">
+
+      <div class="content-label">Latest Recap</div>
+      <div class="content-title">&#127944; Week 17 — The Angry Bowl V</div>
+
+      <!-- PASTE YOUR LATEST RECAP CONTENT BELOW THIS LINE -->
+      <!-- Copy everything between <body>...</body> from your recap HTML file and paste it here -->
+
+      <div class="matchup">
+        <h2>Team Baune (91.82) vs. &#128165; <strong>SHOULDA PLAYED THE OTHER GUY</strong> (152.18)</h2>
+        <div class="result">Result: Shoulda Played The Other Guy wins by 60.36</div>
+        <div class="mood">Mood: When one team brings a fire hose and the other brings a sparkler.</div>
+        <p><strong>Team Baune</strong> came into the Angry Bowl looking for one more surge, but the lineup never found its footing. Shough (21.92) delivered a strong performance, and Harold Fannin Jr. (11.0) held up his end, but the supporting cast couldn't keep pace. Achane (14.2) and Cook (8.7) landed below expectations, the WR group combined for just 13.7 points, and the Broncos D/ST (7.0) couldn't swing momentum.</p>
+        <p><strong>Shoulda Played The Other Guy</strong> showed up like it was personal. Derrick Henry detonated for 45.6 — the kind of championship swing that ends arguments — while McBride (23.6) and Wan'Dale Robinson (22.3) piled on. It was a complete, top-to-bottom title-winning performance.</p>
+        <div class="one-liner">Sometimes the Angry Bowl is a nail-biter. Sometimes it's a statement. This one was a statement.</div>
+        <p><strong>Bench Regrets:</strong><br>
+          <strong>Team Baune:</strong> Cam Little (14.0) was the only notable upgrade, but it wouldn't have changed the outcome.<br>
+          <strong>Shoulda Played The Other Guy:</strong> Trevor Lawrence (23.12) and Quentin Johnston (14.8) were strong options, but the starters already sealed the deal.
+        </p>
+      </div>
+
+      <!-- TO UPDATE EACH WEEK:
+           1. Open this file in Notepad
+           2. Change the content-title to the new week
+           3. Replace the matchup divs above with your new recap content
+           4. Upload the new version to GitHub
+      -->
+
+    </main>
+
+  </div>
+</div>
+
+<footer>
+  <p><span>12 Angry Men</span> &nbsp;·&nbsp; Fantasy Football &nbsp;·&nbsp; ESPN League</p>
+</footer>
+
+</body>
+</html>
