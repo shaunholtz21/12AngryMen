@@ -4,40 +4,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadBtn = document.getElementById("loadRecapBtn");
   const contentDiv = document.getElementById("content");
 
-  // Load manifest
-  fetch("recaps.json")
-    .then(res => res.json())
-    .then(manifest => {
-      // Populate seasons
-      Object.keys(manifest)
-        .sort()
-        .reverse()
-        .forEach(season => {
-          const opt = document.createElement("option");
-          opt.value = season;
-          opt.textContent = season;
-          seasonSelect.appendChild(opt);
-        });
+  if (!seasonSelect || !weekSelect || !loadBtn || !contentDiv) return;
 
-      // Populate weeks when season changes
-      seasonSelect.addEventListener("change", () => {
-        const season = seasonSelect.value;
-        const weeks = manifest[season] || [];
+  // 🔹 Seasons you support (only touch this once a year)
+  const seasons = ["2025", "2024"];
 
-        weekSelect.innerHTML = "";
-        weeks.forEach(w => {
-          const opt = document.createElement("option");
-          opt.value = w;
-          opt.textContent = w.replace("week", "Week ");
-          weekSelect.appendChild(opt);
-        });
-      });
+  // 🔹 How many regular season weeks you want
+  const MAX_WEEKS = 18;
 
-      // Trigger initial load
-      seasonSelect.dispatchEvent(new Event("change"));
-    });
+  // Populate seasons
+  seasons.forEach(season => {
+    const opt = document.createElement("option");
+    opt.value = season;
+    opt.textContent = season;
+    seasonSelect.appendChild(opt);
+  });
 
-  // Load recap
+  // Populate weeks
+  function populateWeeks() {
+    weekSelect.innerHTML = "";
+    for (let i = 1; i <= MAX_WEEKS; i++) {
+      const value = `week${i}`;
+      const opt = document.createElement("option");
+      opt.value = value;
+      opt.textContent = `Week ${i}`;
+      weekSelect.appendChild(opt);
+    }
+  }
+
+  populateWeeks();
+
+  // Load recap on click
   loadBtn.addEventListener("click", () => {
     const season = seasonSelect.value;
     const week = weekSelect.value;
