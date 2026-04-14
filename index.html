@@ -10,7 +10,6 @@
 <body>
   <div class="page">
 
-    <!-- NAVIGATION -->
     <header>
       <div class="nav">
         <div class="nav-left">
@@ -22,90 +21,113 @@
         </div>
 
         <nav class="nav-links">
-          <a href="#awards">Awards</a>
-          <a href="#recaps">Recaps</a>
-          <a href="#history">History</a>
+          <a href="#angry-bowl">Angry Bowl V</a>
+          <a href="#season-recap">Season Recap</a>
+          <a href="#weekly-notes">Weekly Notes</a>
+          <a href="#hall-of-shame">Hall of Shame</a>
         </nav>
       </div>
     </header>
 
-    <!-- MAIN LAYOUT -->
     <main>
       <div class="shell">
 
-        <!-- LEFT COLUMN -->
+        <!-- MAIN COLUMN -->
         <section>
 
-          <!-- HERO -->
           <div class="hero">
             <h1 class="hero-title">The Official Record of 12 Angry Men</h1>
             <p class="hero-sub">
-              Weekly recaps, awards, and league history — all in one place.
+              Trash talk, receipts, and the occasionally competent roster move. This is the running chronicle of the league.
             </p>
           </div>
 
-          <!-- CONTENT AREA WHERE RECAPS LOAD -->
-          <div id="content" class="card" style="margin-top: 1.5rem; padding: 1rem;">
-            <p style="color: var(--muted);">
-              Select a season and week from the sidebar to load a recap.
-            </p>
-          </div>
+          <section id="angry-bowl">
+            <h2 class="section-title">Angry Bowl V</h2>
+
+            <article class="card card-soft">
+              <div class="card-header">
+                <h3 class="card-title">Your Angry Bowl V Headline</h3>
+                <div class="card-meta">Final • Week 17</div>
+              </div>
+              <div class="card-body">
+                <p>Paste your Angry Bowl V recap here.</p>
+                <div class="matchup-meta">
+                  <span><span class="dot"></span>Champion: TBD</span>
+                  <span>Runner‑up: TBD</span>
+                  <span>Score: XXX – YYY</span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section id="season-recap" style="margin-top: 2rem;">
+            <h2 class="section-title">Season Recap</h2>
+
+            <article class="card">
+              <div class="card-header">
+                <h3 class="card-title">Season Overview</h3>
+                <div class="card-meta">Year in Review</div>
+              </div>
+              <div class="card-body">
+                <p>Paste your season recap here.</p>
+              </div>
+            </article>
+          </section>
+
+          <section id="weekly-notes" style="margin-top: 2rem;">
+            <h2 class="section-title">Weekly Notes</h2>
+
+            <article class="card">
+              <div class="card-header">
+                <h3 class="card-title">Week 1 • Team A vs Team B</h3>
+                <div class="card-meta">Regular Season</div>
+              </div>
+              <div class="card-body">
+                <p>Paste your Week 1 write‑up here.</p>
+              </div>
+            </article>
+          </section>
+
+          <section id="hall-of-shame" style="margin-top: 2rem;">
+            <h2 class="section-title">Hall of Shame</h2>
+
+            <article class="card">
+              <div class="card-header">
+                <h3 class="card-title">Legendary Blunder #1</h3>
+                <div class="card-meta">Exhibit A</div>
+              </div>
+              <div class="card-body">
+                <p>Paste your Hall of Shame content here.</p>
+              </div>
+            </article>
+          </section>
 
         </section>
 
-        <!-- RIGHT SIDEBAR -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
 
-          <!-- WEEKLY RECAP LOADER -->
           <section class="card">
             <div class="card-header">
-              <h3 class="card-title">Weekly Recaps</h3>
-              <div class="card-meta">Select & Load</div>
+              <h3 class="card-title">League Info</h3>
+              <div class="card-meta">At a Glance</div>
             </div>
-
             <div class="card-body">
-
-              <label for="seasonSelect" style="font-size: 0.8rem; color: var(--muted);">Season</label>
-              <select id="seasonSelect" style="width: 100%; margin-bottom: 0.75rem;">
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
-              </select>
-
-              <label for="weekSelect" style="font-size: 0.8rem; color: var(--muted);">Week</label>
-              <select id="weekSelect" style="width: 100%; margin-bottom: 0.75rem;">
-                <option value="week1">Week 1</option>
-                <option value="week2">Week 2</option>
-                <option value="week3">Week 3</option>
-                <option value="week4">Week 4</option>
-                <option value="week5">Week 5</option>
-              </select>
-
-              <button id="loadRecapBtn" style="
-                width: 100%;
-                padding: 0.5rem;
-                margin-top: 0.5rem;
-                background: var(--accent);
-                border: none;
-                border-radius: 6px;
-                color: white;
-                font-weight: 600;
-                cursor: pointer;
-              ">
-                Load Recap
-              </button>
-
+              <p>Teams: 12</p>
+              <p>Format: PPR</p>
+              <p>Founded: TBD</p>
             </div>
           </section>
 
-          <!-- PAST CHAMPIONS -->
           <section class="card">
             <div class="card-header">
               <h3 class="card-title">Past Champions</h3>
               <div class="card-meta">Banner Row</div>
             </div>
             <div class="card-body">
-              <p>2024 — TBD</p>
-              <p>2023 — TBD</p>
+              <p>Year X — Team Name</p>
+              <p>Year Y — Team Name</p>
             </div>
           </section>
 
@@ -114,15 +136,10 @@
       </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="footer">
       12 Angry Men Fantasy Football League • All objections overruled.
     </footer>
 
   </div>
-
-  <!-- JAVASCRIPT LOADER -->
-  <script src="js/loader.js"></script>
-
 </body>
 </html>
