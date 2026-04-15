@@ -1,9 +1,29 @@
+async function loadSeasons(seasonSelect) {
+  try {
+    const response = await fetch("recaps/seasons.json");
+    const data = await response.json();
+
+    seasonSelect.innerHTML = "";
+
+    data.seasons.forEach(season => {
+      const opt = document.createElement("option");
+      opt.value = season;
+      opt.textContent = season;
+      seasonSelect.appendChild(opt);
+    });
+  } catch (err) {
+    console.error("Failed to load seasons:", err);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const seasonSelect = document.getElementById("seasonSelect");
   const weekSelect = document.getElementById("weekSelect");
   const loadBtn = document.getElementById("loadRecapBtn");
   const contentDiv = document.getElementById("content");
 
+  loadSeasons(seasonSelect);
+  
   if (!seasonSelect || !weekSelect || !loadBtn || !contentDiv) return;
 
   // 🔹 Seasons you support (only touch this once a year)
