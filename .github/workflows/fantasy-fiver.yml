@@ -28,7 +28,7 @@ jobs:
 
           echo "$RESPONSE" | jq -r '.access_token' > access_token.txt
 
-      - name: Download 2024 and 2025 Excel files
+            - name: Download 2024 and 2025 Excel files
         run: |
           mkdir -p data
           for YEAR in 2024 2025; do
