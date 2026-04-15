@@ -26,27 +26,26 @@ jobs:
             -d "grant_type=refresh_token" \
             -d "redirect_uri=http://localhost" \
             -d "client_secret=${{ secrets.ONEDRIVE_CLIENT_SECRET }}")
+
+          echo "$RESPONSE" > response.json
+
           python - << 'PY'
-import json, sys, pathlib
-data = json.loads(sys.argv[1])
+import json, pathlib
+data = json.load(open("response.json"))
 pathlib.Path("access_token.txt").write_text(data["access_token"])
 PY
-          "${RESPONSE}"
 
       - name: Download 2024 and 2025 Excel files
         run: |
-          YEAR1=2024
-          YEAR2=2025
-          for YEAR in $YEAR1 $YEAR2; do
-            FILEPATH="${YEAR}/FF - 12 Angry Men (${YEAR}).xlsx"
+          for YEAR in 2024 2025; do
+            FILEPATH="Fantasy Football/${YEAR}/FF - 12 Angry Men (${YEAR}).xlsx"
             curl -L -o "FF - 12 Angry Men (${YEAR}).xlsx" \
               -H "Authorization: Bearer $(cat access_token.txt)" \
-              "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy Football/${FILEPATH}:/content"
+              "https://graph.microsoft.com/v1.0/me/drive/root:/${FILEPATH}:/content"
           done
 
       - name: Convert Fantasy Fiver sheets to JSON
         run: |
-          mkdir -p history
           python - << 'PYTHON'
 import pandas as pd
 import json
