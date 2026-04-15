@@ -1,3 +1,6 @@
+// ------------------------------
+// Auto‑detect Seasons
+// ------------------------------
 async function loadSeasons(seasonSelect) {
   try {
     const response = await fetch("recaps/seasons.json");
@@ -15,6 +18,10 @@ async function loadSeasons(seasonSelect) {
     console.error("Failed to load seasons:", err);
   }
 }
+
+// ------------------------------
+// Auto‑detect Weeks
+// ------------------------------
 async function loadWeeks(season, weekSelect) {
   try {
     const response = await fetch(`recaps/${season}/weeks.json`);
@@ -32,55 +39,28 @@ async function loadWeeks(season, weekSelect) {
     console.error("Failed to load weeks:", err);
   }
 }
+
+// ------------------------------
+// Main Loader
+// ------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   const seasonSelect = document.getElementById("seasonSelect");
   const weekSelect = document.getElementById("weekSelect");
   const loadBtn = document.getElementById("loadRecapBtn");
   const contentDiv = document.getElementById("content");
 
-  loadSeasons(seasonSelect);
+  // Load seasons first
+  loadSeasons(seasonSelect).then(() => {
+    // After seasons load, load weeks for the first season
+    loadWeeks(seasonSelect.value, weekSelect);
+  });
 
+  // When season changes, reload weeks
   seasonSelect.addEventListener("change", () => {
     loadWeeks(seasonSelect.value, weekSelect);
   });
 
-  // Load weeks for the first season on page load
-  setTimeout(() => {
-    loadWeeks(seasonSelect.value, weekSelect);
-  }, 200);
-});
-  
-  if (!seasonSelect || !weekSelect || !loadBtn || !contentDiv) return;
-
-  // 🔹 Seasons you support (only touch this once a year)
-  const seasons = ["2026", "2025"];
-
-  // 🔹 How many regular season weeks you want
-  const MAX_WEEKS = 17;
-
-  // Populate seasons
-  seasons.forEach(season => {
-    const opt = document.createElement("option");
-    opt.value = season;
-    opt.textContent = season;
-    seasonSelect.appendChild(opt);
-  });
-
-  // Populate weeks
-  function populateWeeks() {
-    weekSelect.innerHTML = "";
-    for (let i = 1; i <= MAX_WEEKS; i++) {
-      const value = `week${i}`;
-      const opt = document.createElement("option");
-      opt.value = value;
-      opt.textContent = `Week ${i}`;
-      weekSelect.appendChild(opt);
-    }
-  }
-
-  populateWeeks();
-
-  // Load recap on click
+  // Load recap on button click
   loadBtn.addEventListener("click", () => {
     const season = seasonSelect.value;
     const week = weekSelect.value;
