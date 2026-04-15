@@ -35,9 +35,38 @@ async function loadWeeks(season, weekSelect) {
       opt.textContent = week.replace("week", "Week ");
       weekSelect.appendChild(opt);
     });
+
+    return data.weeks; // return list so we know the latest week
   } catch (err) {
     console.error("Failed to load weeks:", err);
+    return [];
   }
+}
+
+// ------------------------------
+// Load Recap Helper
+// ------------------------------
+function loadRecap(seasonSelect, weekSelect, contentDiv) {
+  const season = seasonSelect.value;
+  const week = weekSelect.value;
+
+  const filePath = `recaps/${season}/${week}.html`;
+
+  fetch(filePath)
+    .then(response => {
+      if (!response.ok) throw new Error("Not found");
+      return response.text();
+    })
+    .then(html => {
+      contentDiv.innerHTML = html;
+    })
+    .catch(() => {
+      contentDiv.innerHTML = `
+        <p style="color: var(--muted);">
+          No recap available for ${season} ${week.replace("week", "Week ")}.
+        </p>
+      `;
+    });
 }
 
 // ------------------------------
@@ -51,36 +80,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Load seasons first
   loadSeasons(seasonSelect).then(() => {
-    // After seasons load, load weeks for the first season
-    loadWeeks(seasonSelect.value, weekSelect);
+    const defaultSeason = seasonSelect.value;
+
+    // Load weeks for that season
+    loadWeeks(defaultSeason, weekSelect).then(weeks => {
+      if (weeks.length > 0) {
+        // Auto-select the latest week
+        const latestWeek = weeks[weeks.length - 1];
+        weekSelect.value = latestWeek;
+
+        // Auto-load the latest recap
+        loadRecap(seasonSelect, weekSelect, contentDiv);
+      }
+    });
   });
 
-  // When season changes, reload weeks
+  // When season changes, reload weeks and auto-load latest
   seasonSelect.addEventListener("change", () => {
-    loadWeeks(seasonSelect.value, weekSelect);
+    loadWeeks(seasonSelect.value, weekSelect).then(weeks => {
+      if (weeks.length > 0) {
+        weekSelect.value = weeks[weeks.length - 1];
+        loadRecap(seasonSelect, weekSelect, contentDiv);
+      }
+    });
   });
 
-  // Load recap on button click
+  // Manual load button
   loadBtn.addEventListener("click", () => {
-    const season = seasonSelect.value;
-    const week = weekSelect.value;
-
-    const filePath = `recaps/${season}/${week}.html`;
-
-    fetch(filePath)
-      .then(response => {
-        if (!response.ok) throw new Error("Not found");
-        return response.text();
-      })
-      .then(html => {
-        contentDiv.innerHTML = html;
-      })
-      .catch(() => {
-        contentDiv.innerHTML = `
-          <p style="color: var(--muted);">
-            No recap available for ${season} ${week.replace("week", "Week ")}.
-          </p>
-        `;
-      });
+    loadRecap(seasonSelect, weekSelect, contentDiv);
   });
 });
