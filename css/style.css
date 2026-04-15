@@ -106,6 +106,18 @@ header {
   transition: width 0.18s ease-out;
 }
 
+.back-link {
+  display: inline;
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+
 .nav-links a:hover::after {
   width: 100%;
 }
