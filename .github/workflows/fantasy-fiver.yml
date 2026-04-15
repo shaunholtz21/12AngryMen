@@ -1,0 +1,74 @@
+name: Update Fantasy Fiver
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 7 * * *"
+
+jobs:
+  update-fantasy-fiver:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -U pandas openpyxl
+
+      - name: Exchange refresh token for access token
+        run: |
+          RESPONSE=$(curl -s -X POST "https://login.microsoftonline.com/consumers/oauth2/v2.0/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "client_id=${{ secrets.ONEDRIVE_CLIENT_ID }}" \
+            -d "refresh_token=${{ secrets.ONEDRIVE_REFRESH_TOKEN }}" \
+            -d "grant_type=refresh_token" \
+            -d "redirect_uri=http://localhost" \
+            -d "client_secret=${{ secrets.ONEDRIVE_CLIENT_SECRET }}")
+          python - << 'PY'
+import json, sys, pathlib
+data = json.loads(sys.argv[1])
+pathlib.Path("access_token.txt").write_text(data["access_token"])
+PY
+          "${RESPONSE}"
+
+      - name: Download 2024 and 2025 Excel files
+        run: |
+          YEAR1=2024
+          YEAR2=2025
+          for YEAR in $YEAR1 $YEAR2; do
+            FILEPATH="${YEAR}/FF - 12 Angry Men (${YEAR}).xlsx"
+            curl -L -o "FF - 12 Angry Men (${YEAR}).xlsx" \
+              -H "Authorization: Bearer $(cat access_token.txt)" \
+              "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy Football/${FILEPATH}:/content"
+          done
+
+      - name: Convert Fantasy Fiver sheets to JSON
+        run: |
+          mkdir -p history
+          python - << 'PYTHON'
+import pandas as pd
+import json
+import os
+
+for year in [2024, 2025]:
+    xlsx = f"FF - 12 Angry Men ({year}).xlsx"
+    df = pd.read_excel(xlsx, sheet_name="Awards - Fantasy Fiver")
+    out_dir = os.path.join("history", str(year), "awards")
+    os.makedirs(out_dir, exist_ok=True)
+    out_path = os.path.join(out_dir, "fantasy-fiver.json")
+    df.to_json(out_path, orient="records")
+PYTHON
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add history/
+          git commit -m "Update Fantasy Fiver data" || echo "No changes to commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
