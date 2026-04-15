@@ -25,10 +25,9 @@ jobs:
           RESPONSE=$(curl -s -X POST "https://login.microsoftonline.com/consumers/oauth2/v2.0/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
             -d "client_id=${{ secrets.ONEDRIVE_CLIENT_ID }}&scope=offline_access Files.Read User.Read&refresh_token=${{ secrets.ONEDRIVE_REFRESH_TOKEN }}&redirect_uri=http://localhost&grant_type=refresh_token&client_secret=${{ secrets.ONEDRIVE_CLIENT_SECRET }}")
-
           echo "$RESPONSE" | jq -r '.access_token' > access_token.txt
 
-            - name: Download 2024 and 2025 Excel files
+      - name: Download 2024 and 2025 Excel files
         run: |
           mkdir -p data
           for YEAR in 2024 2025; do
