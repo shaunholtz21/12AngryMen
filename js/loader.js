@@ -14,8 +14,11 @@ async function loadSeasons(seasonSelect) {
       opt.textContent = season;
       seasonSelect.appendChild(opt);
     });
+
+    return data.seasons; // return list so we can pick newest
   } catch (err) {
     console.error("Failed to load seasons:", err);
+    return [];
   }
 }
 
@@ -79,20 +82,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const contentDiv = document.getElementById("content");
 
   // Load seasons first
-  loadSeasons(seasonSelect).then(() => {
-    const defaultSeason = seasonSelect.value;
+  loadSeasons(seasonSelect).then(seasons => {
+    if (seasons.length > 0) {
+      // Auto-select the newest season (first in sorted list)
+      const newestSeason = seasons[0];
+      seasonSelect.value = newestSeason;
 
-    // Load weeks for that season
-    loadWeeks(defaultSeason, weekSelect).then(weeks => {
-      if (weeks.length > 0) {
-        // Auto-select the latest week
-        const latestWeek = weeks[weeks.length - 1];
-        weekSelect.value = latestWeek;
+      // Load weeks for that season
+      loadWeeks(newestSeason, weekSelect).then(weeks => {
+        if (weeks.length > 0) {
+          // Auto-select the newest week
+          const latestWeek = weeks[weeks.length - 1];
+          weekSelect.value = latestWeek;
 
-        // Auto-load the latest recap
-        loadRecap(seasonSelect, weekSelect, contentDiv);
-      }
-    });
+          // Auto-load the latest recap
+          loadRecap(seasonSelect, weekSelect, contentDiv);
+        }
+      });
+    }
   });
 
   // When season changes, reload weeks and auto-load latest
