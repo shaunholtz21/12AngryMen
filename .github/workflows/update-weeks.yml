@@ -13,14 +13,16 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Generate weeks.json for each season
         run: |
           for season in recaps/*; do
             if [[ -d "$season" && "$(basename "$season")" =~ ^[0-9]{4}$ ]]; then
-              weeks=$(ls "$season" | grep -E '^week[0-9]+\.html$' | sed 's/\.html$//' | sort -V)
-              json=$(printf '%s\n' "$weeks" | jq -R . | jq -s '{weeks: .}')
+              weeks=$(ls "$season" | grep -E "week[0-9]+\.html$" | sed 's/\.html$//' | sort -V)
+              json=$(printf "%s\n" "$weeks" | jq -R . | jq -s '{weeks: .}')
               echo "$json" > "$season/weeks.json"
             fi
           done
