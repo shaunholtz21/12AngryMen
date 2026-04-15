@@ -59,7 +59,12 @@
   fetch("history/championships/angry-bowl-v.html")
     .then(r => r.text())
     .then(html => {
-      document.getElementById("angryBowlContainer").innerHTML = html;
+      // Extract only the <section class="card">...</section>
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const card = doc.querySelector("section.card");
+
+      document.getElementById("angryBowlContainer").innerHTML = card.outerHTML;
     });
 </script>
 
