@@ -1,1 +1,29 @@
+name: Update seasons.json
 
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "recaps/**"
+
+jobs:
+  update-seasons:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Detect season folders
+        id: detect
+        run: |
+          seasons=$(ls recaps | grep -E '^[0-9]{4}$' | sort -r)
+          json=$(printf '%s\n' "$seasons" | jq -R . | jq -s '{seasons: .}')
+          echo "$json" > recaps/seasons.json
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update seasons.json"
+          file_pattern: recaps/seasons.json
