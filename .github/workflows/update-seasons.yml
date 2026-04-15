@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Detect season folders
         id: detect
@@ -21,6 +23,9 @@ jobs:
           seasons=$(ls recaps | grep -E '^[0-9]{4}$' | sort -r)
           json=$(printf '%s\n' "$seasons" | jq -R . | jq -s '{seasons: .}')
           echo "$json" > recaps/seasons.json
+
+      - name: Pull latest changes
+        run: git pull origin main --rebase
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
