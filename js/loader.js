@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const season = seasonSelect.value;
     const week = weekSelect.value;
 
-    const filePath = `${season}/${week}.html`;
+    const filePath = `recaps/${season}/${week}.html`;
 
     fetch(filePath)
       .then(response => {
