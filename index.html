@@ -48,24 +48,18 @@
   </p>
 </div>
           
-          <section id="angry-bowl">
-            <h2 class="section-title">Angry Bowl V</h2>
+<section id="angry-bowl">
+  <h2 class="section-title">Angry Bowl V</h2>
+  <div id="angryBowlContainer"></div>
+</section>
 
-            <article class="card card-soft">
-              <div class="card-header">
-                <h3 class="card-title">Your Angry Bowl V Headline</h3>
-                <div class="card-meta">Final • Week 17</div>
-              </div>
-              <div class="card-body">
-                <p>Paste your Angry Bowl V recap here.</p>
-                <div class="matchup-meta">
-                  <span><span class="dot"></span>Champion: TBD</span>
-                  <span>Runner‑up: TBD</span>
-                  <span>Score: XXX – YYY</span>
-                </div>
-              </div>
-            </article>
-          </section>
+<script>
+  fetch("championships/angry-bowl-v.html")
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById("angryBowlContainer").innerHTML = html;
+    });
+</script>
 
           <section id="season-recap" style="margin-top: 2rem;">
             <h2 class="section-title">Season Recap</h2>
