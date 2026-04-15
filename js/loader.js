@@ -15,7 +15,23 @@ async function loadSeasons(seasonSelect) {
     console.error("Failed to load seasons:", err);
   }
 }
+async function loadWeeks(season, weekSelect) {
+  try {
+    const response = await fetch(`recaps/${season}/weeks.json`);
+    const data = await response.json();
 
+    weekSelect.innerHTML = "";
+
+    data.weeks.forEach(week => {
+      const opt = document.createElement("option");
+      opt.value = week;
+      opt.textContent = week.replace("week", "Week ");
+      weekSelect.appendChild(opt);
+    });
+  } catch (err) {
+    console.error("Failed to load weeks:", err);
+  }
+}
 document.addEventListener("DOMContentLoaded", () => {
   const seasonSelect = document.getElementById("seasonSelect");
   const weekSelect = document.getElementById("weekSelect");
@@ -23,6 +39,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const contentDiv = document.getElementById("content");
 
   loadSeasons(seasonSelect);
+
+  seasonSelect.addEventListener("change", () => {
+    loadWeeks(seasonSelect.value, weekSelect);
+  });
+
+  // Load weeks for the first season on page load
+  setTimeout(() => {
+    loadWeeks(seasonSelect.value, weekSelect);
+  }, 200);
+});
   
   if (!seasonSelect || !weekSelect || !loadBtn || !contentDiv) return;
 
