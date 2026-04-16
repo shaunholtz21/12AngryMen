@@ -50,6 +50,11 @@ jobs:
             NEXT=$(echo "$RESP" | jq -r '."@odata.nextLink"')
           done
 
+      - name: Debug env file writes
+        run: |
+          echo "Checking for env writes..."
+          grep -R "\$GITHUB_ENV" -n .github/workflows || echo "No env writes found except token"
+
       - name: Discover year folders
         run: |
           API="https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football:/children"
@@ -73,7 +78,6 @@ jobs:
 
           echo "Years found:"
           cat years.txt
-
 
       - name: Download Excel files
         run: |
