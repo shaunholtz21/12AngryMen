@@ -100,9 +100,14 @@ jobs:
           YEARS=$(cat years.txt)
           for year in $YEARS; do
             echo "Downloading $year..."
+
+            URL='https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football/'"$year"'/FF%20-%2012%20Angry%20Men%20%28'"$year"'%29.xlsx:/content'
+
+            echo "URL: $URL"
+
             curl -L \
               -H "Authorization: Bearer $ACCESS_TOKEN" \
-              "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football/$year/FF%20-%2012%20Angry%20Men%20%28$year%29.xlsx:/content" \
+              "$URL" \
               --output "FF - 12 Angry Men ($year).xlsx"
           done
 
