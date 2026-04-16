@@ -70,7 +70,7 @@ jobs:
           python - << 'EOF'
           import os, json, pandas as pd
 
-          years = os.environ["YEARS"].split()
+          years = os.environ["YEARS"].replace('"', '').split()
 
           out_dir = os.path.join("history", "awards", "fantasy-fiver")
           os.makedirs(out_dir, exist_ok=True)
