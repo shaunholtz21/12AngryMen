@@ -1,9 +1,3 @@
-      - name: Debug workflow file
-        run: |
-          echo "RUNNING WORKFLOW VERSION:"
-          cat .github/workflows/update-fiver.yml
-
-
 name: Update Fantasy Fiver
 
 on:
@@ -18,6 +12,12 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+
+      - name: Debug workflow file
+        run: |
+          echo "=== WORKFLOW FILE CONTENTS ==="
+          cat .github/workflows/update-fiver.yml
+          echo "=== END WORKFLOW FILE ==="
 
       - name: Install Python dependencies
         run: |
@@ -40,9 +40,6 @@ jobs:
 
           ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
-
-
-
 
       - name: Download 2024 Excel from OneDrive
         run: |
