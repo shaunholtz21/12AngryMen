@@ -17,6 +17,9 @@ jobs:
         run: |
           pip install pandas openpyxl
 
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
       - name: Get OneDrive access token
         id: token
         run: |
