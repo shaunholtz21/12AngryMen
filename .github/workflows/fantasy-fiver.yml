@@ -35,10 +35,20 @@ jobs:
       - name: Discover year folders
         id: years
         run: |
-          API="https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy Football:/children"
-          RESP=$(curl -s -H "Authorization: Bearer $ACCESS_TOKEN" "$API")
+          set -e
 
-          YEARS=$(echo "$RESP" | jq -r '.value[] | select(.folder != null) | select(.name|test("^[0-9]{4}$")) | .name')
+          API="https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football:/children"
+          RESP=$(curl -sS -H "Authorization: Bearer $ACCESS_TOKEN" "$API")
+
+          echo "Raw children response:"
+          echo "$RESP"
+
+          YEARS=$(echo "$RESP" | jq -r '.value[]? | select(.folder != null) | select(.name|test("^[0-9]{4}$")) | .name' || true)
+
+          if [ -z "$YEARS" ]; then
+            echo "No year folders found under Fantasy Football"
+            exit 1
+          fi
 
           YEARS_JSON=$(printf '%s\n' $YEARS | jq -R . | jq -s .)
           echo "YEARS=$YEARS_JSON" >> $GITHUB_ENV
