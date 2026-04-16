@@ -13,11 +13,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Debug workflow file
+      - name: List workflow files
         run: |
-          echo "=== WORKFLOW FILE CONTENTS ==="
-          cat .github/workflows/update-fiver.yml
-          echo "=== END WORKFLOW FILE ==="
+          echo "=== WORKFLOW FILES FOUND ==="
+          ls -R .github
+          echo "============================"
+
 
       - name: Install Python dependencies
         run: |
