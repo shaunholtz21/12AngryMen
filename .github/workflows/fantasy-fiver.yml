@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Python dependencies
-        run: pip install pandas openpyxl
+        run: pip install pandas openpyxl requests
 
       - name: Install jq
         run: sudo apt-get install -y jq
@@ -34,38 +34,52 @@ jobs:
           ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
 
-      - name: Download 2024 Excel
+      - name: Create Python script
         run: |
-          curl -L \
-            -H "Authorization: Bearer $ACCESS_TOKEN" \
-            "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football/2024/FF%20-%2012%20Angry%20Men%20%282024%29.xlsx:/content" \
-            --output "FF - 12 Angry Men (2024).xlsx"
-
-      - name: Download 2025 Excel
-        run: |
-          curl -L \
-            -H "Authorization: Bearer $ACCESS_TOKEN" \
-            "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football/2025/FF%20-%2012%20Angry%20Men%20%282025%29.xlsx:/content" \
-            --output "FF - 12 Angry Men (2025).xlsx"
-
-      - name: Convert both years to JSON
-        run: |
-          python - << 'EOF'
+          cat << 'EOF' > convert_fiver.py
+          import os
+          import json
+          import requests
           import pandas as pd
-          import json, os
 
-          for year in [2024, 2025]:
-              xlsx = f"FF - 12 Angry Men ({year}).xlsx"
-              df = pd.read_excel(xlsx, sheet_name="Awards - Fantasy Fiver")
+          ACCESS_TOKEN = os.environ["ACCESS_TOKEN"]
 
-              out_dir = os.path.join("history", "awards", "fantasy-fiver")
-              os.makedirs(out_dir, exist_ok=True)
+          # 1. List all items in the Fantasy Football folder
+          url = "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy Football:/children"
+          headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
+          resp = requests.get(url, headers=headers).json()
 
+          years = []
+          for item in resp.get("value", []):
+            if item["folder"]["childCount"] > 0 and item["name"].isdigit():
+                years.append(item["name"])
+
+          print("YEARS FOUND:", years)
+
+          out_dir = os.path.join("history", "awards", "fantasy-fiver")
+          os.makedirs(out_dir, exist_ok=True)
+
+          for year in years:
+              print(f"Processing {year}...")
+
+              file_url = f"https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy Football/{year}/FF - 12 Angry Men ({year}).xlsx:/content"
+              excel_path = f"FF-{year}.xlsx"
+
+              # Download Excel
+              r = requests.get(file_url, headers=headers)
+              with open(excel_path, "wb") as f:
+                  f.write(r.content)
+
+              # Convert sheet
+              df = pd.read_excel(excel_path, sheet_name="Awards - Fantasy Fiver")
               out_path = os.path.join(out_dir, f"{year}.json")
               df.to_json(out_path, orient="records")
 
-          print("Conversion complete.")
+              print(f"Saved {out_path}")
           EOF
+
+      - name: Run JSON conversion
+        run: python convert_fiver.py
 
       - name: Commit changes
         run: |
