@@ -49,6 +49,12 @@ jobs:
             "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football/2024/FF%20-%2012%20Angry%20Men%20%282024%29.xlsx:/content" \
             --output "FF - 12 Angry Men (2024).xlsx"
 
+      - name: List downloaded files
+        run: |
+          echo "=== FILES IN WORKSPACE ==="
+          ls -R .
+          echo "=========================="
+
 
       - name: Download 2025 Excel from OneDrive
         run: |
@@ -57,6 +63,11 @@ jobs:
             "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football/2025/FF%20-%2012%20Angry%20Men%20%282025%29.xlsx:/content" \
             --output "FF - 12 Angry Men (2025).xlsx"
 
+      - name: List downloaded files
+        run: |
+          echo "=== FILES IN WORKSPACE ==="
+          ls -R .
+          echo "=========================="
 
       - name: Create Python script
         run: |
