@@ -17,9 +17,6 @@ jobs:
         run: |
           pip install pandas openpyxl
 
-- name: Install jq
-  run: sudo apt-get install -y jq
-
       - name: Get OneDrive access token
   run: |
     ACCESS_TOKEN=$(curl -s -X POST "https://login.microsoftonline.com/consumers/oauth2/v2.0/token" \
