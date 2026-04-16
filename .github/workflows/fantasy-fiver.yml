@@ -13,16 +13,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: List workflow files
-        run: |
-          echo "=== WORKFLOW FILES FOUND ==="
-          ls -R .github
-          echo "============================"
-
-
       - name: Install Python dependencies
-        run: |
-          pip install pandas openpyxl
+        run: pip install pandas openpyxl
 
       - name: Install jq
         run: sudo apt-get install -y jq
@@ -42,60 +34,38 @@ jobs:
           ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
 
-      - name: Download 2024 Excel from OneDrive
+      - name: Download 2024 Excel
         run: |
           curl -L \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football/2024/FF%20-%2012%20Angry%20Men%20%282024%29.xlsx:/content" \
             --output "FF - 12 Angry Men (2024).xlsx"
 
-      - name: List Excel sheet names
-        run: |
-          python - << 'EOF'
-          import pandas as pd
-          xls = pd.ExcelFile("FF - 12 Angry Men (2024).xlsx")
-          print("SHEETS:", xls.sheet_names)
-          EOF
-            
-
-      - name: List downloaded files
-        run: |
-          echo "=== FILES IN WORKSPACE ==="
-          ls -R .
-          echo "=========================="
-
-
-      - name: Download 2025 Excel from OneDrive
+      - name: Download 2025 Excel
         run: |
           curl -L \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football/2025/FF%20-%2012%20Angry%20Men%20%282025%29.xlsx:/content" \
             --output "FF - 12 Angry Men (2025).xlsx"
 
-
-      - name: List downloaded files
+      - name: Convert both years to JSON
         run: |
-          echo "=== FILES IN WORKSPACE ==="
-          ls -R .
-          echo "=========================="
+          python - << 'EOF'
+          import pandas as pd
+          import json, os
 
-      - name: Create Python script
-        run: |
-          echo "import pandas as pd" > convert_fiver.py
-          echo "import json" >> convert_fiver.py
-          echo "import os" >> convert_fiver.py
-          echo "" >> convert_fiver.py
-          echo "for year in [2024, 2025]:" >> convert_fiver.py
-          echo "    xlsx = f'FF - 12 Angry Men ({year}).xlsx'" >> convert_fiver.py
-          echo "    df = pd.read_excel(xlsx, sheet_name='Awards - Fantasy Fiver')" >> convert_fiver.py
-          echo "    out_dir = os.path.join('history', 'awards', 'fantasy-fiver')" >> convert_fiver.py
-          echo "    os.makedirs(out_dir, exist_ok=True)" >> convert_fiver.py
-          echo "    out_path = os.path.join(out_dir, f'{year}.json')" >> convert_fiver.py
-          echo "    df.to_json(out_path, orient='records')" >> convert_fiver.py
+          for year in [2024, 2025]:
+              xlsx = f"FF - 12 Angry Men ({year}).xlsx"
+              df = pd.read_excel(xlsx, sheet_name="Awards - Fantasy Fiver")
 
+              out_dir = os.path.join("history", "awards", "fantasy-fiver")
+              os.makedirs(out_dir, exist_ok=True)
 
-      - name: Run JSON conversion
-        run: python convert_fiver.py
+              out_path = os.path.join(out_dir, f"{year}.json")
+              df.to_json(out_path, orient="records")
+
+          print("Conversion complete.")
+          EOF
 
       - name: Commit changes
         run: |
