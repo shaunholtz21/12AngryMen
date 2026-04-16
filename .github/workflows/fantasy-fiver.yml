@@ -32,6 +32,11 @@ jobs:
           ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
 
+      - name: Debug env file writes
+        run: |
+          echo "Checking for env writes..."
+          grep -R "\$GITHUB_ENV" -n .github/workflows || echo "No env writes found except token"
+
       - name: Dump OneDrive folder tree
         run: |
           API="https://graph.microsoft.com/v1.0/me/drive/root/children"
@@ -49,11 +54,6 @@ jobs:
 
             NEXT=$(echo "$RESP" | jq -r '."@odata.nextLink"')
           done
-
-      - name: Debug env file writes
-        run: |
-          echo "Checking for env writes..."
-          grep -R "\$GITHUB_ENV" -n .github/workflows || echo "No env writes found except token"
 
       - name: Discover year folders
         run: |
