@@ -79,7 +79,7 @@ jobs:
           xls = pd.ExcelFile("FF - 12 Angry Men (2024).xlsx")
           print("SHEETS:", xls.sheet_names)
           EOF
-
+ 
       - name: List downloaded files
         run: |
           echo "=== FILES IN WORKSPACE ==="
@@ -95,10 +95,11 @@ jobs:
           echo "for year in [2024, 2025]:" >> convert_fiver.py
           echo "    xlsx = f'FF - 12 Angry Men ({year}).xlsx'" >> convert_fiver.py
           echo "    df = pd.read_excel(xlsx, sheet_name='Awards - Fantasy Fiver')" >> convert_fiver.py
-          echo "    out_dir = os.path.join('history', str(year), 'awards')" >> convert_fiver.py
+          echo "    out_dir = os.path.join('history', 'awards', 'fantasy-fiver')" >> convert_fiver.py
           echo "    os.makedirs(out_dir, exist_ok=True)" >> convert_fiver.py
-          echo "    out_path = os.path.join(out_dir, 'fantasy-fiver.json')" >> convert_fiver.py
+          echo "    out_path = os.path.join(out_dir, f'{year}.json')" >> convert_fiver.py
           echo "    df.to_json(out_path, orient='records')" >> convert_fiver.py
+
 
       - name: Run JSON conversion
         run: python convert_fiver.py
