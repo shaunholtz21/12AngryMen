@@ -35,23 +35,22 @@ jobs:
       - name: Discover year folders
         id: years
         run: |
-          set -e
-
           API="https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football:/children"
           RESP=$(curl -sS -H "Authorization: Bearer $ACCESS_TOKEN" "$API")
 
           echo "Raw children response:"
           echo "$RESP"
 
-          YEARS=$(echo "$RESP" | jq -r '.value[]? | select(.folder != null) | select(.name|test("^[0-9]{4}$")) | .name' || true)
+          YEARS=$(echo "$RESP" | jq -r '.value[]? | select(.folder != null) | select(.name|test("^[0-9]{4}$")) | .name')
 
           if [ -z "$YEARS" ]; then
-            echo "No year folders found under Fantasy Football"
+            echo "No year folders found"
             exit 1
           fi
 
-          YEARS_JSON=$(printf '%s\n' $YEARS | jq -R . | jq -s .)
-          echo "YEARS=$YEARS_JSON" >> $GITHUB_ENV
+          # Store as space-separated list (VALID for GITHUB_ENV)
+          echo "YEARS=$YEARS" >> $GITHUB_ENV
+
 
       - name: Download Excel files
         run: |
@@ -68,7 +67,7 @@ jobs:
           python - << 'EOF'
           import os, json, pandas as pd
 
-          years = json.loads(os.environ["YEARS"])
+          years = os.environ["YEARS"].split()
 
           out_dir = os.path.join("history", "awards", "fantasy-fiver")
           os.makedirs(out_dir, exist_ok=True)
