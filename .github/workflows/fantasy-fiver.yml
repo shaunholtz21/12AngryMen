@@ -17,19 +17,16 @@ jobs:
         run: |
           pip install pandas openpyxl
 
-      - name: Get OneDrive access token
-        id: token
-        run: |
-          RESPONSE=$(curl -s -X POST "https://login.microsoftonline.com/consumers/oauth2/v2.0/token" \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "client_id=${{ secrets.ONEDRIVE_CLIENT_ID }}" \
-            -d "client_secret=${{ secrets.ONEDRIVE_CLIENT_SECRET }}" \
-            -d "refresh_token=${{ secrets.ONEDRIVE_REFRESH_TOKEN }}" \
-            -d "grant_type=refresh_token" \
-            -d "scope=https%3A%2F%2Fgraph.microsoft.com%2FFiles.ReadWrite.All")
-          echo "$RESPONSE"
-          ACCESS_TOKEN=$(echo "$RESPONSE" | python -c "import sys, json; print(json.load(sys.stdin)['access_token'])")
-          echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
+      - - name: Get OneDrive access token
+  run: |
+    ACCESS_TOKEN=$(curl -s -X POST "https://login.microsoftonline.com/consumers/oauth2/v2.0/token" \
+      -H "Content-Type: application/x-www-form-urlencoded" \
+      -d "client_id=fadf8a4d-328e-4443-8c7f-018911755c4d" \
+      -d "refresh_token=${{ secrets.ONEDRIVE_REFRESH_TOKEN }}" \
+      -d "grant_type=refresh_token" | jq -r '.access_token')
+
+    echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
+
 
       - name: Download 2024 Excel from OneDrive
         run: |
