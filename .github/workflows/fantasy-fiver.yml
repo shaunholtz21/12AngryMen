@@ -17,9 +17,6 @@ jobs:
         run: |
           pip install pandas openpyxl
 
-      - name: Install jq
-        run: sudo apt-get install -y jq
-
       - name: Get OneDrive access token
         id: token
         run: |
@@ -33,8 +30,8 @@ jobs:
           echo "$RESPONSE"
 
           ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
-
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
+
 
       - name: Download 2024 Excel from OneDrive
         run: |
