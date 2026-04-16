@@ -72,14 +72,7 @@ jobs:
             "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football/2025/FF%20-%2012%20Angry%20Men%20%282025%29.xlsx:/content" \
             --output "FF - 12 Angry Men (2025).xlsx"
 
-      - name: List Excel sheet names
-        run: |
-          python - << 'EOF'
-          import pandas as pd
-          xls = pd.ExcelFile("FF - 12 Angry Men (2024).xlsx")
-          print("SHEETS:", xls.sheet_names)
-          EOF
- 
+
       - name: List downloaded files
         run: |
           echo "=== FILES IN WORKSPACE ==="
