@@ -51,7 +51,6 @@ jobs:
           done
 
       - name: Discover year folders
-        id: years
         run: |
           API="https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy%20Football:/children"
           RESP=$(curl -sS -H "Authorization: Bearer $ACCESS_TOKEN" "$API")
@@ -69,14 +68,18 @@ jobs:
             exit 1
           fi
 
-          SAFE_YEARS=$(printf '%s' "$YEARS" | sed 's/ /,/g')
-          echo "YEARS=$SAFE_YEARS" >> $GITHUB_ENV
+          # Write years to a plain text file, one line or space-separated
+          echo "$YEARS" > years.txt
+
+          echo "Years found:"
+          cat years.txt
 
 
       - name: Download Excel files
         run: |
-          YEARS=$(echo $YEARS | jq -r '.[]')
+          YEARS=$(cat years.txt)
           for year in $YEARS; do
+            echo "Downloading $year..."
             curl -L \
               -H "Authorization: Bearer $ACCESS_TOKEN" \
               "https://graph.microsoft.com/v1.0/me/drive/root:/Fantasy Football/$year/FF - 12 Angry Men ($year).xlsx:/content" \
@@ -86,15 +89,17 @@ jobs:
       - name: Convert Excel to JSON
         run: |
           python - << 'EOF'
-          import os, json, pandas as pd
+          import os, pandas as pd
 
-          years = os.environ["YEARS"].split(",")
+          with open("years.txt") as f:
+              years = f.read().split()
 
           out_dir = os.path.join("history", "awards", "fantasy-fiver")
           os.makedirs(out_dir, exist_ok=True)
 
           for year in years:
               xlsx = f"FF - 12 Angry Men ({year}).xlsx"
+              print(f"Processing {xlsx}...")
               df = pd.read_excel(xlsx, sheet_name="Awards - Fantasy Fiver")
               df.to_json(os.path.join(out_dir, f"{year}.json"), orient="records")
           EOF
