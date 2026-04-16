@@ -32,6 +32,14 @@ jobs:
           ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
 
+      - name: Locate Fantasy Football folder
+        run: |
+          echo "Searching for Fantasy Football folder..."
+          API="https://graph.microsoft.com/v1.0/me/drive/root/search(q='Fantasy')"
+          RESP=$(curl -sS -H "Authorization: Bearer $ACCESS_TOKEN" "$API")
+
+          echo "$RESP" | jq '.value[] | {name, path: .parentReference.path, id}'
+
       - name: Debug env file writes
         run: |
           echo "Checking for env writes..."
