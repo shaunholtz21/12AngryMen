@@ -1,3 +1,9 @@
+      - name: Debug workflow file
+        run: |
+          echo "RUNNING WORKFLOW VERSION:"
+          cat .github/workflows/update-fiver.yml
+
+
 name: Update Fantasy Fiver
 
 on:
