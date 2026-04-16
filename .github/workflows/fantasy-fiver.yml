@@ -32,6 +32,24 @@ jobs:
           ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
           echo "ACCESS_TOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
 
+      - name: Dump OneDrive folder tree
+        run: |
+          API="https://graph.microsoft.com/v1.0/me/drive/root/children"
+          echo "Listing root..."
+          curl -sS -H "Authorization: Bearer $ACCESS_TOKEN" "$API" | jq '.value[] | {name, folder, parent: .parentReference.path}'
+
+          echo ""
+          echo "Recursively listing all folders..."
+          NEXT="$API"
+
+          # BFS traversal of the entire OneDrive tree
+          while [ -n "$NEXT" ] && [ "$NEXT" != "null" ]; do
+            RESP=$(curl -sS -H "Authorization: Bearer $ACCESS_TOKEN" "$NEXT")
+            echo "$RESP" | jq '.value[] | {name, folder, parent: .parentReference.path}'
+
+            NEXT=$(echo "$RESP" | jq -r '."@odata.nextLink"')
+          done
+
       - name: Discover year folders
         id: years
         run: |
