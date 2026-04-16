@@ -48,8 +48,8 @@ jobs:
             exit 1
           fi
 
-          # Store as space-separated list (VALID for GITHUB_ENV)
-          echo "YEARS=$YEARS" >> $GITHUB_ENV
+          # Write as a single quoted string (VALID for GITHUB_ENV)
+          echo "YEARS=\"${YEARS}\"" >> $GITHUB_ENV
 
 
       - name: Download Excel files
