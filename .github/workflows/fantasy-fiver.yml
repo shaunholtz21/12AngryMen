@@ -1,4 +1,4 @@
-name: Update Fantasy Fiver_Test
+name: Update Fantasy Fiver
 
 on:
   workflow_dispatch:
