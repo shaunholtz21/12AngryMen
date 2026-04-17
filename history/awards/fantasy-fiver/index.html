@@ -99,14 +99,17 @@ async function loadFantasyFiver() {
               </tr>
             </thead>
             <tbody>
-              ${data.map((row, i) => `
-                <tr>
-                  <td>Week ${i + 1}</td>
-                  <td>${row.Player || "—"}</td>
-                  <td>${row.Points || "—"}</td>
-                </tr>
-              `).join("")}
-            </tbody>
+  ${data
+    .filter(row => row["Fantasy Fiver Award"] && row["Fantasy Fiver Award"].includes("Week"))
+    .map(row => `
+      <tr>
+        <td>${row["Fantasy Fiver Award"]}</td>
+        <td>${row["Unnamed: 1"] || "—"}</td>
+        <td>${row["Unnamed: 2"] || "—"}</td>
+      </tr>
+    `)
+    .join("")}
+</tbody>
           </table>
         </div>
       `;
