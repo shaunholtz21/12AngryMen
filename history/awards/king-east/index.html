@@ -66,7 +66,7 @@ async function loadKingEast() {
   const container = document.getElementById("east-container");
   container.innerHTML = "";
 
-  // Add years as needed
+  // IMPORTANT: These must match the actual JSON files that exist
   const years = [2021, 2022, 2023, 2024, 2025, 2026];
 
   // Create ONE card for all winners
@@ -85,7 +85,12 @@ async function loadKingEast() {
 
     try {
       const resp = await fetch(url);
-      if (!resp.ok) continue;
+
+      // If the file doesn't exist, skip it
+      if (!resp.ok) {
+        console.warn("Missing JSON for year:", year);
+        continue;
+      }
 
       const data = await resp.json();
       const team = data.Team || "—";
@@ -108,12 +113,7 @@ async function loadKingEast() {
   container.appendChild(block);
 }
 
-
-
-}
-
 loadKingEast();
 </script>
-
 </body>
 </html>
