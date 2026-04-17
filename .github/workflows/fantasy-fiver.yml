@@ -63,23 +63,50 @@ jobs:
               --output "FF - 12 Angry Men ($year).xlsx"
           done
 
-      - name: Convert Excel to JSON
-        run: |
-          python - << 'EOF'
-          import os, pandas as pd
+- name: Convert Excel to JSON
+  run: |
+    python - << 'EOF'
+    import os, pandas as pd
+    import json
 
-          with open("years.txt") as f:
-              years = f.read().split()
+    with open("years.txt") as f:
+        years = f.read().split()
 
-          out_dir = os.path.join("history", "awards", "fantasy-fiver")
-          os.makedirs(out_dir, exist_ok=True)
+    fiver_dir = os.path.join("history", "awards", "fantasy-fiver")
+    king_east_dir = os.path.join("history", "awards", "king-east")
 
-          for year in years:
-              xlsx = f"FF - 12 Angry Men ({year}).xlsx"
-              print(f"Processing {xlsx}...")
-              df = pd.read_excel(xlsx, sheet_name="Awards - Fantasy Fiver")
-              df.to_json(os.path.join(out_dir, f"{year}.json"), orient="records")
-          EOF
+    os.makedirs(fiver_dir, exist_ok=True)
+    os.makedirs(king_east_dir, exist_ok=True)
+
+    for year in years:
+        xlsx = f"FF - 12 Angry Men ({year}).xlsx"
+        print(f"Processing {xlsx}...")
+
+        # ================================
+        # FANTASY FIVER
+        # ================================
+        df = pd.read_excel(xlsx, sheet_name="Awards - Fantasy Fiver")
+        df.to_json(os.path.join(fiver_dir, f"{year}.json"), orient="records")
+
+        # ================================
+        # KING OF THE EAST
+        # ================================
+        try:
+            sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
+            king_east_winner = sheet.iloc[1, 3]  # D2 = row 1, col 3 (0‑indexed)
+
+            king_json = { "Team": str(king_east_winner) }
+
+            with open(os.path.join(king_east_dir, f"{year}.json"), "w") as f:
+                json.dump(king_json, f, indent=2)
+
+            print(f"King of the East JSON written for {year}")
+
+        except Exception as e:
+            print(f"Error generating King of the East for {year}: {e}")
+
+    EOF
+
 
       - name: Commit changes
         run: |
