@@ -2,27 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>King of the East Award</title>
+  <title>King of the West Award</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../../../css/style.css">
-  <style>
-    .collapse-toggle {
-      cursor: pointer;
-      padding: 0.75rem 0;
-      font-weight: 600;
-      color: var(--accent);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .collapse-content {
-      display: none;
-      padding-bottom: 1rem;
-    }
-    .collapse.open .collapse-content {
-      display: block;
-    }
-  </style>
 </head>
 
 <body>
@@ -38,28 +20,23 @@
     </a>
   </div>
 
-<div class="shell" style="padding-top:1rem;">
+  <div class="shell" style="padding-top:1rem;">
 
-  <section class="card card-soft">
-    <div class="card-header">
-      <h3 class="card-title">🤠 King of the West</h3>
-      <div class="card-meta">Division Champion • West Division</div>
-    </div>
-
-    <div class="card-body">
-
-      <p class="hero-sub" style="margin-bottom:1.5rem;">
-        Awarded annually to the team that finishes atop the West Division standings.
-      </p>
-
-      <div id="west-container">
-        <p>Loading King of the West history…</p>
+    <section class="card card-soft">
+      <div class="card-header">
+        <h3 class="card-title">🤠 King of the West</h3>
+        <div class="card-meta">Division Champion • West Division</div>
       </div>
 
-    </div>
-  </section>
+      <div class="card-body">
 
-</div>
+        <p class="hero-sub" style="margin-bottom:1.5rem;">
+          Awarded annually to the team that finishes atop the West Division standings.
+        </p>
+
+        <div id="west-container">
+          <p>Loading King of the West history…</p>
+        </div>
 
       </div>
     </section>
@@ -71,10 +48,8 @@ async function loadKingWest() {
   const container = document.getElementById("west-container");
   container.innerHTML = "";
 
-  // IMPORTANT: These must match the actual JSON files that exist
   const years = [2021, 2022, 2023, 2024, 2025, 2026];
 
-  // Create ONE card for all winners
   const block = document.createElement("div");
   block.className = "card";
   block.style.marginBottom = "1.5rem";
@@ -90,11 +65,7 @@ async function loadKingWest() {
 
     try {
       const resp = await fetch(url);
-
-      if (!resp.ok) {
-        console.warn("Missing JSON for year:", year);
-        continue;
-      }
+      if (!resp.ok) continue;
 
       const data = await resp.json();
       const team = data.Team || "—";
@@ -119,5 +90,6 @@ async function loadKingWest() {
 
 loadKingWest();
 </script>
+
 </body>
 </html>
