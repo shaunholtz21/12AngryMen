@@ -113,6 +113,28 @@ jobs:
               except Exception as e:
                   print(f"Error generating King of the East for {year}: {e}")
 
+              # ================================
+              # KING OF THE WEST (merged cell safe)
+              # ================================
+              try:
+                  sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
+
+                  # Read the column by header name (safe even with merged cells)
+                  col = sheet["King of the West"]
+
+                  non_empty = col.dropna()
+                  king_west_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
+
+                  king_json = { "Team": str(king_west_winner).strip() }
+
+                  with open(os.path.join(west_dir, f"{year}.json"), "w") as f:
+                       json.dump(king_json, f, indent=2)
+
+                  print(f"King of the West JSON written for {year}")
+
+              except Exception as e:
+                  print(f"Error generating King of the West for {year}: {e}")
+
           EOF
 
 
