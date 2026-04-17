@@ -174,17 +174,11 @@ jobs:
               # LAST MAN STANDING (eliminations)
               # ================================
               try:
-                  # Skip the first 6 rows (headers + spacing)
                   sheet = pd.read_excel(
                       xlsx,
                       sheet_name="Awards - Last Man Standing",
                       skiprows=6
                   )
-
-                  # Columns after skipping:
-                  # 0 = Week #
-                  # 1 = Eliminated Team
-                  # 2 = Lowest Score
 
                   weeks = sheet.iloc[:, 0]
                   teams = sheet.iloc[:, 1]
@@ -196,8 +190,19 @@ jobs:
                       if pd.isna(w) or pd.isna(t):
                           continue
 
+                      # Convert week to integer even if it's text like "Week 1"
+                      if isinstance(w, str):
+                          import re
+                          match = re.search(r"\d+", w)
+                          if match:
+                              w = int(match.group())
+                          else:
+                              continue  # skip if no digits found
+                      else:
+                          w = int(w)
+
                       lms_data.append({
-                          "Week": int(w),
+                          "Week": w,
                           "Team": str(t).strip(),
                           "Score": float(s) if not pd.isna(s) else None
                       })
