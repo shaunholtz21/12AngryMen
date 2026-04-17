@@ -90,22 +90,27 @@ jobs:
               df = pd.read_excel(xlsx, sheet_name="Awards - Fantasy Fiver")
               df.to_json(os.path.join(fiver_dir, f"{year}.json"), orient="records")
 
-              # ================================
-              # KING OF THE EAST
-              # ================================
-              try:
-                  sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
-                  king_east_winner = sheet.iloc[1, 3]  # D2 = row 1, col 3 (0-indexed)
+# ================================
+# KING OF THE EAST (merged cell safe)
+# ================================
+try:
+    sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
 
-                  king_json = { "Team": str(king_east_winner) }
+    # D2:D15 = rows 1 through 14, column 3 (0-indexed)
+    col = sheet.iloc[1:15, 3]
 
-                  with open(os.path.join(king_east_dir, f"{year}.json"), "w") as f:
-                      json.dump(king_json, f, indent=2)
+    # Find the first non-nan value
+    king_east_winner = col.dropna().iloc[0] if col.dropna().size > 0 else ""
 
-                  print(f"King of the East JSON written for {year}")
+    king_json = { "Team": str(king_east_winner).strip() }
 
-              except Exception as e:
-                  print(f"Error generating King of the East for {year}: {e}")
+    with open(os.path.join(king_east_dir, f"{year}.json"), "w") as f:
+        json.dump(king_json, f, indent=2)
+
+    print(f"King of the East JSON written for {year}")
+
+except Exception as e:
+    print(f"Error generating King of the East for {year}: {e}")
 
           EOF
 
