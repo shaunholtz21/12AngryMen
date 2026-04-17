@@ -78,11 +78,13 @@ jobs:
           king_east_dir = os.path.join("history", "awards", "king-east")
           king_west_dir = os.path.join("history", "awards", "king-west")
           iron_bank_dir = os.path.join("history", "awards", "iron-bank")
+          punching_bag_dir = os.path.join("history", "awards", "punching-bag")
 
           os.makedirs(fiver_dir, exist_ok=True)
           os.makedirs(king_east_dir, exist_ok=True)
           os.makedirs(king_west_dir, exist_ok=True)
           os.makedirs(iron_bank_dir, exist_ok=True)
+          os.makedirs(punching_bag_dir, exist_ok=True)
 
           for year in years:
               xlsx = f"FF - 12 Angry Men ({year}).xlsx"
@@ -147,6 +149,24 @@ jobs:
 
               except Exception as e:
                   print(f"Error generating Iron Bank for {year}: {e}")
+
+              # ================================
+              # PUNCHING BAG (merged cell safe)
+              # ================================
+              try:
+                  sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
+                  col = sheet["Punching Bag"]
+                  non_empty = col.dropna()
+                  punching_bag_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
+                  punching_json = { "Team": str(punching_bag_winner).strip() }
+
+                  with open(os.path.join(punching_bag_dir, f"{year}.json"), "w") as f:
+                      json.dump(punching_json, f, indent=2)
+
+                  print(f"Punching Bag JSON written for {year}")
+
+              except Exception as e:
+                  print(f"Error generating Punching Bag for {year}: {e}")    
 
           EOF
 
