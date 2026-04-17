@@ -79,7 +79,7 @@ function computeWinner(elimData, teamList) {
 }
 
 /* ============================================================
-   RENDER SEASON CONTENT (winner + placeholder tables)
+   RENDER SEASON CONTENT
    ============================================================ */
 function renderSeasonContent(season, elimData, teamData) {
   const container = document.getElementById(`season-${season}`);
@@ -106,7 +106,7 @@ function renderSeasonContent(season, elimData, teamData) {
 }
 
 /* ============================================================
-   MAIN EXECUTION
+   MAIN EXECUTION — THIS IS THE PART YOU WERE MISSING
    ============================================================ */
 loadSeasons().then(async seasons => {
   renderSeasonBlocks(seasons);
