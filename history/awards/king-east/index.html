@@ -1,82 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>King of the East</title>
-
-  <link rel="stylesheet" href="/style.css" />
+  <meta charset="UTF-8">
+  <title>King of the East Award</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../../css/style.css">
+  <style>
+    .collapse-toggle {
+      cursor: pointer;
+      padding: 0.75rem 0;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .collapse-content {
+      display: none;
+      padding-bottom: 1rem;
+    }
+    .collapse.open .collapse-content {
+      display: block;
+    }
+  </style>
 </head>
 
 <body>
 
-  <div class="page-container">
+  <!-- BACK LINK -->
+  <div style="width:100%; padding:1.5rem 1rem 0;">
+    <a href="../index.html" style="
+      color:var(--accent);
+      font-weight:600;
+      text-decoration:none;
+    ">
+      ← Back to Awards Hub
+    </a>
+  </div>
 
-    <h1>👑 King of the East</h1>
-    <p class="subtitle">
-      Awarded annually to the team that finishes atop the East Division standings.
-    </p>
+  <div class="shell" style="padding-top:1rem;">
 
-    <div id="awards"></div>
+    <section class="card card-soft">
+      <div class="card-header">
+        <h3 class="card-title">👑 King of the East</h3>
+        <div class="card-meta">Division Champion • East Division</div>
+      </div>
+
+      <div class="card-body">
+
+        <p class="hero-sub" style="margin-bottom:1.5rem;">
+          Awarded annually to the team that finishes atop the East Division standings.
+        </p>
+
+        <div id="east-container">
+          <p>Loading King of the East history…</p>
+        </div>
+
+      </div>
+    </section>
 
   </div>
 
-  <script>
-    async function loadAwards() {
-      const container = document.getElementById("awards");
+<script>
+async function loadKingEast() {
+  const container = document.getElementById("east-container");
+  container.innerHTML = "";
 
-      // Fetch list of JSON files in the folder
-      const response = await fetch("/history/awards/king-east/");
-      const text = await response.text();
+  // Add years as needed
+  const years = [2021, 2022, 2023, 2024, 2025, 2026];
 
-      // Extract filenames ending in .json
-      const files = [...text.matchAll(/href="(.*?\.json)"/g)].map(m => m[1]);
+  for (const year of years.reverse()) {
+    const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/king-east/${year}.json`;
 
-      // Sort newest year first
-      files.sort((a, b) => b.localeCompare(a));
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) continue;
 
-      for (const file of files) {
-        const year = file.replace(".json", "");
-        const data = await fetch(`/history/awards/king-east/${file}`).then(r => r.json());
+      const data = await resp.json();
 
-        container.innerHTML += `
-          <div class="award-year-block" style="
-            margin-bottom: 2rem;
-            padding: 1rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--bg-soft);
+      const block = document.createElement("div");
+      block.className = "card";
+      block.style.marginBottom = "1.5rem";
+
+      block.innerHTML = `
+        <div class="collapse-toggle">
+          <span>${year} King of the East</span>
+          <span>▼</span>
+        </div>
+
+        <div class="collapse-content">
+
+          <div style="
+            background: var(--accent-soft);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--accent);
           ">
-            <h2 style="margin: 0 0 1rem 0;">
-              ${year} King of the East
-            </h2>
-
-            <div style="
-              background: var(--accent-soft);
-              padding: 0.75rem 1rem;
-              border-radius: 6px;
-              margin-bottom: 1rem;
-              font-weight: 600;
-              color: var(--accent);
-            ">
-              East Division Champion
-            </div>
-
-            <div style="
-              font-size: 1.25rem;
-              font-weight: 700;
-              padding: 0.5rem 0;
-              color: var(--text);
-            ">
-              ${data.Team || "—"}
-            </div>
+            👑 East Division Champion
           </div>
-        `;
-      }
-    }
 
-    loadAwards();
-  </script>
+          <table style="width:100%; border-collapse:collapse; margin-top:0.5rem;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border); background:var(--bg-soft);">
+                <th style="text-align:left; padding:0.5rem 0;">Team</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td style="padding:0.5rem 0;">${data.Team || "—"}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      `;
+
+      block.querySelector(".collapse-toggle").addEventListener("click", () => {
+        block.classList.toggle("collapse");
+        block.classList.toggle("open");
+      });
+
+      container.appendChild(block);
+
+    } catch (err) {
+      console.error("Error loading year", year, err);
+    }
+  }
+}
+
+loadKingEast();
+</script>
 
 </body>
 </html>
