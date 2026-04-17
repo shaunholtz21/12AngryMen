@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fantasy Fiver Award</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .collapse-toggle {
+      cursor: pointer;
+      padding: 0.75rem 0;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .collapse-content {
+      display: none;
+      padding-bottom: 1rem;
+    }
+    .collapse.open .collapse-content {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BACK LINK -->
+  <div style="width:100%; padding:1.5rem 1rem 0;">
+    <a href="../index.html" style="
+      color:var(--accent);
+      font-weight:600;
+      text-decoration:none;
+    ">
+      ← Back to Awards Hub
+    </a>
+  </div>
+
+  <div class="shell" style="padding-top:1rem;">
+
+    <section class="card card-soft">
+      <div class="card-header">
+        <h3 class="card-title">🗓 Fantasy Fiver Award</h3>
+        <div class="card-meta">Weekly High Score • 14 Winners Per Season</div>
+      </div>
+
+      <div class="card-body">
+
+        <p class="hero-sub" style="margin-bottom:1.5rem;">
+          Awarded each week of the regular season to the manager with the highest point total.
+        </p>
+
+        <div id="fiver-container">
+          <p>Loading Fantasy Fiver history…</p>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+<script>
+async function loadFantasyFiver() {
+  const container = document.getElementById("fiver-container");
+  container.innerHTML = "";
+
+  // Years your workflow currently generates
+  const years = [2021, 2022, 2023, 2024, 2025, 2026];
+
+  for (const year of years.reverse()) {
+    const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/fantasy-fiver/${year}.json`;
+
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) continue;
+
+      const data = await resp.json();
+
+      // Create collapsible block
+      const block = document.createElement("div");
+      block.className = "card";
+      block.style.marginBottom = "1.5rem";
+
+      block.innerHTML = `
+        <div class="collapse-toggle">
+          <span>${year} Fantasy Fiver Winners</span>
+          <span>▼</span>
+        </div>
+
+        <div class="collapse-content">
+          <table style="width:100%; border-collapse:collapse; margin-top:0.5rem;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border);">
+                <th style="text-align:left; padding:0.5rem 0;">Week</th>
+                <th style="text-align:left; padding:0.5rem 0;">Winner</th>
+                <th style="text-align:left; padding:0.5rem 0;">Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.map((row, i) => `
+                <tr>
+                  <td>Week ${i + 1}</td>
+                  <td>${row.Player || "—"}</td>
+                  <td>${row.Points || "—"}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      // Add collapse behavior
+      block.querySelector(".collapse-toggle").addEventListener("click", () => {
+        block.classList.toggle("collapse");
+        block.classList.toggle("open");
+      });
+
+      container.appendChild(block);
+
+    } catch (err) {
+      console.error("Error loading year", year, err);
+    }
+  }
+}
+
+loadFantasyFiver();
+</script>
+
+</body>
+</html>
