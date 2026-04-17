@@ -90,32 +90,26 @@ async function loadKingEast() {
 
         <div class="collapse-content">
 
-          <div style="
-            background: var(--accent-soft);
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            font-weight: 600;
-            color: var(--accent);
-          ">
-            👑 East Division Champion
-          </div>
+<div style="
+  background: var(--accent-soft);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+">
+  👑 East Division Champion
+</div>
 
-          <table style="width:100%; border-collapse:collapse; margin-top:0.5rem;">
-            <thead>
-              <tr style="border-bottom:1px solid var(--border); background:var(--bg-soft);">
-                <th style="text-align:left; padding:0.5rem 0;">Team</th>
-              </tr>
-            </thead>
+<div style="
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0.5rem 0;
+  color: var(--text);
+">
+  ${data.Team || "—"}
+</div>
 
-            <tbody>
-              <tr>
-                <td style="padding:0.5rem 0;">${data.Team || "—"}</td>
-              </tr>
-            </tbody>
-          </table>
-
-        </div>
       `;
 
       block.querySelector(".collapse-toggle").addEventListener("click", () => {
