@@ -96,11 +96,12 @@ jobs:
               try:
                   sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
 
-                  # D2:D15 = rows 1–14, column 3 (0-indexed)
-                  col = sheet.iloc[1:15, 3]
+                  # Grab the "King of the East" column by header
+                  col = sheet["King of the East"]
 
-                  # First non-nan value
-                  king_east_winner = col.dropna().iloc[0] if col.dropna().size > 0 else ""
+                  # First non-empty value in that column
+                  non_empty = col.dropna()
+                  king_east_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
 
                   king_json = { "Team": str(king_east_winner).strip() }
 
