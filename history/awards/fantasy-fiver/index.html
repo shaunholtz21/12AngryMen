@@ -83,36 +83,50 @@ async function loadFantasyFiver() {
       block.className = "card";
       block.style.marginBottom = "1.5rem";
 
-      block.innerHTML = `
-        <div class="collapse-toggle">
-          <span>${year} Fantasy Fiver Winners</span>
-          <span>▼</span>
-        </div>
+block.innerHTML = `
+  <div class="collapse-toggle">
+    <span>${year} Fantasy Fiver Winners</span>
+    <span>▼</span>
+  </div>
 
-        <div class="collapse-content">
-          <table style="width:100%; border-collapse:collapse; margin-top:0.5rem;">
-            <thead>
-              <tr style="border-bottom:1px solid var(--border);">
-                <th style="text-align:left; padding:0.5rem 0;">Week</th>
-                <th style="text-align:left; padding:0.5rem 0;">Winner</th>
-                <th style="text-align:left; padding:0.5rem 0;">Points</th>
-              </tr>
-            </thead>
-            <tbody>
-  ${data
-    .filter(row => row["Fantasy Fiver Award"] && row["Fantasy Fiver Award"].includes("Week"))
-    .map(row => `
-      <tr>
-        <td>${row["Fantasy Fiver Award"]}</td>
-        <td>${row["Unnamed: 1"] || "—"}</td>
-        <td>${row["Unnamed: 2"] || "—"}</td>
-      </tr>
-    `)
-    .join("")}
-</tbody>
-          </table>
-        </div>
-      `;
+  <div class="collapse-content">
+
+    <div style="
+      background: var(--accent-soft);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+    ">
+      🏆 Awarded Weekly — Highest Score Each Week
+    </div>
+
+    <table style="width:100%; border-collapse:collapse; margin-top:0.5rem;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border); background:var(--bg-soft);">
+          <th style="text-align:left; padding:0.5rem 0;">Week</th>
+          <th style="text-align:left; padding:0.5rem 0;">Winner</th>
+          <th style="text-align:left; padding:0.5rem 0;">Points</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        ${data
+          .filter(row => row["Fantasy Fiver Award"] && /^Week \d+/.test(row["Fantasy Fiver Award"]))
+          .map(row => `
+            <tr>
+              <td>${row["Fantasy Fiver Award"]}</td>
+              <td>${row["Unnamed: 1"] || ""}</td>
+              <td>${row["Unnamed: 2"] || ""}</td>
+            </tr>
+          `)
+          .join("")}
+      </tbody>
+    </table>
+
+  </div>
+`;
 
       // Add collapse behavior
       block.querySelector(".collapse-toggle").addEventListener("click", () => {
