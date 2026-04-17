@@ -119,9 +119,10 @@ jobs:
               try:
                   sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
 
-                  # Read the column by header name (safe even with merged cells)
+                  # Grab the "King of the West" column by header
                   col = sheet["King of the West"]
 
+                  # First non-empty value in that column
                   non_empty = col.dropna()
                   king_west_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
 
