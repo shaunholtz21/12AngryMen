@@ -1,4 +1,6 @@
-// Auto-detect seasons by scanning the LMS directory
+/* ============================================================
+   LOAD SEASONS (auto-detect all YYYY.json files)
+   ============================================================ */
 async function loadSeasons() {
   const container = document.getElementById("lms-container");
 
@@ -7,7 +9,7 @@ async function loadSeasons() {
     const res = await fetch(".");
     const text = await res.text();
 
-    // Extract all filenames ending in .json but NOT -teams.json
+    // Match files like 2026.json but NOT 2026-teams.json
     const seasonFiles = [...text.matchAll(/(\d{4})\.json/g)].map(m => m[1]);
 
     // Sort newest → oldest
@@ -21,3 +23,37 @@ async function loadSeasons() {
     return [];
   }
 }
+
+/* ============================================================
+   RENDER COLLAPSIBLE SEASON BLOCKS
+   ============================================================ */
+function renderSeasonBlocks(seasons) {
+  const container = document.getElementById("lms-container");
+  container.innerHTML = ""; // Clear loading text
+
+  seasons.forEach(season => {
+    const block = document.createElement("div");
+    block.className = "season-block";
+
+    block.innerHTML = `
+      <details class="season-collapse">
+        <summary class="season-header">
+          <span>${season} Last Man Standing</span>
+        </summary>
+
+        <div class="season-content" id="season-${season}">
+          <p>Loading ${season} data…</p>
+        </div>
+      </details>
+    `;
+
+    container.appendChild(block);
+  });
+}
+
+/* ============================================================
+   MAIN EXECUTION
+   ============================================================ */
+loadSeasons().then(seasons => {
+  renderSeasonBlocks(seasons);
+});
