@@ -63,93 +63,92 @@ jobs:
               --output "FF - 12 Angry Men ($year).xlsx"
           done
 
-- name: Convert Excel to JSON
-  run: |
-    python - << 'EOF'
-    import os, pandas as pd
-    import json
+      - name: Convert Excel to JSON
+        run: |
+          python - << 'EOF'
+          import os, pandas as pd
+          import json
 
-    # Load list of years
-    with open("years.txt") as f:
-        years = f.read().split()
+          # Load list of years
+          with open("years.txt") as f:
+              years = f.read().split()
 
-    # Output directories
-    fiver_dir = os.path.join("history", "awards", "fantasy-fiver")
-    king_east_dir = os.path.join("history", "awards", "king-east")
-    king_west_dir = os.path.join("history", "awards", "king-west")
-    iron_bank_dir = os.path.join("history", "awards", "iron-bank")
+          # Output directories
+          fiver_dir = os.path.join("history", "awards", "fantasy-fiver")
+          king_east_dir = os.path.join("history", "awards", "king-east")
+          king_west_dir = os.path.join("history", "awards", "king-west")
+          iron_bank_dir = os.path.join("history", "awards", "iron-bank")
 
-    os.makedirs(fiver_dir, exist_ok=True)
-    os.makedirs(king_east_dir, exist_ok=True)
-    os.makedirs(king_west_dir, exist_ok=True)
-    os.makedirs(iron_bank_dir, exist_ok=True)
+          os.makedirs(fiver_dir, exist_ok=True)
+          os.makedirs(king_east_dir, exist_ok=True)
+          os.makedirs(king_west_dir, exist_ok=True)
+          os.makedirs(iron_bank_dir, exist_ok=True)
 
-    for year in years:
-        xlsx = f"FF - 12 Angry Men ({year}).xlsx"
-        print(f"Processing {xlsx}...")
+          for year in years:
+              xlsx = f"FF - 12 Angry Men ({year}).xlsx"
+              print(f"Processing {xlsx}...")
 
-        # ================================
-        # FANTASY FIVER
-        # ================================
-        df = pd.read_excel(xlsx, sheet_name="Awards - Fantasy Fiver")
-        df.to_json(os.path.join(fiver_dir, f"{year}.json"), orient="records")
+              # ================================
+              # FANTASY FIVER
+              # ================================
+              df = pd.read_excel(xlsx, sheet_name="Awards - Fantasy Fiver")
+              df.to_json(os.path.join(fiver_dir, f"{year}.json"), orient="records")
 
-        # ================================
-        # KING OF THE EAST
-        # ================================
-        try:
-            sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
-            col = sheet["King of the East"]
-            non_empty = col.dropna()
-            king_east_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
-            king_json = { "Team": str(king_east_winner).strip() }
+              # ================================
+              # KING OF THE EAST
+              # ================================
+              try:
+                  sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
+                  col = sheet["King of the East"]
+                  non_empty = col.dropna()
+                  king_east_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
+                  king_json = { "Team": str(king_east_winner).strip() }
 
-            with open(os.path.join(king_east_dir, f"{year}.json"), "w") as f:
-                json.dump(king_json, f, indent=2)
+                  with open(os.path.join(king_east_dir, f"{year}.json"), "w") as f:
+                      json.dump(king_json, f, indent=2)
 
-            print(f"King of the East JSON written for {year}")
+                  print(f"King of the East JSON written for {year}")
 
-        except Exception as e:
-            print(f"Error generating King of the East for {year}: {e}")
+              except Exception as e:
+                  print(f"Error generating King of the East for {year}: {e}")
 
-        # ================================
-        # KING OF THE WEST
-        # ================================
-        try:
-            sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
-            col = sheet["King of the West"]
-            non_empty = col.dropna()
-            king_west_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
-            king_json = { "Team": str(king_west_winner).strip() }
+              # ================================
+              # KING OF THE WEST
+              # ================================
+              try:
+                  sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
+                  col = sheet["King of the West"]
+                  non_empty = col.dropna()
+                  king_west_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
+                  king_json = { "Team": str(king_west_winner).strip() }
 
-            with open(os.path.join(king_west_dir, f"{year}.json"), "w") as f:
-                json.dump(king_json, f, indent=2)
+                  with open(os.path.join(king_west_dir, f"{year}.json"), "w") as f:
+                      json.dump(king_json, f, indent=2)
 
-            print(f"King of the West JSON written for {year}")
+                  print(f"King of the West JSON written for {year}")
 
-        except Exception as e:
-            print(f"Error generating King of the West for {year}: {e}")
+              except Exception as e:
+                  print(f"Error generating King of the West for {year}: {e}")
 
-        # ================================
-        # IRON BANK
-        # ================================
-        try:
-            sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
-            col = sheet["Iron Bank"]
-            non_empty = col.dropna()
-            iron_bank_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
-            iron_json = { "Team": str(iron_bank_winner).strip() }
+              # ================================
+              # IRON BANK
+              # ================================
+              try:
+                  sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
+                  col = sheet["Iron Bank"]
+                  non_empty = col.dropna()
+                  iron_bank_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
+                  iron_json = { "Team": str(iron_bank_winner).strip() }
 
-            with open(os.path.join(iron_bank_dir, f"{year}.json"), "w") as f:
-                json.dump(iron_json, f, indent=2)
+                  with open(os.path.join(iron_bank_dir, f"{year}.json"), "w") as f:
+                      json.dump(iron_json, f, indent=2)
 
-            print(f"Iron Bank JSON written for {year}")
+                  print(f"Iron Bank JSON written for {year}")
 
-        except Exception as e:
-            print(f"Error generating Iron Bank for {year}: {e}")
+              except Exception as e:
+                  print(f"Error generating Iron Bank for {year}: {e}")
 
-    EOF
-
+          EOF
 
       - name: Commit changes
         run: |
