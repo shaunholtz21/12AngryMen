@@ -69,51 +69,45 @@ async function loadKingEast() {
   // Add years as needed
   const years = [2021, 2022, 2023, 2024, 2025, 2026];
 
-for (const year of years.reverse()) {
-  const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/king-east/${year}.json`;
+  // Create ONE card for all winners
+  const block = document.createElement("div");
+  block.className = "card";
+  block.style.marginBottom = "1.5rem";
 
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) continue;
+  let listHTML = `
+    <h3 style="margin:0 0 1rem 0; font-weight:700;">
+      King of the East – All-Time Winners
+    </h3>
+  `;
 
-    const data = await resp.json();
+  for (const year of years.reverse()) {
+    const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/king-east/${year}.json`;
 
-    const block = document.createElement("div");
-    block.className = "card";
-    block.style.marginBottom = "1.5rem";
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) continue;
 
-    block.innerHTML = `
-      <h3 style="margin:0 0 1rem 0; font-weight:700;">
-        ${year} King of the East
-      </h3>
+      const data = await resp.json();
+      const team = data.Team || "—";
 
-      <div style="
-        background: var(--accent-soft);
-        padding: 0.75rem 1rem;
-        border-radius: 6px;
-        margin-bottom: 1rem;
-        font-weight: 600;
-        color: var(--accent);
-      ">
-        👑 East Division Champion
-      </div>
-
-      <div style="
-        font-size: 1.25rem;
-        font-weight: 700;
-        padding: 0.5rem 0;
-        color: var(--text);
-      ">
-        ${data.Team || "—"}
-      </div>
-    `;
-
-    container.appendChild(block);
-
-  } catch (err) {
-    console.error("Error loading year", year, err);
+      listHTML += `
+        <div style="
+          padding: 0.5rem 0;
+          border-bottom: 1px solid var(--border);
+          font-size: 1.1rem;
+        ">
+          <strong>${year}</strong> – ${team}
+        </div>
+      `;
+    } catch (err) {
+      console.error("Error loading year", year, err);
+    }
   }
+
+  block.innerHTML = listHTML;
+  container.appendChild(block);
 }
+
 
 
 }
