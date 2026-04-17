@@ -7,22 +7,12 @@ function debug(msg) {
    LOAD SEASONS
    ============================================================ */
 async function loadSeasons() {
-  debug("loadSeasons() started");
-
   try {
-    const res = await fetch(".");
-    const text = await res.text();
-
-    debug("Fetched directory listing");
-
-    const seasonFiles = [...text.matchAll(/(\d{4})\.json/g)].map(m => m[1]);
-
-    debug("Detected seasons: " + JSON.stringify(seasonFiles));
-
-    return seasonFiles.sort((a, b) => b - a);
-
+    const res = await fetch("seasons.json");
+    const seasons = await res.json();
+    return seasons.sort((a, b) => b - a);
   } catch (err) {
-    debug("ERROR in loadSeasons: " + err);
+    console.error("Error loading seasons.json", err);
     return [];
   }
 }
