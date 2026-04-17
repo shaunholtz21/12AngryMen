@@ -1,59 +1,57 @@
+function debug(msg) {
+  const el = document.getElementById("lms-container");
+  el.innerHTML += `<div style="color:red; font-weight:bold;">DEBUG: ${msg}</div>`;
+}
+
 /* ============================================================
-   LOAD SEASONS (auto-detect all YYYY.json files)
+   LOAD SEASONS
    ============================================================ */
 async function loadSeasons() {
-  const container = document.getElementById("lms-container");
+  debug("loadSeasons() started");
 
   try {
     const res = await fetch(".");
     const text = await res.text();
 
-    // Match files like 2026.json but NOT 2026-teams.json
+    debug("Fetched directory listing");
+
     const seasonFiles = [...text.matchAll(/(\d{4})\.json/g)].map(m => m[1]);
 
-    // Sort newest → oldest
-    const seasons = seasonFiles.sort((a, b) => b - a);
+    debug("Detected seasons: " + JSON.stringify(seasonFiles));
 
-    return seasons;
+    return seasonFiles.sort((a, b) => b - a);
 
   } catch (err) {
-    container.innerHTML = "<p>Error loading seasons.</p>";
-    console.error(err);
+    debug("ERROR in loadSeasons: " + err);
     return [];
   }
 }
 
 /* ============================================================
-   RENDER COLLAPSIBLE SEASON BLOCKS
+   RENDER COLLAPSIBLES
    ============================================================ */
 function renderSeasonBlocks(seasons) {
+  debug("renderSeasonBlocks() with seasons: " + JSON.stringify(seasons));
+
   const container = document.getElementById("lms-container");
-  container.innerHTML = ""; // Clear loading text
+  container.innerHTML = "";
 
   seasons.forEach(season => {
-    const block = document.createElement("div");
-    block.className = "season-block";
-
-    block.innerHTML = `
-      <details class="season-collapse">
-        <summary class="season-header">
-          <span>${season} Last Man Standing</span>
-        </summary>
-
-        <div class="season-content" id="season-${season}">
-          <p>Loading ${season} data…</p>
-        </div>
+    container.innerHTML += `
+      <details>
+        <summary>${season} Last Man Standing</summary>
+        <div id="season-${season}">Loading ${season}…</div>
       </details>
     `;
-
-    container.appendChild(block);
   });
 }
 
 /* ============================================================
-   LOAD JSON FOR A SEASON
+   LOAD SEASON DATA
    ============================================================ */
 async function loadSeasonData(season) {
+  debug(`Loading JSON for ${season}`);
+
   try {
     const elimRes = await fetch(`${season}.json`);
     const elimData = await elimRes.json();
@@ -61,60 +59,58 @@ async function loadSeasonData(season) {
     const teamRes = await fetch(`${season}-teams.json`);
     const teamData = await teamRes.json();
 
+    debug(`Loaded elim + team data for ${season}`);
+
     return { elimData, teamData };
 
   } catch (err) {
-    console.error(`Error loading data for ${season}`, err);
+    debug(`ERROR loading season ${season}: ${err}`);
     return null;
   }
 }
 
 /* ============================================================
-   COMPUTE WINNER
-   ============================================================ */
-function computeWinner(elimData, teamList) {
-  const eliminated = elimData.map(e => e.Team);
-  const alive = teamList.filter(t => !eliminated.includes(t));
-  return alive.length === 1 ? alive[0] : null;
-}
-
-/* ============================================================
-   RENDER SEASON CONTENT
+   RENDER CONTENT
    ============================================================ */
 function renderSeasonContent(season, elimData, teamData) {
+  debug(`Rendering content for ${season}`);
+
   const container = document.getElementById(`season-${season}`);
 
-  const winner = computeWinner(elimData, teamData);
+  if (!container) {
+    debug(`ERROR: container season-${season} not found`);
+    return;
+  }
 
   container.innerHTML = `
-    <div class="lms-winner" style="margin-bottom:1rem;">
-      <h3>🏆 Winner: ${winner || "Unknown"}</h3>
-    </div>
-
-    <div class="lms-tables" style="display:flex; gap:2rem;">
-      <div class="lms-left" style="flex:1;">
-        <h4>Eliminations</h4>
-        <p>(Table coming next)</p>
-      </div>
-
-      <div class="lms-right" style="flex:1;">
-        <h4>Still Alive</h4>
-        <p>(Table coming next)</p>
-      </div>
-    </div>
+    <h3>Winner placeholder</h3>
+    <p>Eliminations table coming next</p>
+    <p>Still alive table coming next</p>
   `;
 }
 
 /* ============================================================
-   MAIN EXECUTION — THIS IS THE PART YOU WERE MISSING
+   MAIN EXECUTION
    ============================================================ */
+debug("Script started");
+
 loadSeasons().then(async seasons => {
+  debug("Seasons loaded: " + JSON.stringify(seasons));
+
   renderSeasonBlocks(seasons);
 
   for (const season of seasons) {
+    debug("Processing season: " + season);
+
     const data = await loadSeasonData(season);
-    if (data) {
-      renderSeasonContent(season, data.elimData, data.teamData);
+
+    if (!data) {
+      debug(`Skipping ${season} due to load error`);
+      continue;
     }
+
+    renderSeasonContent(season, data.elimData, data.teamData);
   }
+
+  debug("DONE");
 });
