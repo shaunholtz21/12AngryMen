@@ -79,12 +79,14 @@ jobs:
           king_west_dir = os.path.join("history", "awards", "king-west")
           iron_bank_dir = os.path.join("history", "awards", "iron-bank")
           punching_bag_dir = os.path.join("history", "awards", "punching-bag")
+          lms_dir = os.path.join("history", "awards", "last-man-standing")
 
           os.makedirs(fiver_dir, exist_ok=True)
           os.makedirs(king_east_dir, exist_ok=True)
           os.makedirs(king_west_dir, exist_ok=True)
           os.makedirs(iron_bank_dir, exist_ok=True)
           os.makedirs(punching_bag_dir, exist_ok=True)
+          os.makedirs(lms_dir, exist_ok=True)
 
           for year in years:
               xlsx = f"FF - 12 Angry Men ({year}).xlsx"
@@ -166,7 +168,72 @@ jobs:
                   print(f"Punching Bag JSON written for {year}")
 
               except Exception as e:
-                  print(f"Error generating Punching Bag for {year}: {e}")    
+                  print(f"Error generating Punching Bag for {year}: {e}")
+                  
+              # ================================
+              # LAST MAN STANDING (eliminations)
+              # ================================
+              try:
+                  # Skip the first 6 rows (headers + spacing)
+                  sheet = pd.read_excel(
+                      xlsx,
+                      sheet_name="Awards - Last Man Standing",
+                      skiprows=6
+                  )
+
+                  # Columns after skipping:
+                  # 0 = Week #
+                  # 1 = Eliminated Team
+                  # 2 = Lowest Score
+
+                  weeks = sheet.iloc[:, 0]
+                  teams = sheet.iloc[:, 1]
+                  scores = sheet.iloc[:, 2]
+
+                  lms_data = []
+                  for w, t, s in zip(weeks, teams, scores):
+                      # Skip blank rows
+                      if pd.isna(w) or pd.isna(t):
+                          continue
+
+                      lms_data.append({
+                          "Week": int(w),
+                          "Team": str(t).strip(),
+                          "Score": float(s) if not pd.isna(s) else None
+                      })
+
+                  with open(os.path.join(lms_dir, f"{year}.json"), "w") as f:
+                      json.dump(lms_data, f, indent=2)
+
+                  print(f"Last Man Standing JSON written for {year}")
+
+              except Exception as e:
+                  print(f"Error generating Last Man Standing for {year}: {e}")
+                  
+              # ================================
+              # LAST MAN STANDING (team list)
+              # ================================
+              try:
+                  stats = pd.read_excel(
+                      xlsx,
+                      sheet_name="Stats",
+                      usecols=[0],      # Column A only
+                      skiprows=2        # Skip header rows 1–2
+                  )
+
+                  # Drop blank rows
+                  teams = stats.iloc[:, 0].dropna()
+
+                  # Convert to clean list of strings
+                  team_list = [str(t).strip() for t in teams]
+
+                  with open(os.path.join(lms_dir, f"{year}-teams.json"), "w") as f:
+                      json.dump(team_list, f, indent=2)
+
+                  print(f"LMS team list JSON written for {year}")
+
+              except Exception as e:
+                  print(f"Error generating LMS team list for {year}: {e}")
 
           EOF
 
