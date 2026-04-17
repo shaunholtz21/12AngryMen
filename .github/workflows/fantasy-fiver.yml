@@ -76,9 +76,12 @@ jobs:
           # Output directories
           fiver_dir = os.path.join("history", "awards", "fantasy-fiver")
           king_east_dir = os.path.join("history", "awards", "king-east")
+          king_west_dir = os.path.join("history", "awards", "king-west")
 
           os.makedirs(fiver_dir, exist_ok=True)
           os.makedirs(king_east_dir, exist_ok=True)
+          os.makedirs(king_west_dir, exist_ok=True)
+
 
           for year in years:
               xlsx = f"FF - 12 Angry Men ({year}).xlsx"
