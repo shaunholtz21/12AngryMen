@@ -305,18 +305,18 @@ main {
   font-size: 0.9rem;
 }
 
-/* Prevent wrapping on long headers */
+/* Keep "Week Eliminated" on one line */
 .lms-table-alive th:nth-child(3) {
   white-space: nowrap;
 }
 
-/* Prevent wrapping on team names */
+/* Keep team names on one line */
 .lms-table-alive td:first-child,
 .lms-table-alive th:first-child {
   white-space: nowrap;
 }
 
-/* Center the Week Eliminated column */
+/* Center the Week Eliminated numbers */
 .lms-table-alive td:nth-child(3),
 .lms-table-alive th:nth-child(3) {
   text-align: center;
