@@ -244,3 +244,62 @@ main {
   color: var(--muted);
   text-align: center;
 }
+
+/* ============================
+   LAST MAN STANDING
+   ============================ */
+
+.lms-winner {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.6rem;
+}
+
+.lms-winner-name {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.lms-status {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* Two-column layout for tables */
+.lms-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.lms-col {
+  flex: 1;
+  min-width: 260px;
+}
+
+/* Table styling scoped to LMS */
+.lms-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.lms-table th,
+.lms-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.lms-table th {
+  background: rgba(255, 255, 255, 0.02);
+  text-align: left;
+  font-weight: 600;
+}
+
+.lms-table-section h5 {
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
