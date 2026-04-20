@@ -81,6 +81,7 @@ jobs:
           punching_bag_dir = os.path.join("history", "awards", "punching-bag")
           lms_dir = os.path.join("history", "awards", "last-man-standing")
           golden_ticket_dir = os.path.join("history", "awards", "golden-ticket")
+          reach_dir = os.path.join("history", "awards", "reach-around")
 
           os.makedirs(fiver_dir, exist_ok=True)
           os.makedirs(king_east_dir, exist_ok=True)
@@ -89,6 +90,7 @@ jobs:
           os.makedirs(punching_bag_dir, exist_ok=True)
           os.makedirs(lms_dir, exist_ok=True)
           os.makedirs(golden_ticket_dir, exist_ok=True)
+          os.makedirs(reach_dir, exist_ok=True)
 
           for year in years:
               xlsx = f"FF - 12 Angry Men ({year}).xlsx"
@@ -189,6 +191,24 @@ jobs:
 
               except Exception as e:
                   print(f"Error generating Golden Ticket for {year}: {e}")
+                  
+                  # ================================
+                  # REACH AROUND
+                  # ================================
+                  try:
+                      sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
+                      col = sheet["Reach Around"]
+                      non_empty = col.dropna()
+                      reach_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
+                      reach_json = { "Team": str(reach_winner).strip() }
+
+                  with open(os.path.join(reach_dir, f"{year}.json"), "w") as f:
+                      json.dump(reach_json, f, indent=2)
+
+                  print(f"Reach Around JSON written for {year}")
+
+              except Exception as e:
+                  print(f"Error generating Reach Around for {year}: {e}")
                   
               # ================================
               # LAST MAN STANDING (eliminations)
