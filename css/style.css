@@ -324,4 +324,14 @@ body.lms-page .shell {
 .lms-table-alive th:nth-child(3) {
   text-align: center;
 }
+/* Make LMS season blocks full-width */
+body.lms-page details {
+  width: 100%;
+}
+
+/* Make the inner season content full-width */
+body.lms-page .lms-season-layout,
+body.lms-page [id^="season-"] {
+  width: 100%;
+}
 
