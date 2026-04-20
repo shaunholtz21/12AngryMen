@@ -177,7 +177,7 @@ jobs:
                   sheet = pd.read_excel(
                       xlsx,
                       sheet_name="Awards - Last Man Standing",
-                      skiprows=6
+                      skiprows=5
                   )
 
                   weeks = sheet.iloc[:, 0]
