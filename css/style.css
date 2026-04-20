@@ -313,7 +313,7 @@ main {
 .lms-table-alive td:first-child,
 .lms-table-alive th:first-child {
   white-space: nowrap;
-  width: 100%;
+  width: Auto;
 }
 /* Expand LMS page to full width */
 body.lms-page .shell {
