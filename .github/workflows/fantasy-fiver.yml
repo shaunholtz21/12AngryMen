@@ -192,9 +192,9 @@ jobs:
               except Exception as e:
                   print(f"Error generating Golden Ticket for {year}: {e}")
                   
-                  # ================================
-                  # REACH AROUND
-                  # ================================
+              # ================================
+              # REACH AROUND
+              # ================================
               try:
                   sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
                   col = sheet["Reach Around"]
