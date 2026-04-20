@@ -307,4 +307,11 @@ main {
 /* Keep "Week Eliminated" on one line */
 .lms-table-alive th:nth-child(3) {
   white-space: nowrap;
+  
+}
+/* Make the TEAM column expand and prevent wrapping */
+.lms-table-alive td:first-child,
+.lms-table-alive th:first-child {
+  white-space: nowrap;
+  width: 100%;
 }
