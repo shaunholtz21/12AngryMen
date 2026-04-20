@@ -246,9 +246,10 @@ main {
 }
 
 /* ============================
-   LAST MAN STANDING
+   LAST MAN STANDING (scoped)
    ============================ */
 
+/* Winner box */
 .lms-winner {
   margin-bottom: 1rem;
   padding: 0.75rem 1rem;
@@ -267,7 +268,7 @@ main {
   color: var(--muted);
 }
 
-/* Two-column layout for tables */
+/* Two-column layout */
 .lms-columns {
   display: flex;
   flex-wrap: wrap;
@@ -280,7 +281,7 @@ main {
   min-width: 260px;
 }
 
-/* Table styling scoped to LMS */
+/* Table styling */
 .lms-table {
   width: 100%;
   border-collapse: collapse;
@@ -295,8 +296,8 @@ main {
 
 .lms-table th {
   background: rgba(255, 255, 255, 0.02);
-  text-align: left;
   font-weight: 600;
+  text-align: left;
 }
 
 .lms-table-section h5 {
@@ -304,39 +305,31 @@ main {
   font-size: 0.9rem;
 }
 
-/* Keep "Week Eliminated" on one line */
+/* Prevent wrapping on long headers */
 .lms-table-alive th:nth-child(3) {
   white-space: nowrap;
-  
 }
-/* Make the TEAM column expand and prevent wrapping */
+
+/* Prevent wrapping on team names */
 .lms-table-alive td:first-child,
 .lms-table-alive th:first-child {
   white-space: nowrap;
-  width: Auto;
 }
-/* Expand LMS page to full width */
-body.lms-page .shell {
-  grid-template-columns: 1fr !important;
-}
-/* Center the Week Eliminated numbers */
+
+/* Center the Week Eliminated column */
 .lms-table-alive td:nth-child(3),
 .lms-table-alive th:nth-child(3) {
   text-align: center;
 }
-/* Make LMS season blocks full-width */
-body.lms-page details {
-  width: 100%;
+
+/* Make LMS page full-width (single column) */
+body.lms-page .shell {
+  grid-template-columns: 1fr !important;
 }
 
-/* Make the inner season content full-width */
+/* Ensure season blocks stretch full width */
+body.lms-page details,
 body.lms-page .lms-season-layout,
 body.lms-page [id^="season-"] {
   width: 100%;
 }
-
-/* LMS page should be single-column */
-.shell {
-  grid-template-columns: 1fr !important;
-}
-
