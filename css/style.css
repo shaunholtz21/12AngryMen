@@ -335,3 +335,8 @@ body.lms-page [id^="season-"] {
   width: 100%;
 }
 
+/* LMS page should be single-column */
+.shell {
+  grid-template-columns: 1fr !important;
+}
+
