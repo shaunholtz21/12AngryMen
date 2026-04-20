@@ -195,12 +195,12 @@ jobs:
                   # ================================
                   # REACH AROUND
                   # ================================
-                  try:
-                      sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
-                      col = sheet["Reach Around"]
-                      non_empty = col.dropna()
-                      reach_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
-                      reach_json = { "Team": str(reach_winner).strip() }
+              try:
+                  sheet = pd.read_excel(xlsx, sheet_name="Season Awards")
+                  col = sheet["Reach Around"]
+                  non_empty = col.dropna()
+                  reach_winner = non_empty.iloc[0] if len(non_empty) > 0 else ""
+                  reach_json = { "Team": str(reach_winner).strip() }
 
                   with open(os.path.join(reach_dir, f"{year}.json"), "w") as f:
                       json.dump(reach_json, f, indent=2)
