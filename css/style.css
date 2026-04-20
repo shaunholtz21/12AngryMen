@@ -303,3 +303,12 @@ main {
   margin-bottom: 0.4rem;
   font-size: 0.9rem;
 }
+
+/* Make the right column wider */
+.lms-col-left {
+  flex: 1;
+}
+
+.lms-col-right {
+  flex: 1.4; /* gives it ~40% more width */
+}
