@@ -1,45 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Golden Ticket Award</title>
-  <link rel="stylesheet" href="/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../../css/style.css">
 </head>
 
-<body class="page">
-  <header>
-    <div class="nav">
-      <a href="/" class="logo-mark">FF</a>
-      <div>
-        <div class="nav-title-main">Golden Ticket Award</div>
-        <div class="nav-title-sub">Draft Awards</div>
-      </div>
-      <div class="nav-links">
-        <a href="/awards/">Awards Hub</a>
-      </div>
-    </div>
-  </header>
+<body>
 
-  <main>
-    <div class="shell">
-      <section>
-        <div class="hero">
-          <h1 class="hero-title">Golden Ticket Award</h1>
-          <p class="hero-sub">
-            Awarded to the manager who receives the <strong>first overall pick</strong> in the draft.
-          </p>
+  <!-- BACK LINK -->
+  <div style="width:100%; padding:1.5rem 1rem 0;">
+    <a href="../index.html" style="
+      color:var(--accent);
+      font-weight:600;
+      text-decoration:none;
+    ">
+      ← Back to Awards Hub
+    </a>
+  </div>
+
+  <div class="shell" style="padding-top:1rem;">
+
+    <section class="card card-soft">
+      <div class="card-header">
+        <h3 class="card-title">🎫 Golden Ticket Award</h3>
+        <div class="card-meta">First Overall Draft Pick</div>
+      </div>
+
+      <div class="card-body">
+
+        <p class="hero-sub" style="margin-bottom:1.5rem;">
+          Awarded annually to the manager who receives the <strong>first overall pick</strong> in the draft.
+        </p>
+
+        <div id="golden-container">
+          <p>Loading Golden Ticket history…</p>
         </div>
 
-        <div class="stack">
-          <!-- YEAR BLOCKS GO HERE -->
-          <!-- You paste one <details> block per year -->
-        </div>
-      </section>
-    </div>
-  </main>
+      </div>
+    </section>
 
-  <footer class="footer">
-    Fantasy Football League Awards
-  </footer>
+  </div>
+
+<script>
+async function loadGoldenTicket() {
+  const container = document.getElementById("golden-container");
+  container.innerHTML = "";
+
+  const years = [2021, 2022, 2023, 2024, 2025, 2026];
+
+  const block = document.createElement("div");
+  block.className = "card";
+  block.style.marginBottom = "1.5rem";
+
+  let listHTML = `
+    <h3 style="margin:0 0 1rem 0; font-weight:700;">
+      Golden Ticket – All-Time Winners
+    </h3>
+  `;
+
+  for (const year of years.reverse()) {
+    const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/golden-ticket/${year}.json`;
+
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) continue;
+
+      const data = await resp.json();
+      const team = data.Team || "—";
+
+      listHTML += `
+        <div style="
+          padding: 0.5rem 0;
+          border-bottom: 1px solid var(--border);
+          font-size: 1.1rem;
+        ">
+          <strong>${year}</strong> – ${team}
+        </div>
+      `;
+    } catch (err) {
+      console.error("Error loading year", year, err);
+    }
+  }
+
+  block.innerHTML = listHTML;
+  container.appendChild(block);
+}
+
+loadGoldenTicket();
+</script>
+
 </body>
 </html>
