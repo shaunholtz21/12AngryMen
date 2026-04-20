@@ -3,15 +3,11 @@
    ============================================================ */
 async function loadSeasons() {
   try {
-    const res = await fetch(".");
-    const text = await res.text();
-
-    const seasonFiles = [...text.matchAll(/(\d{4})\.json/g)].map(m => m[1]);
-    const seasons = seasonFiles.sort((a, b) => b - a);
-
-    return seasons;
+    const res = await fetch("seasons.json");
+    const seasons = await res.json();
+    return seasons.sort((a, b) => b - a);
   } catch (err) {
-    console.error("Error loading seasons", err);
+    console.error("Error loading seasons.json", err);
     return [];
   }
 }
