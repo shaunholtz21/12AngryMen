@@ -304,11 +304,7 @@ main {
   font-size: 0.9rem;
 }
 
-/* Make the right column wider */
-.lms-col-left {
-  flex: 1;
-}
-
-.lms-col-right {
-  flex: 1.4; /* gives it ~40% more width */
+/* Keep "Week Eliminated" on one line */
+.lms-table-alive th:nth-child(3) {
+  white-space: nowrap;
 }
