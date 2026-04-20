@@ -223,7 +223,7 @@ jobs:
                       xlsx,
                       sheet_name="Stats",
                       usecols=[0],      # Column A only
-                      skiprows=2        # Skip header rows 1–2
+                      header=1        # Row 2 is header, row 3 is first team
                   )
 
                   # Drop blank rows
