@@ -83,6 +83,93 @@
     </div>
   </article>
 </section>
+<script>
+async function loadHome2025Recap() {
+  const container = document.getElementById("home-2025-recap");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const awards = [
+    { key: "fantasy-fiver", label: "Fantasy Fiver (Weeks 1–14)", icon: "⭐", type: "fiver" },
+    { key: "iron-bank", label: "Iron Bank", icon: "🏦" },
+    { key: "king-east", label: "King of the East", icon: "👑" },
+    { key: "king-west", label: "King of the West", icon: "👑" },
+    { key: "punching-bag", label: "Punching Bag", icon: "🥊" },
+    { key: "golden-ticket", label: "Golden Ticket", icon: "🎫" },
+    { key: "reach-around", label: "Reach Around", icon: "🙌" },
+    { key: "ring-seeker", label: "Ring Seeker", icon: "💍" },
+    { key: "last-man-standing", label: "Last Man Standing", icon: "🧨", type: "lms" }
+  ];
+
+  let html = `<div style="font-size:1.0rem;">`;
+
+  for (const award of awards) {
+    const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/${award.key}/2025.json`;
+
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) continue;
+
+      const data = await resp.json();
+
+      // Fantasy Fiver (Weeks 1–14 only)
+      if (award.type === "fiver") {
+        const weeks = data.filter(row => {
+          const week = parseInt(row["Fantasy Fiver Award"]);
+          return week >= 1 && week <= 14;
+        });
+
+        html += `
+          <details style="margin-bottom:0.5rem;">
+            <summary style="cursor:pointer; font-weight:600;">
+              ${award.icon} ${award.label}
+            </summary>
+            <div style="margin-top:0.4rem; font-size:0.9rem;">
+              ${weeks.map(row => `
+                <div style="padding:2px 0;">
+                  <strong>Week ${row["Fantasy Fiver Award"]}</strong> – ${row["Unnamed: 1"]} (${row["Unnamed: 2"]} pts)
+                </div>
+              `).join("")}
+            </div>
+          </details>
+        `;
+      }
+
+      // LMS winner
+      else if (award.type === "lms") {
+        const last = data[data.length - 1];
+        const winner = last ? last.Team : "—";
+
+        html += `
+          <div style="padding:0.3rem 0;">
+            ${award.icon} <strong>${award.label}:</strong> ${winner}
+          </div>
+        `;
+      }
+
+      // All other single-winner awards
+      else {
+        const team = data.Team || "—";
+
+        html += `
+          <div style="padding:0.3rem 0;">
+            ${award.icon} <strong>${award.label}:</strong> ${team}
+          </div>
+        `;
+      }
+
+    } catch (err) {
+      console.error("Error loading", award.key, err);
+    }
+  }
+
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
+loadHome2025Recap();
+</script>
+      
 
           <section id="weekly-notes" style="margin-top: 2rem;">
             <h2 class="section-title">Weekly Notes</h2>
