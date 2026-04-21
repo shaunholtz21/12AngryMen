@@ -111,29 +111,48 @@ async function loadHome2025Recap() {
       if (!resp.ok) continue;
 
       const data = await resp.json();
+// Fantasy Fiver (Weeks 1–14 only)
+if (award.type === "fiver") {
 
-      // Fantasy Fiver (Weeks 1–14 only)
-      if (award.type === "fiver") {
-        const weeks = data.filter(row => {
-          const week = parseInt(row["Fantasy Fiver Award"]);
-          return week >= 1 && week <= 14;
-        });
+  // Skip the first 4 rows (headers + junk)
+  const rows = data.slice(4);
 
-        html += `
-          <details style="margin-bottom:0.5rem;">
-            <summary style="cursor:pointer; font-weight:600;">
-              ${award.icon} ${award.label}
-            </summary>
-            <div style="margin-top:0.4rem; font-size:0.9rem;">
-              ${weeks.map(row => `
-                <div style="padding:2px 0;">
-                  <strong>Week ${row["Fantasy Fiver Award"]}</strong> – ${row["Unnamed: 1"]} (${row["Unnamed: 2"]} pts)
-                </div>
-              `).join("")}
+  const weeks = rows.filter(row => {
+    const label = row["Fantasy Fiver Award"];
+    if (!label) return false;
+
+    // Extract week number from "Week 1"
+    const match = label.match(/Week\s+(\d+)/i);
+    if (!match) return false;
+
+    const week = parseInt(match[1]);
+    return week >= 1 && week <= 14;
+  });
+
+  html += `
+    <details style="margin-bottom:0.5rem;">
+      <summary style="cursor:pointer; font-weight:600;">
+        ${award.icon} ${award.label}
+      </summary>
+      <div style="margin-top:0.4rem; font-size:0.9rem;">
+        ${weeks.map(row => {
+          const label = row["Fantasy Fiver Award"];
+          const match = label.match(/Week\s+(\d+)/i);
+          const week = match ? match[1] : "?";
+          const team = row["Unnamed: 1"] || "—";
+          const pts = row["Unnamed: 2"] || "—";
+
+          return `
+            <div style="padding:2px 0;">
+              <strong>Week ${week}</strong> – ${team} (${pts} pts)
             </div>
-          </details>
-        `;
-      }
+          `;
+        }).join("")}
+      </div>
+    </details>
+  `;
+}
+
 
       // LMS winner
       else if (award.type === "lms") {
