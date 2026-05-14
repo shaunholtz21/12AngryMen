@@ -24,7 +24,10 @@
   <a href="/12AngryMen/index.html">Home</a>
   <a href="/12AngryMen/index.html#angry-bowl">Angry Bowl V</a>
   <a href="/12AngryMen/index.html#season-recap">Season Recap</a>
-  <a href="/12AngryMen/index.html#weekly-notes">Weekly Notes</a>
+
+  <!-- FIXED: This no longer causes the page to jump to the top -->
+  <a href="#weekly-notes">Weekly Notes</a>
+
   <a href="/12AngryMen/history/index.html">League History</a>
 </nav>
 
@@ -61,7 +64,6 @@
   fetch("history/championships/angry-bowl-v.html")
     .then(r => r.text())
     .then(html => {
-      // Extract only the <section class="card">...</section>
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
       const card = doc.querySelector("section.card");
@@ -85,6 +87,7 @@
     </div>
   </article>
 </section>
+
 <script>
 async function loadHome2025Recap() {
   const container = document.getElementById("home-2025-recap");
@@ -113,50 +116,45 @@ async function loadHome2025Recap() {
       if (!resp.ok) continue;
 
       const data = await resp.json();
-// Fantasy Fiver (Weeks 1–14 only)
-if (award.type === "fiver") {
 
-  // Skip the first 4 rows (headers + junk)
-  const rows = data.slice(4);
+      if (award.type === "fiver") {
+        const rows = data.slice(4);
 
-  const weeks = rows.filter(row => {
-    const label = row["Fantasy Fiver Award"];
-    if (!label) return false;
-
-    // Extract week number from "Week 1"
-    const match = label.match(/Week\s+(\d+)/i);
-    if (!match) return false;
-
-    const week = parseInt(match[1]);
-    return week >= 1 && week <= 14;
-  });
-
-  html += `
-    <details style="margin-bottom:0.5rem;">
-      <summary style="cursor:pointer; font-weight:600;">
-        ${award.icon} ${award.label}
-      </summary>
-      <div style="margin-top:0.4rem; font-size:0.9rem;">
-        ${weeks.map(row => {
+        const weeks = rows.filter(row => {
           const label = row["Fantasy Fiver Award"];
+          if (!label) return false;
+
           const match = label.match(/Week\s+(\d+)/i);
-          const week = match ? match[1] : "?";
-          const team = row["Unnamed: 1"] || "—";
-          const pts = row["Unnamed: 2"] || "—";
+          if (!match) return false;
 
-          return `
-            <div style="padding:2px 0;">
-              <strong>Week ${week}</strong> – ${team} (${pts} pts)
+          const week = parseInt(match[1]);
+          return week >= 1 && week <= 14;
+        });
+
+        html += `
+          <details style="margin-bottom:0.5rem;">
+            <summary style="cursor:pointer; font-weight:600;">
+              ${award.icon} ${award.label}
+            </summary>
+            <div style="margin-top:0.4rem; font-size:0.9rem;">
+              ${weeks.map(row => {
+                const label = row["Fantasy Fiver Award"];
+                const match = label.match(/Week\s+(\d+)/i);
+                const week = match ? match[1] : "?";
+                const team = row["Unnamed: 1"] || "—";
+                const pts = row["Unnamed: 2"] || "—";
+
+                return `
+                  <div style="padding:2px 0;">
+                    <strong>Week ${week}</strong> – ${team} (${pts} pts)
+                  </div>
+                `;
+              }).join("")}
             </div>
-          `;
-        }).join("")}
-      </div>
-    </details>
-  `;
-}
+          </details>
+        `;
+      }
 
-
-      // LMS winner
       else if (award.type === "lms") {
         const last = data[data.length - 1];
         const winner = last ? last.Team : "—";
@@ -168,7 +166,6 @@ if (award.type === "fiver") {
         `;
       }
 
-      // All other single-winner awards
       else {
         const team = data.Team || "—";
 
@@ -192,19 +189,19 @@ loadHome2025Recap();
 </script>
       
 
-          <section id="weekly-notes" style="margin-top: 2rem;">
-            <h2 class="section-title">Weekly Notes</h2>
+<section id="weekly-notes" style="margin-top: 2rem;">
+  <h2 class="section-title">Weekly Notes</h2>
 
-            <article class="card">
-              <div class="card-header">
-                <h3 class="card-title">Week 1 • Team A vs Team B</h3>
-                <div class="card-meta">Regular Season</div>
-              </div>
-              <div class="card-body">
-                <p>Paste your Week 1 write‑up here.</p>
-              </div>
-            </article>
-          </section>
+  <article class="card">
+    <div class="card-header">
+      <h3 class="card-title">Week 1 • Team A vs Team B</h3>
+      <div class="card-meta">Regular Season</div>
+    </div>
+    <div class="card-body">
+      <p>Paste your Week 1 write‑up here.</p>
+    </div>
+  </article>
+</section>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -220,13 +217,10 @@ loadHome2025Recap();
 
       <label for="seasonSelect" style="font-size: 0.8rem; color: var(--muted);">Season</label>
       <select id="seasonSelect" style="width: 100%; margin-bottom: 0.75rem;">
-  <!-- Filled by JS -->
-</select>
+      </select>
 
       <label for="weekSelect" style="font-size: 0.8rem; color: var(--muted);">Week</label>
       <select id="weekSelect" style="width: 100%; margin-bottom: 0.75rem;">
-  <!-- Filled by JS -->
-</select>
       </select>
 
       <button id="loadRecapBtn" style="
