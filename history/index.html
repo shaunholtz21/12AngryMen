@@ -131,43 +131,48 @@ async function loadChampionships() {
 
   let bowls = [];
 
-  // Try bowls 1 through 50 (safe upper limit)
+  // Detect files angry-bowl-1.html through angry-bowl-50.html
   for (let i = 1; i <= 50; i++) {
     const file = `angry-bowl-${i}.html`;
     const url = `/12AngryMen/history/championships/${file}`;
 
-    const response = await fetch(url, { method: "HEAD" });
-
-    if (response.ok) {
-      bowls.push(i);
+    const headCheck = await fetch(url, { method: "HEAD" });
+    if (headCheck.ok) {
+      bowls.push({ number: i, url });
     }
   }
 
   // Sort newest → oldest
-  bowls.sort((a, b) => b - a);
+  bowls.sort((a, b) => b.number - a.number);
 
   // Build cards
-  bowls.forEach(bowl => {
-    const url = `/12AngryMen/history/championships/angry-bowl-${bowl}.html`;
+  for (const bowl of bowls) {
+    // Fetch the file to read its <title>
+    const response = await fetch(bowl.url);
+    const html = await response.text();
+
+    // Extract <title> text
+    const match = html.match(/<title>(.*?)<\/title>/i);
+    const title = match ? match[1] : `Angry Bowl ${bowl.number}`;
 
     const card = document.createElement("article");
     card.className = "card";
 
     card.innerHTML = `
       <div class="card-header">
-        <h3 class="card-title">Angry Bowl ${bowl}</h3>
+        <h3 class="card-title">${title}</h3>
         <div class="card-meta">Championship</div>
       </div>
       <div class="card-body">
-        <p>The battle for glory in Angry Bowl ${bowl}.</p>
-        <a href="${url}" style="color:var(--accent); font-weight:600;">
+        <p>The battle for glory in ${title}.</p>
+        <a href="${bowl.url}" style="color:var(--accent); font-weight:600;">
           View Recap →
         </a>
       </div>
     `;
 
     container.appendChild(card);
-  });
+  }
 }
 
 loadChampionships();
