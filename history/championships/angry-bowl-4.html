@@ -1,77 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Angry Bowl IV – 12 Angry Men Fantasy League</title>
-  <link rel="stylesheet" href="/12AngryMen/styles.css" />
+  <meta charset="UTF-8">
+  <title>Angry Bowl IV</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/style.css">
 </head>
 
 <body>
 
-<header>
-  <div class="nav">
-    <div class="nav-left">
-      <div class="logo-mark">12</div>
-      <div>
-        <div class="nav-title-main">12 Angry Men</div>
-        <div class="nav-title-sub">Fantasy Football League</div>
-      </div>
-    </div>
-
-    <nav class="nav-links">
-      <a href="/12AngryMen/">Home</a>
-      <a href="/12AngryMen/#angry-bowl">Angry Bowl V</a>
-      <a href="/12AngryMen/#season-recap">Season Recap</a>
-      <a href="/12AngryMen/#weekly-notes">Weekly Notes</a>
-      <a href="/12AngryMen/history/index.html">League History</a>
-    </nav>
-  </div>
-</header>
-
-<main class="page-container">
-
-  <h1 class="page-title">🏆 Angry Bowl IV</h1>
-  <p class="page-subtitle">2024 Championship Results</p>
-
-  <section class="podium">
-
-    <!-- Champion -->
-    <div class="champion" style="text-align:center; margin-bottom:40px;">
-      <h1 style="font-size:2.4rem; font-weight:900; color:#d4af37;">
-        🥇 Team Hankson
-      </h1>
-      <p style="font-size:1.1rem;">
-        Team Hankson took the crown and didn’t even bother wiping their feet on the way in.
-      </p>
-    </div>
-
-    <!-- Runner-up + Third -->
-    <div class="runnerups" style="display:flex; justify-content:center; gap:60px;">
-
-      <div class="second" style="text-align:center;">
-        <h2 style="color:#c0c0c0; font-weight:800;">
-          🥈 The Jerminator
-        </h2>
-        <p>The Jerminator made it to the doorstep of glory, but the batteries ran out in the fourth quarter.</p>
-      </div>
-
-      <div class="third" style="text-align:center;">
-        <h2 style="color:#cd7f32; font-weight:800;">
-          🥉 Hooligans
-        </h2>
-        <p>The Hooligans grabbed bronze — which is basically gold if you squint and tilt your head.</p>
-      </div>
-
-    </div>
-
-  </section>
-
-  <div style="text-align:center; margin-top:3rem;">
-    <a href="/12AngryMen/history/index.html" class="button">← Back to League History</a>
+  <!-- BACK LINK OUTSIDE ALL LAYOUT CONTAINERS -->
+  <div style="width:100%; padding:1.5rem 1rem 0;">
+    <a href="../index.html" style="
+      color:var(--accent);
+      font-weight:600;
+      text-decoration:none;
+      display:inline;
+    ">
+      ← Back to League History
+    </a>
   </div>
 
-</main>
+  <div class="shell" style="padding-top:1rem;">
 
+    <section class="card card-soft">
+      <div class="card-header">
+        <h3 class="card-title">🏆 Angry Bowl IV — 2024 Championship Results 🏆</h3>
+        <div class="card-meta">Final • Week 17</div>
+      </div>
+
+      <div class="card-body">
+
+        <p class="hero-sub" style="margin-bottom:1.2rem;">
+          Another season in the books — champions crowned, excuses deployed, and everyone pretending next year will be different.
+        </p>
+
+        <!-- CHAMPION -->
+        <div class="card" style="border-color:#d4af37; background:rgba(212,175,55,0.08); margin-bottom:1.5rem;">
+          <h3 class="card-title" style="color:#d4af37; font-weight:800; text-align:center;">
+            🥇 Team Hankson
+          </h3>
+          <p style="text-align:center; font-weight:600;">
+            Team Hankson took the crown and didn’t even bother wiping their feet on the way in.
+          </p>
+        </div>
+
+        <!-- RUNNER UPS -->
+        <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">
+
+          <div class="card" style="width:260px; border-color:#c0c0c0; background:rgba(255,255,255,0.05);">
+            <h4 class="card-title" style="color:#c0c0c0; font-weight:800; text-align:center;">
+              🥈 The Jerminator
+            </h4>
+            <p style="text-align:center; font-weight:600;">
+              The Jerminator made it to the doorstep of glory, but the batteries ran out in the fourth quarter.
+            </p>
+          </div>
+
+          <div class="card" style="width:260px; border-color:#cd7f32; background:rgba(205,127,50,0.08);">
+            <h4 class="card-title" style="color:#cd7f32; font-weight:800; text-align:center;">
+              🥉 Hooligans
+            </h4>
+            <p style="text-align:center; font-weight:600;">
+              The Hooligans grabbed bronze — which is basically gold if you squint and tilt your head.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </div>
 </body>
 </html>
