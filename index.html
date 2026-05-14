@@ -5,6 +5,16 @@
   <title>12 Angry Men Fantasy League</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- FIX: Prevent dropdowns from causing scroll jump -->
+  <style>
+    .sidebar {
+      scroll-snap-type: none !important;
+    }
+    select {
+      scroll-snap-align: none !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -24,17 +34,13 @@
   <a href="/12AngryMen/index.html">Home</a>
   <a href="/12AngryMen/index.html#angry-bowl">Angry Bowl V</a>
   <a href="/12AngryMen/index.html#season-recap">Season Recap</a>
-
-  <!-- FIXED: This no longer causes the page to jump to the top -->
   <a href="#weekly-notes">Weekly Notes</a>
-
   <a href="/12AngryMen/history/index.html">League History</a>
 </nav>
 
     </nav>
   </div>
 </header>
-
 
     <main>
       <div class="shell">
