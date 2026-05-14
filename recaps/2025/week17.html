@@ -1,4 +1,8 @@
+<!DOCTYPE html>
+<html>
 <head>
+<meta charset="UTF-8">
+
 <style>
 .angry-title {
   text-align:center;
@@ -17,6 +21,7 @@
 .playoff-intro {
   text-align:center;
   margin: 10px 0 25px 0;
+  line-height: 1.55;
 }
 .playoff-intro .subtitle {
   font-size: 1.6rem;
@@ -46,144 +51,211 @@ body {
   line-height: 1.6;
 }
 
-h2 { margin-top: 0; }
-
-.result { font-weight: bold; }
-
-.mood {
-  font-style: italic;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-.one-liner {
-  font-weight: bold;
-  margin: 15px 0;
+.main-wrap {
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .matchup {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 20px;
-  margin-bottom: 30px;
-  border-radius: 8px;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-bottom: 2.5rem !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
-h2 { margin-top: 0; }
-.result { font-weight: bold; }
-.mood { font-style: italic; color: #555; margin-bottom: 15px; }
-.one-liner { font-weight: bold; margin: 15px 0; }
+
+.match-sep {
+  border: none;
+  margin: 2.5rem 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--accent, #ff9900),
+    transparent
+  );
+  position: relative;
+}
+.match-sep::after {
+  content: "•";
+  position: absolute;
+  top: -0.65rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--accent, #ff9900);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.45rem;
+  font-weight: 800;
+}
+.result {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.mood {
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.one-liner {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid var(--accent, #ff9900);
+  padding: 0.75rem 1rem;
+  margin: 1.25rem 0;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.05rem;
+}
 </style>
 
 </head>
+<body>
+<div class="main-wrap">
+
 <h1 class="angry-title">
-  <span class="angry-glow">🏆 THE ANGRY BOWL V🏆</span>
+  <span class="angry-glow">🏆 THE ANGRY BOWL V 🏆</span>
 </h1>
+
 <div class="playoff-intro trailer">
   <div class="subtitle">Round 17 • Winners Bracket</div>
   <p>It all comes down to <strong>Team Baune</strong> vs. <strong>Shoulda Played The Other Guy</strong>, proving once again that fantasy football is pure chaos.</p>
-
   <p class="tone">The Road to the Angry Bowl is finally upon us.</p>
 </div>
 
-<!-- Angry Bowl Championship -->
 <div class="matchup">
   <h2>Team Baune (91.82) vs. 💥 <strong>SHOULDA PLAYED THE OTHER GUY</strong> (152.18)</h2>
   <div class="result">Result: Shoulda Played The Other Guy wins by 60.36</div>
   <div class="mood">Mood: When one team brings a fire hose and the other brings a sparkler.</div>
+
   <p><strong>Team Baune</strong> came into the Angry Bowl looking for one more surge, but the lineup never found its footing. Shough (21.92) delivered a strong performance, and Harold Fannin Jr. (11.0) held up his end, but the supporting cast couldn’t keep pace. Achane (14.2) and Cook (8.7) landed below expectations, the WR group combined for just 13.7 points, and the Broncos D/ST (7.0) couldn’t swing momentum. It was a tough week for a team that had been peaking at the right time.</p>
+
   <p><strong>Shoulda Played The Other Guy</strong> showed up like it was personal. Derrick Henry detonated for 45.6 — the kind of championship swing that ends arguments — while McBride (23.6) and Wan’Dale Robinson (22.3) piled on. Even with modest games from Brissett (16.48) and Gainwell (6.8), the rest of the roster delivered steady hits, and the Texans D/ST (10.0) added the final shove. It was a complete, top‑to‑bottom title‑winning performance.</p>
+
   <p class="one-liner">Sometimes the Angry Bowl is a nail‑biter. Sometimes it’s a statement. This one was a statement.</p>
+
   <p><strong>Bench Regrets:</strong><br>
     <strong>Team Baune:</strong> Cam Little (14.0) was the only notable upgrade, but it wouldn’t have changed the outcome.<br>
     <strong>Shoulda Played The Other Guy:</strong> Trevor Lawrence (23.12) and Quentin Johnston (14.8) were strong options, but the starters already sealed the deal.
   </p>
+
   <p><strong>Shoulda Played The Other Guy</strong> claims the Angry Bowl title with authority, closing the season on a dominant note. <strong>Team Baune</strong> finishes as a worthy runner‑up after a strong playoff run, but the trophy goes to Jeremy — and it wasn’t close.</p>
 </div>
 
-<!-- Winners Bracket • Third Place Section -->
+<hr class="match-sep">
+
 <h2 class="subheader">🏅 The Battle for Third Place</h2>
 
 <div class="playoff-intro">
   <p>Two teams, one last matchup, and absolutely zero desire to finish fourth. The Third‑Place Game is set — one more chance to leave the season on a high note before the lights go out.</p>
-  <p class="tone">A matchup where pride is on the line and dignity is… negotiable..</p>
+  <p class="tone">A matchup where pride is on the line and dignity is… negotiable.</p>
 </div>
 
-<!-- Third Place Game -->
 <div class="matchup">
   <h2><strong>HuPhers</strong> (135.54) vs. Dirty Beers (105.74)</h2>
   <div class="result">Result: <strong>HuPhers</strong> wins by 29.80</div>
   <div class="mood">Mood: A bronze‑medal brawl where one team showed up ready and the other showed up… eventually.</div>
+
   <p><strong>HuPhers</strong> closed out the season with one of their most complete performances of the year. Baker Mayfield (17.44) kept things steady, but the real damage came from the skill positions: Ja’Marr Chase erupted for 25.0, Diggs added 22.1, and Omarion Hampton punched in a massive 20.0. Even the Saints D/ST (12.0) got in on the action. It was a balanced, top‑to‑bottom effort — the kind of lineup that makes you wonder what might’ve happened with one more week to play.</p>
+
   <p><strong>Dirty Beers</strong> had bright spots, but not enough of them. Drake Maye (32.44) came out firing, Hunter Henry (13.9) delivered, and Amon‑Ra St. Brown (14.8) did his part. But the RB room never got off the ground — Warren (6.4) and Spears (1.1) combined for a rough 7.5 — and the supporting cast couldn’t keep pace with HuPhers’ steady stream of hits. A solid season, but the third‑place climb stopped just short.</p>
+
   <p class="one-liner">A strong finish for HuPhers, and a reminder for Dirty Beers that bronze is still a medal… just not the one they wanted.</p>
+
   <p><strong>Bench Regrets:</strong><br>
     <strong>HuPhers:</strong> Rhamondre Stevenson (27.2) was the big one left on the table, but the win was secure regardless.<br>
     <strong>Dirty Beers:</strong> Not much left unused — the bench didn’t have the firepower to flip the script.
   </p>
+
   <p><strong>HuPhers</strong> takes third place and ends the year on a high note. <strong>Dirty Beers</strong> settles into fourth after a strong season that just ran out of steam at the finish line.</p>
 </div>
 
-<h1 class="angry-title">
-  <span class="angry-glow">🧻 TREK TO IRRELEVANCE 🧻</span>
-</h1>
-<div class="playoff-intro trailer"> <div class="subtitle">Round 17 </div> <p>Games, mostly because the schedule says they have to.</p> <p class="tone">The Trek to Irrelevance begins with one goal: don’t sink any further.</p> </div>
-
-<!-- Consolation Ladder -->
+<hr class="match-sep">
 <div class="matchup">
   <h2>Hooligans (106.66) vs. <strong>Team Hankson</strong> (115.28)</h2>
   <div class="result">Result: Team Hankson wins by 8.62</div>
   <div class="mood">Mood: A classic “both teams played… but one played slightly more.”</div>
+
   <p><strong>Hooligans</strong> wrapped up the season with a performance that had bright spots but not quite enough firepower to close the gap. Christian McCaffrey (28.1) did CMC things, Kyren Williams (16.0) kept the offense afloat, and the Steelers D/ST plus Tyler Loop combined for a solid 22.0. But the WR room struggled — Worthy posted a brutal 0.1, Pickens landed at 11.8, and Stafford (12.76) couldn’t generate the ceiling needed to keep pace. A respectable outing, just missing the punch to steal it late.</p>
+
   <p><strong>Team Hankson</strong> leaned on steady production across the board. Jaxson Dart (25.08) led the way with a strong QB outing, Chris Olave (25.9) delivered a statement game, and Jonathan Taylor (17.4) kept the chains moving. Even with quiet showings from Monangai (7.7), Collins (8.7), and the Cowboys D/ST (2.0), the lineup held firm. Fairbairn’s 10.0 and Kelce’s 8.6 provided just enough cushion to secure the win.</p>
+
   <p class="one-liner">Not a shootout, not a meltdown — just a clean, narrow win for Team Hankson to close out the year.</p>
+
   <p><strong>Bench Regrets:</strong><br>
     <strong>Hooligans:</strong> Not much left unused — Troy Franklin (5.7) and Sam Darnold (6.08) weren’t moving the needle.<br>
     <strong>Team Hankson:</strong> Charbonnet (26.2) was the big miss, but the starters handled business anyway.
   </p>
+
   <p><strong>Team Hankson</strong> takes the matchup and finishes the season on a positive note. <strong>Hooligans</strong> close out the year with a competitive effort and a reminder that sometimes the fantasy gods just shrug.</p>
 </div>
 
-<!-- Consolation Ladder -->
+<hr class="match-sep">
+
 <div class="matchup">
   <h2><strong>Team Greenwell</strong> (109.1) vs. team spreitzer (92.98)</h2>
   <div class="result">Result: Team Greenwell wins by 16.12</div>
   <div class="mood">Mood: A “we’re not done yet” performance vs. a “can this week end?” performance.</div>
+
   <p><strong>Team Greenwell</strong> closed out the season with one of their cleanest outings of the year. Caleb Williams (23.0) set the tone early, and Chase Brown (29.1) absolutely erupted — the kind of late‑season breakout that makes you wonder where this version was hiding. Aaron Jones Sr. (15.3) added steady production, Oronde Gadsden (12.2) chipped in nicely, and the Browns D/ST (8.0) did their job. Even with quiet days from Jefferson (7.0) and Rashee Rice (0.0), the lineup had more than enough juice to take control.</p>
+
   <p><strong>team spreitzer</strong> had a tougher go. Jared Goff (2.08) never got off the ground, and while RJ Harvey (18.6), Zay Flowers (13.0), and Brandon Aubrey (16.0) kept things respectable, the rest of the roster couldn’t keep pace. Jeanty (9.3) and A.J. Brown (11.8) were solid but unspectacular, and DeVonta Smith (4.5) plus Likely (5.7) didn’t provide the lift needed to close the gap. A decent effort, just not enough firepower to match Greenwell’s surge.</p>
+
   <p class="one-liner">Team Greenwell ends the year on a high note, while team spreitzer gets the fantasy equivalent of a polite shrug.</p>
+
   <p><strong>Bench Regrets:</strong><br>
     <strong>Team Greenwell:</strong> Brock Purdy (36.92) was the big one left unused, but the win was secure regardless.<br>
     <strong>team spreitzer:</strong> Not much left on the bench that would’ve changed the outcome — Jakobi Meyers (7.9) was the only mild upgrade.
   </p>
+
   <p><strong>Team Greenwell</strong> takes the matchup and finishes the season with momentum. <strong>team spreitzer</strong> wraps up the year with a competitive but ultimately uphill Week 17.</p>
 </div>
 
-<!-- Consolation Ladder -->
+<hr class="match-sep">
+
 <div class="matchup">
   <h2><strong>The Max</strong> (110.1) vs. Pray for Michah (93.78)</h2>
   <div class="result">Result: The Max wins by 16.32</div>
   <div class="mood">Mood: When one team rides a superstar eruption and the other gets stuck in second gear.</div>
+
   <p><strong>The Max</strong> closed the season with a strong, well‑timed performance. Bijan Robinson absolutely detonated for 39.9 — the kind of “don’t forget about me” finale that single‑handedly shifts a matchup. Joe Burrow (20.4) kept the offense moving, the Vikings D/ST (22.0) delivered a monster defensive swing, and Brenton Strange (8.4) added steady production. Even with quiet outings from Pittman (3.6), Keenan Allen (2.7), and Thielen (3.4), the big hits carried the day.</p>
+
   <p><strong>Pray for Michah</strong> had bright spots but couldn’t match the ceiling plays. Josh Allen (23.18) did his usual heavy lifting, Michael Wilson (19.9) turned in a breakout performance, and Jason Myers (10.0) chipped in. But the RB trio of Barkley (6.8), Etienne (11.2), and Javonte Williams (11.4) never found the spark needed to keep pace. The Commanders D/ST posted a brutal 0.0, and Brock Bowers (0.0) didn’t help the cause either.</p>
+
   <p class="one-liner">The Max finishes the year with a statement win, while Pray for Michah gets a reminder that Week 17 can be cruel.</p>
+
   <p><strong>Bench Regrets:</strong><br>
     <strong>The Max:</strong> Christian Watson (22.3) and Ricky Pearsall (13.5) were strong options, but the starters handled business.<br>
     <strong>Pray for Michah:</strong> Breece Hall (20.9) and Dak Prescott (22.68) would’ve made things interesting, but not enough to flip the result.
   </p>
+
   <p><strong>The Max</strong> takes the matchup and ends the season on a high note. <strong>Pray for Michah</strong> wraps up the year with a competitive but ultimately uphill Week 17.</p>
 </div>
 
-<!-- Consolation Ladder -->
+<hr class="match-sep">
 <div class="matchup">
   <h2><strong>Team Corbett</strong> (87.1) vs. The Prison Wallets (49.9)</h2>
   <div class="result">Result: Team Corbett wins by 37.2</div>
   <div class="mood">Mood: One team played fantasy football; the other filed a missing persons report.</div>
+
   <p><strong>Team Corbett</strong> wrapped up the season with a rare and well‑timed bright spot. Devin Singletary (17.0) and Chris Godwin Jr. (23.8) carried the offense, while the Jaguars D/ST (9.0) and Michael Carter (6.3) added just enough support. It wasn’t a perfect outing — Waddle (0.7), Hurts (8.9), and CeeDee Lamb (9.6) all underwhelmed — but the big hits outweighed the misses. For a team that’s taken its lumps all year, this was a much‑needed exhale to close things out.</p>
+
   <p><strong>The Prison Wallets</strong> had a brutal Week 17, the kind you quietly pretend never happened. Jordan Love posted a flat 0.0, DK Metcalf matched him with another 0.0, and the Packers D/ST went full chaos mode with a painful -5.0. D’Andre Swift (21.9) was the lone bright spot, with Khalil Shakir (9.5) and Butker (10.0) doing what they could, but the rest of the lineup never got off the ground. When your highest non‑Swift scorer is your kicker, it’s that kind of week.</p>
+
   <p class="one-liner">Team Corbett ends the year with a rare victory lap, while The Prison Wallets get the fantasy equivalent of a “please try again later.”</p>
+
   <p><strong>Bench Regrets:</strong><br>
     <strong>Team Corbett:</strong> Jerry Jeudy (10.4) and Cade Otton (7.3) were mild upgrades, but nothing that changes the story.<br>
     <strong>The Prison Wallets:</strong> C.J. Stroud (13.76) and TreVeyon Henderson (8.2) would’ve helped, but not nearly enough to fix the meltdown.
   </p>
+
   <p><strong>Team Corbett</strong> takes the matchup comfortably, closing the season on a high note. <strong>The Prison Wallets</strong> limp into the offseason with a performance best left in the vault.</p>
 </div>
+
+</div>
+</body>
+</html>
