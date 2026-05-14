@@ -1,6 +1,5 @@
 <head>
 <style>
-
 /* --- GLOWING TITLES (UNCHANGED) --- */
 .angry-title {
   text-align:center;
@@ -17,7 +16,7 @@
     0 0 14px #ff6600;
 }
 
-/* --- PLAYOFF INTRO (UNCHANGED STRUCTURE, UPDATED TYPOGRAPHY) --- */
+/* --- PLAYOFF INTRO --- */
 .playoff-intro {
   text-align:center;
   margin: 10px 0 25px 0;
@@ -40,7 +39,7 @@
   letter-spacing: 0.5px;
 }
 
-/* --- GLOBAL BODY (MATCHES OTHER WEEKS) --- */
+/* --- GLOBAL BODY --- */
 body {
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
@@ -48,21 +47,21 @@ body {
   line-height: 1.6;
 }
 
-/* --- MATCHUP BLOCKS (WHITE, CLEAN, MATCH OTHER WEEKS) --- */
+/* --- MATCHUP BLOCKS (PURE WHITE, CLEAN) --- */
 .matchup {
-  background: #ffffff;       /* ← PURE WHITE, NO GREY */
+  background: #ffffff !important;   /* ← FORCE WHITE */
   border: 1px solid #ddd;
   padding: 22px;
   margin-bottom: 35px;
   border-radius: 10px;
 }
 
-/* --- SEPARATOR LINE (ADDED BACK) --- */
+/* --- SEPARATOR LINE --- */
 .match-sep {
   border: none;
   margin: 2.5rem 0;
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--accent, #ff9900), transparent);
+  background: linear-gradient(to right, transparent, #ff9900, transparent);
   position: relative;
 }
 .match-sep::after {
@@ -71,11 +70,11 @@ body {
   top: -0.65rem;
   left: 50%;
   transform: translateX(-50%);
-  color: var(--accent, #ff9900);
+  color: #ff9900;
   font-size: 1.4rem;
 }
 
-/* --- TITLES, RESULTS, MOOD (UPDATED) --- */
+/* --- TITLES, RESULTS, MOOD --- */
 h2 {
   margin-top: 0;
   font-size: 1.45rem;
@@ -92,10 +91,10 @@ h2 {
   font-size: 1.05rem;
 }
 
-/* --- ONE-LINER (UPDATED TO MATCH NEW STYLE) --- */
+/* --- ONE-LINER (NEW STYLE) --- */
 .one-liner {
   background: rgba(255,255,255,0.1);
-  border-left: 4px solid var(--accent, #ff9900);
+  border-left: 4px solid #ff9900;
   padding: 0.75rem 1rem;
   margin: 1.25rem 0;
   font-weight: 700;
@@ -103,7 +102,6 @@ h2 {
   font-size: 1.05rem;
   border-radius: 4px;
 }
-
 </style>
 </head>
 
