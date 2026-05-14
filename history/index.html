@@ -33,105 +33,145 @@
   </div>
 </header>
 
-    <main>
-      <div class="shell">
+<main>
+  <div class="shell">
 
-        <section>
+    <section>
 
-          <div class="hero">
-            <h1 class="hero-title">League History</h1>
-            <p class="hero-sub">
-              The archive of everything that made this league legendary — drafts, championships, awards, and the stories we pretend to forget.
-            </p>
-          </div>
-
-          <!-- ===================== -->
-          <!--   CHAMPIONSHIPS       -->
-          <!-- ===================== -->
-          <section style="margin-top:2rem;">
-            <h2 class="section-title">Championships</h2>
-
-            <article class="card">
-              <div class="card-header">
-                <h3 class="card-title">Angry Bowl V</h3>
-                <div class="card-meta">2025 Season</div>
-              </div>
-              <div class="card-body">
-                <p>The most recent battle for the crown.</p>
-                <a href="championships/angry-bowl-v.html" style="color:var(--accent); font-weight:600;">
-                  View Recap →
-                </a>
-              </div>
-            </article>
-
-            <!-- Future bowls auto‑add here -->
-          </section>
-
-<!-- ===================== -->
-<!--        DRAFTS         -->
-<!-- ===================== -->
-<section style="margin-top:2rem;">
-  <h2 class="section-title">Drafts</h2>
-
-  <!-- 2026 Placeholder FIRST -->
-  <article class="card" style="opacity:0.5;">
-    <div class="card-header">
-      <h3 class="card-title">2026 Draft Recap</h3>
-      <div class="card-meta">Coming Soon</div>
-    </div>
-    <div class="card-body">
-      <p>The 2026 draft hasn’t happened yet — recap will be added after Draft Day.</p>
-      <span style="color:var(--accent); font-weight:600;">
-        Recap coming soon
-      </span>
-    </div>
-  </article>
-
-  <!-- 2025 Draft Recap SECOND -->
-  <article class="card">
-    <div class="card-header">
-      <h3 class="card-title">2025 Draft Recap</h3>
-      <div class="card-meta">2025 Season</div>
-    </div>
-    <div class="card-body">
-      <p>The year of rookies, risks, and managers pretending they meant to draft that guy.</p>
-      <a href="drafts/2025-draft-recap.html" style="color:var(--accent); font-weight:600;">
-        View Recap →
-      </a>
-    </div>
-  </article>
-</section>
-
-
-<!-- ===================== -->
-<!--        AWARDS         -->
-<!-- ===================== -->
-<section style="margin-top:2rem;">
-  <h2 class="section-title">Awards</h2>
-
-  <article class="card">
-    <div class="card-header">
-      <h3 class="card-title">League Awards</h3>
-      <div class="card-meta">Season Honors • Weekly Wins • Draft Night Chaos</div>
-    </div>
-    <div class="card-body">
-      <p>Explore every award in league history — weekly highs, season-long dominance, draft‑day madness, and the annual chase for glory.</p>
-      <a href="awards/index.html" style="color:var(--accent); font-weight:600;">
-        View Awards →
-      </a>
-    </div>
-  </article>
-</section>
-
-        </section>
-
+      <div class="hero">
+        <h1 class="hero-title">League History</h1>
+        <p class="hero-sub">
+          The archive of everything that made this league legendary — drafts, championships, awards, and the stories we pretend to forget.
+        </p>
       </div>
-    </main>
 
-    <footer class="footer">
-      12 Angry Men Fantasy Football League • All objections overruled.
-    </footer>
+      <!-- ===================== -->
+      <!--   CHAMPIONSHIPS       -->
+      <!-- ===================== -->
+      <section style="margin-top:2rem;">
+        <h2 class="section-title">Championships</h2>
+
+        <!-- AUTO‑GENERATED CARDS GO HERE -->
+        <div id="championships-container" class="card-grid"></div>
+      </section>
+
+      <!-- ===================== -->
+      <!--        DRAFTS         -->
+      <!-- ===================== -->
+      <section style="margin-top:2rem;">
+        <h2 class="section-title">Drafts</h2>
+
+        <!-- 2026 Placeholder FIRST -->
+        <article class="card" style="opacity:0.5;">
+          <div class="card-header">
+            <h3 class="card-title">2026 Draft Recap</h3>
+            <div class="card-meta">Coming Soon</div>
+          </div>
+          <div class="card-body">
+            <p>The 2026 draft hasn’t happened yet — recap will be added after Draft Day.</p>
+            <span style="color:var(--accent); font-weight:600;">
+              Recap coming soon
+            </span>
+          </div>
+        </article>
+
+        <!-- 2025 Draft Recap SECOND -->
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">2025 Draft Recap</h3>
+            <div class="card-meta">2025 Season</div>
+          </div>
+          <div class="card-body">
+            <p>The year of rookies, risks, and managers pretending they meant to draft that guy.</p>
+            <a href="drafts/2025-draft-recap.html" style="color:var(--accent); font-weight:600;">
+              View Recap →
+            </a>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===================== -->
+      <!--        AWARDS         -->
+      <!-- ===================== -->
+      <section style="margin-top:2rem;">
+        <h2 class="section-title">Awards</h2>
+
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">League Awards</h3>
+            <div class="card-meta">Season Honors • Weekly Wins • Draft Night Chaos</div>
+          </div>
+          <div class="card-body">
+            <p>Explore every award in league history — weekly highs, season-long dominance, draft‑day madness, and the annual chase for glory.</p>
+            <a href="awards/index.html" style="color:var(--accent); font-weight:600;">
+              View Awards →
+            </a>
+          </div>
+        </article>
+      </section>
+
+    </section>
 
   </div>
+</main>
+
+<footer class="footer">
+  12 Angry Men Fantasy Football League • All objections overruled.
+</footer>
+
+</div>
+
+<!-- =============================== -->
+<!--   AUTO‑DETECT CHAMPIONSHIPS     -->
+<!-- =============================== -->
+<script>
+async function loadChampionships() {
+  const container = document.getElementById("championships-container");
+  if (!container) return;
+
+  let bowls = [];
+
+  // Try bowls 1 through 50 (safe upper limit)
+  for (let i = 1; i <= 50; i++) {
+    const file = `angry-bowl-${i}.html`;
+    const url = `/12AngryMen/history/championships/${file}`;
+
+    const response = await fetch(url, { method: "HEAD" });
+
+    if (response.ok) {
+      bowls.push(i);
+    }
+  }
+
+  // Sort newest → oldest
+  bowls.sort((a, b) => b - a);
+
+  // Build cards
+  bowls.forEach(bowl => {
+    const url = `/12AngryMen/history/championships/angry-bowl-${bowl}.html`;
+
+    const card = document.createElement("article");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="card-header">
+        <h3 class="card-title">Angry Bowl ${bowl}</h3>
+        <div class="card-meta">Championship</div>
+      </div>
+      <div class="card-body">
+        <p>The battle for glory in Angry Bowl ${bowl}.</p>
+        <a href="${url}" style="color:var(--accent); font-weight:600;">
+          View Recap →
+        </a>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+loadChampionships();
+</script>
+
 </body>
 </html>
