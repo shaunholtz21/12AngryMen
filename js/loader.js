@@ -97,8 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ❌ REMOVE auto-load on season change
-  // seasonSelect.addEventListener("change", ... )  <-- GONE
+  // ❌ NO auto-load on season change
+  // ❌ NO auto-load on week change
 
   // Manual load button ONLY
   loadBtn.addEventListener("click", () => {
