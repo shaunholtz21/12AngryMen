@@ -1,147 +1,171 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Week 2 Fantasy Football Recap</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../../css/style.css">
-</head>
-
-<body>
-
-  <!-- BACK LINK OUTSIDE ALL LAYOUT CONTAINERS -->
-  <div style="width:100%; padding:1.5rem 1rem 0;">
-    <a href="../index.html" style="
-      color:var(--accent);
-      font-weight:600;
-      text-decoration:none;
-      display:inline;
-    ">
-      ← Back to League History
-    </a>
+<article class="card">
+  <div class="card-header">
+    <h3 class="card-title">Week 2 Recap</h3>
+    <div class="card-meta">2025 Season</div>
   </div>
 
-  <div class="shell" style="padding-top:1rem;">
+  <div class="card-body">
 
-    <section class="card card-soft">
-      <div class="card-header">
-        <h3 class="card-title">🏈 Week 2 Fantasy Football Recap</h3>
-        <div class="card-meta">Season • Week 2</div>
-      </div>
+    <style>
+      .match-sep {
+        border: none;
+        margin: 2.5rem 0;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--accent),
+          transparent
+        );
+        position: relative;
+      }
+      .match-sep::after {
+        content: "•";
+        position: absolute;
+        top: -0.65rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--accent);
+        font-size: 1.4rem;
+        line-height: 1;
+      }
+      .mood {
+        margin-bottom: 1rem;
+      }
+      .one-liner {
+        background: rgba(255, 255, 255, 0.05);
+        border-left: 4px solid var(--accent);
+        padding: 0.75rem 1rem;
+        margin: 1.25rem 0;
+        font-weight: 700;
+        font-style: italic;
+        font-size: 1.05rem;
+      }
+    </style>
 
-      <div class="card-body">
+    <!-- MATCHUP 1 -->
+    <section class="matchup-block">
+      <h2 class="matchup-title">🧰 <strong>HOOLIGANS</strong> (119.32) vs. Team Greenwell (89.58)</h2>
+      <div class="result"><strong>Result: Hooligans wins by 29.74</strong></div>
+      <div class="mood"><em>Mood: One team brought a Swiss army knife, the other brought a butter knife</em></div>
 
-        <!-- MATCHUP 1 -->
-        <div class="card" style="margin-bottom:1.5rem;">
-          <h3 class="card-title">🧰 HOOLIGANS (119.32) vs. Team Greenwell (89.58)</h3>
-          <div class="card-meta">Result: Hooligans wins by 29.74 • Mood: One team brought a Swiss army knife, the other brought a butter knife</div>
+      <p><strong>Hooligans</strong> bounced back from Week 1 with a lineup that hit all the right notes — except at QB and D/ST. McCarthy posted a brutal 2.82, and the Colts defense barely showed up. But Kraft’s monster 24.4 at TE, Pickens’ 17.8, and McCaffrey doing McCaffrey things (22.7) kept the train rolling. Bucky Irving and Jacobs added solid RB depth, and Karty’s 9‑point kicker line sealed the win.</p>
 
-          <p><strong>Hooligans</strong> bounced back from Week 1 with a lineup that hit all the right notes — except at QB and D/ST. McCarthy posted a brutal 2.82, and the Colts defense barely showed up. But Kraft’s monster 24.4 at TE, Pickens’ 17.8, and McCaffrey doing McCaffrey things (22.7) kept the train rolling. Bucky Irving and Jacobs added solid RB depth, and Karty’s 9-point kicker line sealed the win.</p>
+      <p><strong>Team Greenwell</strong>, meanwhile, had a full‑on meltdown. Fields dropped a 3.98, Chase Brown underwhelmed, and Jefferson couldn’t carry the squad alone. Kamara and Prater were the only bright spots, but the rest of the lineup looked like it forgot to set an alarm.</p>
 
-          <p><strong>Team Greenwell</strong>, meanwhile, had a full-on meltdown. Fields dropped a 3.98, Chase Brown underwhelmed, and Jefferson couldn’t carry the squad alone. Kamara and Prater were the only bright spots, but the rest of the lineup looked like it forgot to set an alarm.</p>
+      <p class="one-liner">One team overcame a QB disaster with depth and TE dominance. The other got caught in a fantasy fog and never found the exit.</p>
 
-          <p class="one-liner">One team overcame a QB disaster with depth and TE dominance. The other got caught in a fantasy fog and never found the exit.</p>
+      <p><strong>Bench Regrets:</strong><br>
+      <strong>Hooligans</strong>: Stafford (17.32), Jennings (19.9), Ferguson (16.8).<br>
+      <strong>Team Greenwell</strong>: Caleb Williams (16.98), McMillan (16.0).</p>
 
-          <p><strong>Bench Regrets:</strong><br>
-          <strong>Hooligans</strong>: Stafford (17.32), Jennings (19.9), Ferguson (16.8) — 50+ points idle, but still a win.<br>
-          <strong>Team Greenwell</strong>: Caleb Williams (16.98), McMillan (16.0) — could’ve made it competitive.</p>
+      <p><strong>Hooligans</strong> didn’t just win — they won with a QB faceplant and a defense dud. <strong>Team Greenwell</strong> had the stars but forgot the spark.</p>
+    </section>
 
-          <p><strong>Hooligans</strong> didn’t just win — they won with a QB faceplant and a defense dud. That’s depth. <strong>Team Greenwell</strong> had the stars but forgot the spark. When your QB and WR1 combine for 15 and your bench is screaming for attention, it’s time to rethink the rotation. Next week: trust your bench, not your brand names.</p>
-        </div>
+    <hr class="match-sep">
 
-        <!-- MATCHUP 2 -->
-        <div class="card" style="margin-bottom:1.5rem;">
-          <h3 class="card-title">GOAT (115.42) vs. 🔥 HUPHERS (122.9)</h3>
-          <div class="card-meta">Result: HuPhers wins by 7.48 • Mood: One team brought a flamethrower, the other brought a flashlight with dying batteries</div>
+    <!-- MATCHUP 2 -->
+    <section class="matchup-block">
+      <h2 class="matchup-title">GOAT (115.42) vs. 🔥 <strong>HUPHERS</strong> (122.9)</h2>
+      <div class="result"><strong>Result: HuPhers wins by 7.48</strong></div>
+      <div class="mood"><em>Mood: One team brought a flamethrower, the other brought a flashlight with dying batteries</em></div>
 
-          <p><strong>HuPhers</strong> rode Lamar’s 26.3 and Chase’s nuclear 36.5 to a narrow win, despite a -5 from the Broncos D/ST that nearly sabotaged the whole operation. JSN popped off, Evans chipped in, and Bates booted a clean 9.0. It wasn’t flawless, but the stars showed up when it mattered.</p>
+      <p><strong>HuPhers</strong> rode Lamar’s 26.3 and Chase’s nuclear 36.5 to a narrow win, despite a ‑5 from the Broncos D/ST that nearly sabotaged the whole operation. JSN popped off, Evans chipped in, and Bates booted a clean 9.0.</p>
 
-          <p><strong>GOAT</strong> had the depth — Javonte Williams exploded for 25.0, Jameson Williams dropped 18.8, and the Bills D/ST delivered a crisp 12. But Josh Allen fizzled with 11.82, Breece Hall vanished, and Bowers underwhelmed. The pieces were there, but the ceiling wasn’t.</p>
+      <p><strong>GOAT</strong> had the depth — Javonte Williams exploded for 25.0, Jameson Williams dropped 18.8, and the Bills D/ST delivered 12. But Josh Allen fizzled with 11.82, Breece Hall vanished, and Bowers underwhelmed.</p>
 
-          <p class="one-liner">One team rode a WR detonation and a QB heater. The other had depth but no ignition.</p>
+      <p class="one-liner">One team rode a WR detonation and a QB heater. The other had depth but no ignition.</p>
 
-          <p><strong>Bench Regrets:</strong><br>
-          <strong>GOAT</strong>: Dak (22.14), Etienne (16.9), Pitts (7.7) — 30+ point swing left idle.<br>
-          <strong>HuPhers</strong>: Stevenson (21.2), Deebo (17.4), Allgeier (15.0), Johnson (15.9) — stacked bench.</p>
+      <p><strong>Bench Regrets:</strong><br>
+      <strong>GOAT</strong>: Dak (22.14), Etienne (16.9), Pitts (7.7).<br>
+      <strong>HuPhers</strong>: Stevenson (21.2), Deebo (17.4), Allgeier (15.0), Johnson (15.9).</p>
 
-          <p><strong>HuPhers</strong> didn’t win clean — they won explosive. <strong>GOAT</strong> had the depth but missed the matchups. When your bench QB and RBs outscore your starters and you still lose by less than 8, it’s time to rethink the rotation. Next week: unleash the bench before it burns a hole in your win column.</p>
-        </div>
+      <p><strong>HuPhers</strong> didn’t win clean — they won explosive.</p>
+    </section>
 
-        <!-- MATCHUP 3 -->
-        <div class="card" style="margin-bottom:1.5rem;">
-          <h3 class="card-title">The Prison Wallets (93.48) vs. 🚀 TEAM PARKER (110.1)</h3>
-          <div class="card-meta">Result: Team Parker wins by 16.62 • Mood: One team brought a toolkit, the other brought a turbocharger</div>
+    <hr class="match-sep">
 
-          <p><strong>Team Parker</strong> didn’t dominate — they just let Brandon Aubrey do the talking. A 23-point kicker explosion turned a solid lineup into a winning one. Flowers and Montgomery held steady, Daniels did his job, and the Eagles D/ST quietly added 7.0. It wasn’t flashy, but it was efficient.</p>
+    <!-- MATCHUP 3 -->
+    <section class="matchup-block">
+      <h2 class="matchup-title">The Prison Wallets (93.48) vs. 🚀 <strong>TEAM PARKER</strong> (110.1)</h2>
+      <div class="result"><strong>Result: Team Parker wins by 16.62</strong></div>
+      <div class="mood"><em>Mood: One team brought a toolkit, the other brought a turbocharger</em></div>
 
-          <p><strong>The Prison Wallets</strong> had Jordan Love cooking (20.88), Gibbs grinding (19.4), and McManus booting a clean 10. But the rest of the lineup fizzled. Drake London and Aaron Jones combined for just 8.2, and the Steelers D/ST barely showed up. It was a lineup that looked good on paper — until kickoff.</p>
+      <p><strong>Team Parker</strong> didn’t dominate — they just let Brandon Aubrey do the talking. A 23‑point kicker explosion turned a solid lineup into a winning one. Flowers and Montgomery held steady, Daniels did his job, and the Eagles D/ST added 7.</p>
 
-          <p class="one-liner">One team rode kicker magic and WR consistency. The other got stuck in neutral with RB depth and WR disappointment.</p>
+      <p><strong>The Prison Wallets</strong> had Jordan Love cooking (20.88), Gibbs grinding (19.4), and McManus booting 10. But the rest fizzled — London and Aaron Jones combined for 8.2, and the Steelers D/ST barely showed up.</p>
 
-          <p><strong>Bench Regrets:</strong><br>
-          <strong>The Prison Wallets</strong>: Stroud (14.98), Packers D/ST (6.0) — no major regrets, just a flat lineup.<br>
-          <strong>Team Parker</strong>: Goff (33.96), Tuten (15.4) — 22-point swing left idle.</p>
+      <p class="one-liner">One team rode kicker magic and WR consistency. The other got stuck in neutral with RB depth and WR disappointment.</p>
 
-          <p><strong>Team Parker</strong> didn’t win with stars — they won with strategy. <strong>The Prison Wallets</strong> had the QB and RB1, but the rest of the squad ghosted. When your kicker is your top scorer and you still lose, it’s time to check your WR depth and your FLEX instincts. Next week: start the legs that score, not the names that sell jerseys.</p>
-        </div>
+      <p><strong>Bench Regrets:</strong><br>
+      <strong>The Prison Wallets</strong>: Stroud (14.98), Packers D/ST (6).<br>
+      <strong>Team Parker</strong>: Goff (33.96), Tuten (15.4).</p>
 
-        <!-- MATCHUP 4 -->
-        <div class="card" style="margin-bottom:1.5rem;">
-          <h3 class="card-title">💣 DIRTY BEERS (161.48) vs. The Max (84.14)</h3>
-          <div class="card-meta">Result: Dirty Beers wins by 77.34 • Mood: One team brought a flamethrower, the other brought a flickering candle</div>
+      <p><strong>Team Parker</strong> didn’t win with stars — they won with strategy.</p>
+    </section>
 
-          <p><strong>Dirty Beers</strong> didn’t just win — they detonated. Amon-Ra dropped a savage 39.2, Odunze exploded for 31.8, and Mahomes quietly tossed in 22.08 like it was a warm-up. Seahawks D/ST added a spicy 16, and even Jake Elliott booted a 12. This was a full-on fantasy beatdown.</p>
+    <hr class="match-sep">
 
-          <p><strong>The Max</strong>, meanwhile, looked like they were still stretching. Bijan and Tyreek did their jobs, but Burrow flopped again, Harrison Jr. vanished, and LaPorta underwhelmed. The lineup was full of names — just not full of points.</p>
+    <!-- MATCHUP 4 -->
+    <section class="matchup-block">
+      <h2 class="matchup-title">💣 <strong>DIRTY BEERS</strong> (161.48) vs. The Max (84.14)</h2>
+      <div class="result"><strong>Result: Dirty Beers wins by 77.34</strong></div>
+      <div class="mood"><em>Mood: One team brought a flamethrower, the other brought a flickering candle</em></div>
 
-          <p class="one-liner">One team rode WR dominance and a defense heater. The other got stuck in a fog of projections and missed opportunities.</p>
+      <p><strong>Dirty Beers</strong> didn’t just win — they detonated. Amon‑Ra dropped 39.2, Odunze exploded for 31.8, and Mahomes tossed in 22.08. Seahawks D/ST added 16, and Jake Elliott booted 12.</p>
 
-          <p><strong>Bench Regrets:</strong><br>
-          <strong>Dirty Beers</strong>: Maye (26.3), Judkins (10.1), Pearsall (9.2) — irrelevant in a blowout.<br>
-          <strong>The Max</strong>: Tua (18.6), White (14.6), Allen (17.1) — could’ve made it respectable.</p>
+      <p><strong>The Max</strong> looked like they were still stretching. Bijan and Tyreek did their jobs, but Burrow flopped again, Harrison Jr. vanished, and LaPorta underwhelmed.</p>
 
-          <p><strong>Dirty Beers</strong> didn’t just win — they threw a fantasy party and didn’t invite <strong>The Max</strong>. When your WR1 and WR2 combine for 71 and your defense drops 16, you’re not playing — you’re performing. <strong>The Max</strong> needs a QB wake-up call and a FLEX intervention. Next week: start the scorers, not the sleepers.</p>
-        </div>
+      <p class="one-liner">One team rode WR dominance and a defense heater. The other got stuck in a fog of projections and missed opportunities.</p>
 
-        <!-- MATCHUP 5 -->
-        <div class="card" style="margin-bottom:1.5rem;">
-          <h3 class="card-title">Team Corbett (99.74) vs. 🎪 SHOULDA PLAYED THE OTHER GUY (106.3)</h3>
-          <div class="card-meta">Result: Shoulda Played The Other Guy wins by 6.56 • Mood: One team brought a blueprint, the other brought a bounce house — and still won</div>
+      <p><strong>Bench Regrets:</strong><br>
+      <strong>Dirty Beers</strong>: Maye (26.3), Judkins (10.1), Pearsall (9.2).<br>
+      <strong>The Max</strong>: Tua (18.6), White (14.6), Allen (17.1).</p>
 
-          <p><strong>Shoulda Played The Other Guy</strong> didn’t dominate, but they hit just enough high notes to squeak out the win. Puka Nacua dropped a WR1 clinic with 27.6, Johnston surprised with 15.9, and McBride quietly posted 13.8 at TE. The rest of the lineup? A mix of “meh” and “mild,” but it held together.</p>
+      <p><strong>Dirty Beers</strong> didn’t just win — they threw a fantasy party and didn’t invite <strong>The Max</strong>.</p>
+    </section>
 
-          <p><strong>Team Corbett</strong> had the WRs — Lamb (20.2) and Adams (22.6) were elite — and the Ravens D/ST dropped a spicy 15. But Hurts flopped with 11.54, the RBs combined for just 9.9, and McLaughlin’s 1-point kicker line was the final nail. The pieces were there, but the execution wasn’t.</p>
+    <hr class="match-sep">
 
-          <p class="one-liner">One team rode WR consistency and TE stability. The other got sabotaged by RBs and a kicker collapse.</p>
+    <!-- MATCHUP 5 -->
+    <section class="matchup-block">
+      <h2 class="matchup-title">Team Corbett (99.74) vs. 🎪 <strong>SHOULDA PLAYED THE OTHER GUY</strong> (106.3)</h2>
+      <div class="result"><strong>Result: Shoulda Played The Other Guy wins by 6.56</strong></div>
+      <div class="mood"><em>Mood: One team brought a blueprint, the other brought a bounce house — and still won</em></div>
 
-          <p><strong>Bench Regrets:</strong><br>
-          <strong>Team Corbett</strong>: Waddle (17.8), Kupp (16.0), Skattebo (13.9) — swapping any two would’ve flipped the result.<br>
-          <strong>Shoulda Played The Other Guy</strong>: Walker (18.8), Wan’Dale (28.2) — bench bombs.</p>
+      <p><strong>Shoulda Played The Other Guy</strong> didn’t dominate, but they hit enough high notes. Puka Nacua dropped 27.6, Johnston added 15.9, and McBride posted 13.8.</p>
 
-          <p><strong>Shoulda Played The Other Guy</strong> didn’t win with dominance — they won with just enough WR firepower and a TE who showed up. <strong>Team Corbett</strong> had the WRs and the defense, but the RBs ghosted and the kicker missed the memo. When your bench drops 47 and you lose by 6, it’s time to rethink the rotation. Next week: trust the hot hands, not the depth chart.</p>
-        </div>
+      <p><strong>Team Corbett</strong> had Lamb (20.2), Adams (22.6), and the Ravens D/ST (15). But Hurts flopped, the RBs combined for 9.9, and the kicker posted 1.</p>
 
-        <!-- MATCHUP 6 -->
-        <div class="card" style="margin-bottom:1.5rem;">
-          <h3 class="card-title">🎆 TEAM BAUNE (156.48) vs. Team Hankson (134.74)</h3>
-          <div class="card-meta">Result: Team Baune wins by 21.74 • Mood: One team brought a fireworks show, the other brought a full marching band — but forgot the finale</div>
+      <p class="one-liner">One team rode WR consistency and TE stability. The other got sabotaged by RBs and a kicker collapse.</p>
 
-          <p><strong>Team Baune</strong> came out swinging. Nabers detonated for 37.7, Achane and Cook combined for 52.7 at RB, and Herbert kept the engine humming with 18.78. Cardinals D/ST and Boswell each dropped 12, and Tyler Warren quietly posted 11.9 at TE. The only dud? Sutton’s 1.6 at FLEX — but when your starters are dropping 150+, you can afford a nap.</p>
+      <p><strong>Bench Regrets:</strong><br>
+      <strong>Team Corbett</strong>: Waddle (17.8), Kupp (16.0), Skattebo (13.9).<br>
+      <strong>Shoulda Played The Other Guy</strong>: Walker (18.8), Wan’Dale (28.2).</p>
 
-          <p><strong>Team Hankson</strong> had a strong showing — Bo Nix (20.24), Jonathan Taylor (29.5), and Chuba Hubbard (18.7) formed a three-headed monster. Higgins and Collins were solid, and Kelce did Kelce things. But Olave underwhelmed, and the bench was full of missed chances. It was a good lineup — just not good enough to chase down Nabers and the RB stampede.</p>
+      <p><strong>Shoulda Played The Other Guy</strong> didn’t win with dominance — they won with just enough WR firepower.</p>
+    </section>
 
-          <p class="one-liner">One team rode WR dominance and RB explosions. The other had balance but no knockout punch.</p>
+    <hr class="match-sep">
 
-          <p><strong>Bench Regrets:</strong><br>
-          <strong>Team Baune</strong>: Dobbins (15.5), Downs (11.1), Mayfield (19.9) — no harm done.<br>
-          <strong>Team Hankson</strong>: Shaheed (15.2), Benson (8.4), Ekeler (4.4) — not enough to flip it, but enough to sting.</p>
+    <!-- MATCHUP 6 -->
+    <section class="matchup-block">
+      <h2 class="matchup-title">🎆 <strong>TEAM BAUNE</strong> (156.48) vs. Team Hankson (134.74)</h2>
+      <div class="result"><strong>Result: Team Baune wins by 21.74</strong></div>
+      <div class="mood"><em>Mood: One team brought a fireworks show, the other brought a full marching band — but forgot the finale</em></div>
 
-          <p><strong>Team Baune</strong> didn’t just win — they stacked points like bricks. When your WR1 drops 37 and your RBs combine for 50+, you’re not playing fantasy — you’re running a clinic. <strong>Team Hankson</strong> had the depth and the stars, but couldn’t match the eruption. Next week: check your FLEX, and don’t sleep on Shaheed.</p>
-        </div>
+      <p><strong>Team Baune</strong> came out swinging. Nabers detonated for 37.7, Achane and Cook combined for 52.7, and Herbert added 18.78. Cardinals D/ST and Boswell each dropped 12.</p>
 
-      </div>
+      <p><strong>Team Hankson</strong> had Bo Nix (20.24), Jonathan Taylor (29.5), and Chuba Hubbard (18.7). Higgins and Collins were solid, Kelce did Kelce things — but Olave underwhelmed.</p>
+
+      <p class="one-liner">One team rode WR dominance and RB explosions. The other had balance but no knockout punch.</p>
+
+      <p><strong>Bench Regrets:</strong><br>
+      <strong>Team Baune</strong>: Dobbins (15.5), Downs (11.1), Mayfield (19.9).<br>
+      <strong>Team Hankson</strong>: Shaheed (15.2), Benson (8.4), Ekeler (4.4).</p>
+
+      <p><strong>Team Baune</strong> didn’t just win — they stacked points like bricks.</p>
     </section>
 
   </div>
-</body>
-</html>
+</article>
