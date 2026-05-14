@@ -48,14 +48,31 @@ body {
   line-height: 1.6;
 }
 
-/* --- MATCHUP BLOCKS (UPDATED TO MATCH WEEK 1–14) --- */
+/* --- MATCHUP BLOCKS (WHITE, CLEAN, MATCH OTHER WEEKS) --- */
 .matchup {
-  background: rgba(255,255,255,0.6);
+  background: #ffffff;       /* ← PURE WHITE, NO GREY */
   border: 1px solid #ddd;
   padding: 22px;
   margin-bottom: 35px;
   border-radius: 10px;
-  backdrop-filter: blur(4px);
+}
+
+/* --- SEPARATOR LINE (ADDED BACK) --- */
+.match-sep {
+  border: none;
+  margin: 2.5rem 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent, #ff9900), transparent);
+  position: relative;
+}
+.match-sep::after {
+  content: "•";
+  position: absolute;
+  top: -0.65rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--accent, #ff9900);
+  font-size: 1.4rem;
 }
 
 /* --- TITLES, RESULTS, MOOD (UPDATED) --- */
@@ -97,7 +114,7 @@ h2 {
 
 <div class="playoff-intro trailer">
   <div class="subtitle">Round 15 • Winners Bracket</div>
-  <p>Six teams enter the postseason, but only four take the field in Round 15. <strong>Shoulda Played The Other Guy</strong> and <strong>Dirty Beers</strong> watch from the mountaintop, their byes earned, their confidence high. Below them, four challengers step into the fire — one round, one shot, one chance to keep the dream alive.</p>
+  <p>Six teams enter the postseason, but only four take the field in Round 15. <strong>Shoulda Played The Other Guy</strong> and <strong>Dirty Beers</strong> watch from the mountaintop...</p>
   <p class="tone">The Road to the Angry Bowl begins with survival.</p>
 </div>
 
@@ -105,9 +122,9 @@ h2 {
 <div class="matchup">
   <h2>💥 <strong>HuPhers</strong> (110.2) vs. Hooligans (96.92)</h2>
   <div class="result">Result: HuPhers win by 13.28</div>
-  <div class="mood">Mood: One team leaned on star power and steady production. The other had flashes but never found the playoff ceiling.</div>
+  <div class="mood">Mood: One team leaned on star power and steady production...</div>
 
-  <p><strong>HuPhers</strong> rode big outings from Jacobs (23.2), Chase (23.2), and JSN (18.3)...</p>
+  <p><strong>HuPhers</strong> rode big outings from Jacobs (23.2)...</p>
   <p><strong>Hooligans</strong> needed fireworks and didn’t get them...</p>
 
   <p class="one-liner">One team brought the stars. The other brought the floor.</p>
@@ -119,11 +136,13 @@ h2 {
   <p><strong>HuPhers</strong> didn’t dominate — they controlled.</p>
 </div>
 
+<hr class="match-sep">
+
 <!-- MATCHUP 2 -->
 <div class="matchup">
   <h2>💥 <strong>TEAM BAUNE</strong> (144.9) vs. Team Hankson (121.44)</h2>
   <div class="result">Result: Team Baune wins by 23.46</div>
-  <div class="mood">Mood: One team stacked RB/WR explosions. The other had QB punch but too many lineup landmines.</div>
+  <div class="mood">Mood: One team stacked RB/WR explosions...</div>
 
   <p><strong>Team Baune</strong> erupted behind Cook III’s monster (31.1)...</p>
   <p><strong>Team Hankson</strong> came in swinging with Dart (22.14)...</p>
@@ -137,6 +156,8 @@ h2 {
   <p><strong>Team Baune</strong> didn’t just win — they surged.</p>
 </div>
 
+<hr class="match-sep">
+
 <!-- CONSOLATION TITLE -->
 <h1 class="angry-title">
   <span class="angry-glow">🧻 TREK TO IRRELEVANCE 🧻</span>
@@ -144,7 +165,7 @@ h2 {
 
 <div class="playoff-intro trailer">
   <div class="subtitle">Round 15 • Consolation Bracket</div>
-  <p>While the contenders chase glory on the main stage, six teams begin a very different journey — a slow, reluctant march down the mountain and into the shadows...</p>
+  <p>While the contenders chase glory on the main stage...</p>
   <p class="tone">The Trek to Irrelevance begins with one goal: don’t sink any further.</p>
 </div>
 
@@ -152,7 +173,7 @@ h2 {
 <div class="matchup">
   <h2>Team Spreitzer (112.42) vs. 💥 <strong>PRAY FOR MICHAH</strong> (161.42)</h2>
   <div class="result">Result: Pray for Micah wins by 48.99</div>
-  <div class="mood">Mood: One team unleashed RB/WR destruction. The other held steady but never found the ceiling.</div>
+  <div class="mood">Mood: One team unleashed RB/WR destruction...</div>
 
   <p><strong>Team Spreitzer</strong> leaned on Goff’s big outing (25.52)...</p>
   <p><strong>Pray for Micah</strong> detonated behind Etienne Jr. (31.5)...</p>
@@ -166,11 +187,13 @@ h2 {
   <p><strong>Pray for Micah</strong> didn’t just win — they surged.</p>
 </div>
 
+<hr class="match-sep">
+
 <!-- MATCHUP 4 -->
 <div class="matchup">
   <h2>💥 <strong>TEAM GREENWELL</strong> (94.68) vs. The Prison Wallets (87.24)</h2>
   <div class="result">Result: Team Greenwell wins by 7.44</div>
-  <div class="mood">Mood: One team survived with balance. The other had bright spots but too many zeros.</div>
+  <div class="mood">Mood: One team survived with balance...</div>
 
   <p><strong>Team Greenwell</strong> leaned on Caleb Williams (18.98)...</p>
   <p><strong>The Prison Wallets</strong> had strong outings from Swift (22.6)...</p>
@@ -184,11 +207,13 @@ h2 {
   <p><strong>Team Greenwell</strong> didn’t dominate — they survived.</p>
 </div>
 
+<hr class="match-sep">
+
 <!-- MATCHUP 5 -->
 <div class="matchup">
   <h2>💥 <strong>TEAM CORBETT</strong> (79.7) vs. The Max (64.7)</h2>
   <div class="result">Result: Team Corbett wins by 15.0</div>
-  <div class="mood">Mood: A low‑scoring slog where one team found just enough stability to stay upright.</div>
+  <div class="mood">Mood: A low‑scoring slog where one team found just enough stability...</div>
 
   <p><strong>Team Corbett</strong> rode Jalen Hurts (22.9)...</p>
   <p><strong>The Max</strong> struggled from the opening whistle...</p>
