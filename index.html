@@ -219,24 +219,44 @@ async function loadSeasonRecap() {
   const html = results.map(r => {
     if (Array.isArray(r.value)) {
       return `
-        <div class="card card-soft" style="margin-bottom:1rem;">
+        <div class="card card-soft" style="border-left: 4px solid var(--accent);">
           <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
           <div class="card-body">
-            ${r.value.map(v => `<div>${v}</div>`).join("")}
+            ${r.value.map(v => `
+  <div class="recap-bullet">
+    <div class="recap-bullet-dot"></div>
+    <div>${v}</div>
+  </div>
+`).join("")}
+
           </div>
         </div>
       `;
-    } else {
-      return `
-        <div class="card card-soft" style="margin-bottom:1rem;">
-          <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
-          <div class="card-body"><strong>${r.value}</strong></div>
+} else {
+  return `
+    <div class="card card-soft" style="border-left: 4px solid var(--accent);">
+      <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
+      <div class="card-body">
+        <div class="award-winner">
+          ${r.value}
         </div>
-      `;
-    }
+      </div>
+    </div>
+  `;
+}
   }).join("");
 
-  container.innerHTML = html;
+container.innerHTML = `
+  <div style="
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.25rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--border-subtle);
+  ">
+    ${html}
+  </div>
+`;
+
 }
 
 loadSeasonRecap();
