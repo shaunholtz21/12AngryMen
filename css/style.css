@@ -387,6 +387,16 @@ body.lms-page .shell {
   flex-shrink: 0;
 }
 
+/* Recap title bar */
+.recap-title-bar {
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  color: var(--muted);
+}
+
 /* Fade-in animation for recap cards */
 @keyframes recapFadeIn {
   from {
@@ -423,3 +433,39 @@ body.lms-page .shell {
 #season-recap-container .card-body {
   padding-top: 0.25rem;
 }
+
+/* Mobile polish for recap section */
+@media (max-width: 600px) {
+  #season-recap-container > div {
+    padding: 1.25rem 1rem;
+  }
+
+  #season-recap-container .card {
+    border-left-width: 3px;
+  }
+
+  #season-recap-container .card-title {
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+
+  .recap-bullet {
+    gap: 0.4rem;
+  }
+}
+
+/* Hover lift for recap cards */
+#season-recap-container .card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+#season-recap-container .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Soft shadow for recap wrapper */
+#season-recap-container > div {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
