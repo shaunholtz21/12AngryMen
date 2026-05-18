@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Notes</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="../js/loader.js" defer></script>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- HEADER -->
+    <header>
+      <nav class="nav">
+        <a href="../index.html" class="nav-title-main">Home</a>
+
+        <div class="nav-links">
+          <a href="../weekly-notes/index.html">Weekly Notes</a>
+          <a href="../history/index.html">League History</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+      <div class="shell">
+
+        <!-- LEFT COLUMN -->
+        <div>
+          <div class="hero">
+            <h1 class="hero-title">Weekly Notes</h1>
+            <p class="hero-sub">
+              Select a season and week to view any weekly recap from league history.
+            </p>
+          </div>
+
+          <div class="card card-soft" style="padding: 1.25rem;">
+            <div class="card-header">
+              <h3 class="card-title">Select Recap</h3>
+            </div>
+
+            <div class="card-body" style="display: flex; flex-direction: column; gap: 1rem;">
+              <label>
+                <span style="display:block; margin-bottom: 0.25rem;">Season</span>
+                <select id="seasonSelect" style="width: 100%; padding: 0.5rem; border-radius: 0.4rem;"></select>
+              </label>
+
+              <label>
+                <span style="display:block; margin-bottom: 0.25rem;">Week</span>
+                <select id="weekSelect" style="width: 100%; padding: 0.5rem; border-radius: 0.4rem;"></select>
+              </label>
+
+              <button id="loadRecapBtn"
+                style="padding: 0.6rem 1rem; background: var(--accent); border: none; border-radius: 0.4rem; color: white; font-weight: 600; cursor: pointer;">
+                Load Recap
+              </button>
+            </div>
+          </div>
+
+          <!-- CONTENT AREA -->
+          <div id="content" style="margin-top: 2rem;"></div>
+        </div>
+
+        <!-- RIGHT SIDEBAR (optional empty space for symmetry) -->
+        <aside class="sidebar"></aside>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>© 12 Angry Men League</p>
+    </footer>
+
+  </div>
+</body>
+</html>

@@ -2,285 +2,148 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>12 Angry Men Fantasy League</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>12 Angry Men League</title>
 
-  <!-- FIX: Prevent dropdowns from causing scroll jump -->
-  <style>
-    .sidebar {
-      scroll-snap-type: none !important;
-    }
-    select {
-      scroll-snap-align: none !important;
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/loader.js" defer></script>
 </head>
 
 <body>
   <div class="page">
-    
-<header>
-  <div class="nav">
-    <div class="nav-left">
-      <div class="logo-mark">12</div>
-      <div>
-        <div class="nav-title-main">12 Angry Men</div>
-        <div class="nav-title-sub">Fantasy Football League</div>
-      </div>
-    </div>
 
-<nav class="nav-links">
-  <a href="/12AngryMen/index.html">Home</a>
-  <a href="/12AngryMen/index.html#angry-bowl">Angry Bowl V</a>
-  <a href="/12AngryMen/index.html#season-recap">Season Recap</a>
-  <a href="#weekly-notes">Weekly Notes</a>
-  <a href="/12AngryMen/history/index.html">League History</a>
-</nav>
+    <!-- HEADER -->
+    <header>
+      <nav class="nav">
+        <a href="index.html" class="nav-title-main">Home</a>
 
-    </nav>
-  </div>
-</header>
+        <div class="nav-links">
+          <a href="weekly-notes/index.html">Weekly Notes</a>
+          <a href="history/index.html">League History</a>
+        </div>
+      </nav>
+    </header>
 
+    <!-- MAIN -->
     <main>
       <div class="shell">
 
-        <!-- MAIN COLUMN -->
-        <section>
+        <!-- LEFT COLUMN -->
+        <div>
 
+          <!-- HERO -->
           <div class="hero">
-            <h1 class="hero-title">The Official Record of 12 Angry Men</h1>
+            <h1 class="hero-title">12 Angry Men League</h1>
             <p class="hero-sub">
-              Trash talk, receipts, and the occasionally competent roster move. This is the running chronicle of the league.
+              Your home for league history, weekly notes, and championship glory.
             </p>
           </div>
 
-<div id="content" class="card" style="margin-top: 1.5rem; padding: 1rem;">
-  <p style="color: var(--muted);">
-    Select a season and week from the sidebar to load a recap.
-  </p>
-</div>
-          
-<section id="angry-bowl">
-  <h2 class="section-title">Angry Bowl V</h2>
-  <div id="angryBowlContainer"></div>
-</section>
+          <!-- ANGRY BOWL V -->
+          <div id="angryBowlContainer" class="stack"></div>
 
-<script>
-  fetch("history/championships/angry-bowl-5.html")
-    .then(r => r.text())
-    .then(html => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, "text/html");
-      const card = doc.querySelector("section.card");
+          <script>
+            // Load Angry Bowl V card
+            fetch("history/championships/angry-bowl-5.html")
+              .then(r => r.text())
+              .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, "text/html");
+                const card = doc.querySelector("section.card");
+                if (card) {
+                  document.getElementById("angryBowlContainer").innerHTML = card.outerHTML;
+                }
+              });
+          </script>
 
-      document.getElementById("angryBowlContainer").innerHTML = card.outerHTML;
-    });
-</script>
-
-<section id="season-recap" style="margin-top: 2rem;">
-  <h2 class="section-title">Season Recap</h2>
-
-  <article class="card">
-    <div class="card-header">
-      <h3 class="card-title">2025 Season Overview</h3>
-      <div class="card-meta">Awards & Highlights</div>
-    </div>
-    <div class="card-body">
-      <div id="home-2025-recap">
-        <p>Loading 2025 season recap…</p>
-      </div>
-    </div>
-  </article>
-</section>
-
-<script>
-async function loadHome2025Recap() {
-  const container = document.getElementById("home-2025-recap");
-  if (!container) return;
-  container.innerHTML = "";
-
-  const awards = [
-    { key: "fantasy-fiver", label: "Fantasy Fiver (Weeks 1–14)", icon: "⭐", type: "fiver" },
-    { key: "iron-bank", label: "Iron Bank", icon: "🏦" },
-    { key: "king-east", label: "King of the East", icon: "👑" },
-    { key: "king-west", label: "King of the West", icon: "👑" },
-    { key: "punching-bag", label: "Punching Bag", icon: "🥊" },
-    { key: "golden-ticket", label: "Golden Ticket", icon: "🎫" },
-    { key: "reach-around", label: "Reach Around", icon: "🙌" },
-    { key: "ring-seeker", label: "Ring Seeker", icon: "💍" },
-    { key: "last-man-standing", label: "Last Man Standing", icon: "🧨", type: "lms" }
-  ];
-
-  let html = `<div style="font-size:1.0rem;">`;
-
-  for (const award of awards) {
-    const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/${award.key}/2025.json`;
-
-    try {
-      const resp = await fetch(url);
-      if (!resp.ok) continue;
-
-      const data = await resp.json();
-
-      if (award.type === "fiver") {
-        const rows = data.slice(4);
-
-        const weeks = rows.filter(row => {
-          const label = row["Fantasy Fiver Award"];
-          if (!label) return false;
-
-          const match = label.match(/Week\s+(\d+)/i);
-          if (!match) return false;
-
-          const week = parseInt(match[1]);
-          return week >= 1 && week <= 14;
-        });
-
-        html += `
-          <details style="margin-bottom:0.5rem;">
-            <summary style="cursor:pointer; font-weight:600;">
-              ${award.icon} ${award.label}
-            </summary>
-            <div style="margin-top:0.4rem; font-size:0.9rem;">
-              ${weeks.map(row => {
-                const label = row["Fantasy Fiver Award"];
-                const match = label.match(/Week\s+(\d+)/i);
-                const week = match ? match[1] : "?";
-                const team = row["Unnamed: 1"] || "—";
-                const pts = row["Unnamed: 2"] || "—";
-
-                return `
-                  <div style="padding:2px 0;">
-                    <strong>Week ${week}</strong> – ${team} (${pts} pts)
-                  </div>
-                `;
-              }).join("")}
+          <!-- SEASON RECAP -->
+          <section class="card card-soft" style="margin-top: 1.5rem;">
+            <div class="card-header">
+              <h3 class="card-title">Season Recap</h3>
             </div>
-          </details>
-        `;
-      }
+            <div class="card-body">
+              <p>Review the full recap of last season’s action.</p>
+              <a href="history/index.html" class="back-link">View Season Recap →</a>
+            </div>
+          </section>
 
-      else if (award.type === "lms") {
-        const last = data[data.length - 1];
-        const winner = last ? last.Team : "—";
+          <!-- LATEST WEEKLY NOTE -->
+          <section class="card" style="margin-top: 1.5rem;">
+            <div class="card-header">
+              <h3 class="card-title">Latest Weekly Note</h3>
+            </div>
+            <div id="latestNote" class="card-body">
+              <p style="color: var(--muted);">Loading latest note…</p>
+            </div>
+          </section>
 
-        html += `
-          <div style="padding:0.3rem 0;">
-            ${award.icon} <strong>${award.label}:</strong> ${winner}
+          <script>
+            // Auto-load the newest weekly note
+            async function loadLatestNote() {
+              try {
+                const seasonsRes = await fetch("recaps/seasons.json");
+                const seasonsData = await seasonsRes.json();
+                const newestSeason = seasonsData.seasons[0];
+
+                const weeksRes = await fetch(`recaps/${newestSeason}/weeks.json`);
+                const weeksData = await weeksRes.json();
+                const latestWeek = weeksData.weeks[weeksData.weeks.length - 1];
+
+                const recapRes = await fetch(`recaps/${newestSeason}/${latestWeek}.html`);
+                const recapHtml = await recapRes.text();
+
+                document.getElementById("latestNote").innerHTML = recapHtml;
+
+              } catch (err) {
+                document.getElementById("latestNote").innerHTML =
+                  `<p style="color: var(--muted);">Unable to load latest weekly note.</p>`;
+              }
+            }
+
+            loadLatestNote();
+          </script>
+
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="sidebar">
+
+          <!-- RECAP LOADER (unchanged) -->
+          <div class="card card-soft">
+            <div class="card-header">
+              <h3 class="card-title">View Any Weekly Note</h3>
+            </div>
+
+            <div class="card-body" style="display: flex; flex-direction: column; gap: 1rem;">
+              <label>
+                <span style="display:block; margin-bottom: 0.25rem;">Season</span>
+                <select id="seasonSelect" style="width: 100%; padding: 0.5rem; border-radius: 0.4rem;"></select>
+              </label>
+
+              <label>
+                <span style="display:block; margin-bottom: 0.25rem;">Week</span>
+                <select id="weekSelect" style="width: 100%; padding: 0.5rem; border-radius: 0.4rem;"></select>
+              </label>
+
+              <button id="loadRecapBtn"
+                style="padding: 0.6rem 1rem; background: var(--accent); border: none; border-radius: 0.4rem; color: white; font-weight: 600; cursor: pointer;">
+                Load Recap
+              </button>
+            </div>
           </div>
-        `;
-      }
 
-      else {
-        const team = data.Team || "—";
+          <div id="content" style="margin-top: 1.5rem;"></div>
 
-        html += `
-          <div style="padding:0.3rem 0;">
-            ${award.icon} <strong>${award.label}:</strong> ${team}
-          </div>
-        `;
-      }
-
-    } catch (err) {
-      console.error("Error loading", award.key, err);
-    }
-  }
-
-  html += `</div>`;
-  container.innerHTML = html;
-}
-
-loadHome2025Recap();
-</script>
-      
-
-<section id="weekly-notes" style="margin-top: 2rem;">
-  <h2 class="section-title">Weekly Notes</h2>
-
-  <article class="card">
-    <div class="card-header">
-      <h3 class="card-title">Week 1 • Team A vs Team B</h3>
-      <div class="card-meta">Regular Season</div>
-    </div>
-    <div class="card-body">
-      <p>Paste your Week 1 write‑up here.</p>
-    </div>
-  </article>
-</section>
-
-<!-- SIDEBAR -->
-<aside class="sidebar">
-
-  <!-- WEEKLY RECAP LOADER -->
-  <section class="card">
-    <div class="card-header">
-      <h3 class="card-title">Weekly Recaps</h3>
-      <div class="card-meta">Select & Load</div>
-    </div>
-
-    <div class="card-body">
-
-      <label for="seasonSelect" style="font-size: 0.8rem; color: var(--muted);">Season</label>
-      <select id="seasonSelect" style="width: 100%; margin-bottom: 0.75rem;">
-      </select>
-
-      <label for="weekSelect" style="font-size: 0.8rem; color: var(--muted);">Week</label>
-      <select id="weekSelect" style="width: 100%; margin-bottom: 0.75rem;">
-      </select>
-
-      <button id="loadRecapBtn" style="
-        width: 100%;
-        padding: 0.5rem;
-        margin-top: 0.5rem;
-        background: var(--accent);
-        border: none;
-        border-radius: 6px;
-        color: white;
-        font-weight: 600;
-        cursor: pointer;
-      ">
-        Load Recap
-      </button>
-
-    </div>
-  </section>
-
-  <!-- LEAGUE INFO -->
-  <section class="card">
-    <div class="card-header">
-      <h3 class="card-title">League Info</h3>
-      <div class="card-meta">At a Glance</div>
-    </div>
-    <div class="card-body">
-      <p>Teams: 12</p>
-      <p>Format: PPR</p>
-      <p>Founded: TBD</p>
-    </div>
-  </section>
-
-  <!-- PAST CHAMPIONS -->
-  <section class="card">
-    <div class="card-header">
-      <h3 class="card-title">Past Champions</h3>
-      <div class="card-meta">Banner Row</div>
-    </div>
-    <div class="card-body">
-      <p>Year X — Team Name</p>
-      <p>Year Y — Team Name</p>
-    </div>
-  </section>
-
-</aside>
+        </aside>
 
       </div>
     </main>
 
+    <!-- FOOTER -->
     <footer class="footer">
-      12 Angry Men Fantasy Football League • All objections overruled.
+      <p>© 12 Angry Men League</p>
     </footer>
 
   </div>
-  <script src="js/loader.js"></script>
 </body>
 </html>
