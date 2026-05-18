@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadBtn = document.getElementById("loadRecapBtn");
   const contentDiv = document.getElementById("content");
 
-  // Load seasons first
+  // Initial load: newest season + its weeks
   loadSeasons(seasonSelect).then(seasons => {
     if (seasons.length > 0) {
       const newestSeason = seasons[0];
@@ -92,12 +92,19 @@ document.addEventListener("DOMContentLoaded", () => {
         if (weeks.length > 0) {
           const latestWeek = weeks[weeks.length - 1];
           weekSelect.value = latestWeek;
-
-          // ❌ REMOVE THIS
-          // loadRecap(seasonSelect, weekSelect, contentDiv);
         }
       });
     }
+  });
+
+  // ✅ When season changes, just reload weeks (no recap auto-load)
+  seasonSelect.addEventListener("change", () => {
+    loadWeeks(seasonSelect.value, weekSelect).then(weeks => {
+      if (weeks.length > 0) {
+        const latestWeek = weeks[weeks.length - 1];
+        weekSelect.value = latestWeek;
+      }
+    });
   });
 
   // Manual load button ONLY
