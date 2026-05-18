@@ -62,9 +62,11 @@
               <h3 class="card-title">Season Recap</h3>
             </div>
             <div class="card-body">
-              <p>Review the full recap of last season’s action.</p>
-              <a href="history/index.html" class="back-link">View Season Recap →</a>
+            <div id="season-recap-container">
+            <p>Loading season recap…</p>
             </div>
+            </div>
+
           </section>
 
           <!-- LATEST WEEKLY NOTE -->
@@ -145,5 +147,99 @@
     </footer>
 
   </div>
+  <script>
+async function loadSeasonRecap() {
+  const container = document.getElementById("season-recap-container");
+  container.innerHTML = "";
+
+  const year = 2025;
+
+  const awards = [
+    { key: "fantasy-fiver", label: "Fantasy Fiver", type: "multi" },
+    { key: "iron-bank", label: "Iron Bank", type: "single" },
+    { key: "king-east", label: "King of the East", type: "single" },
+    { key: "king-west", label: "King of the West", type: "single" },
+    { key: "punching-bag", label: "Punching Bag", type: "single" },
+    { key: "golden-ticket", label: "Golden Ticket", type: "single" },
+    { key: "reach-around", label: "Reach Around", type: "single" },
+    { key: "ring-seeker", label: "Ring Seeker", type: "single" },
+    { key: "last-man-standing", label: "Last Man Standing", type: "lms" }
+  ];
+
+  const results = [];
+
+  for (const award of awards) {
+    try {
+      if (award.type === "multi") {
+        const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/${award.key}/${year}.json`;
+        const resp = await fetch(url);
+        const data = await resp.json();
+
+        const weeks = data.filter(r => r["Fantasy Fiver Award"] && r["Fantasy Fiver Award"].startsWith("Week"));
+
+        results.push({
+          label: award.label,
+          value: weeks.map(w => `${w["Fantasy Fiver Award"]}: ${w["Unnamed: 1"]} (${w["Unnamed: 2"]})`)
+        });
+
+      } else if (award.type === "single") {
+        const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/${award.key}/${year}.json`;
+        const resp = await fetch(url);
+        const data = await resp.json();
+
+        results.push({
+          label: award.label,
+          value: data.Team
+        });
+
+      } else if (award.type === "lms") {
+        const elimUrl = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/${award.key}/${year}.json`;
+        const teamsUrl = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/${award.key}/${year}-teams.json`;
+
+        const elimResp = await fetch(elimUrl);
+        const elimData = await elimResp.json();
+
+        const teamsResp = await fetch(teamsUrl);
+        const teamsData = await teamsResp.json();
+
+        const eliminated = elimData.map(e => e.Team);
+        const winner = teamsData.find(t => !eliminated.includes(t));
+
+        results.push({
+          label: award.label,
+          value: winner
+        });
+      }
+
+    } catch (err) {
+      console.error("Error loading award:", award.key, err);
+    }
+  }
+
+  const html = results.map(r => {
+    if (Array.isArray(r.value)) {
+      return `
+        <div class="card card-soft" style="margin-bottom:1rem;">
+          <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
+          <div class="card-body">
+            ${r.value.map(v => `<div>${v}</div>`).join("")}
+          </div>
+        </div>
+      `;
+    } else {
+      return `
+        <div class="card card-soft" style="margin-bottom:1rem;">
+          <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
+          <div class="card-body"><strong>${r.value}</strong></div>
+        </div>
+      `;
+    }
+  }).join("");
+
+  container.innerHTML = html;
+}
+
+loadSeasonRecap();
+</script>
 </body>
 </html>
