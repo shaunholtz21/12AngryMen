@@ -92,13 +92,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (weeks.length > 0) {
           const latestWeek = weeks[weeks.length - 1];
           weekSelect.value = latestWeek;
+
+          // ❌ REMOVE THIS
+          // loadRecap(seasonSelect, weekSelect, contentDiv);
         }
       });
     }
   });
-
-  // ❌ NO auto-load on season change
-  // ❌ NO auto-load on week change
 
   // Manual load button ONLY
   loadBtn.addEventListener("click", () => {
