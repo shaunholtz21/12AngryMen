@@ -387,6 +387,22 @@ body.lms-page .shell {
   flex-shrink: 0;
 }
 
+/* Fade-in animation for recap cards */
+@keyframes recapFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#season-recap-container .card {
+  animation: recapFadeIn 0.35s ease-out;
+}
+
 /* Spacing between recap cards */
 #season-recap-container .card {
   margin-bottom: 1.25rem;
@@ -401,4 +417,9 @@ body.lms-page .shell {
 /* Recap container spacing */
 #season-recap-container > div {
   padding: 1.5rem 1.75rem;
+}
+
+/* Normalize recap card body spacing */
+#season-recap-container .card-body {
+  padding-top: 0.25rem;
 }
