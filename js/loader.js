@@ -1,114 +1,101 @@
-// ------------------------------
-// Auto‑detect Seasons
-// ------------------------------
-async function loadSeasons(seasonSelect) {
-  try {
-    const response = await fetch("recaps/seasons.json");
-    const data = await response.json();
+// WEEKLY NOTES PAGE LOADER
+document.addEventListener("DOMContentLoaded", () => {
+  const seasonSelect = document.getElementById("wn-seasonSelect");
+  const weekSelect = document.getElementById("wn-weekSelect");
+  const loadBtn = document.getElementById("wn-loadRecapBtn");
+  const contentDiv = document.getElementById("wn-content");
+  const title = document.getElementById("weeklyRecapTitle");
 
-    seasonSelect.innerHTML = "";
+  // If these elements don't exist, we're not on the Weekly Notes page
+  if (!seasonSelect || !weekSelect || !loadBtn || !contentDiv) return;
 
-    data.seasons.forEach(season => {
-      const opt = document.createElement("option");
-      opt.value = season;
-      opt.textContent = season;
-      seasonSelect.appendChild(opt);
-    });
+  // ------------------------------
+  // Load Seasons
+  // ------------------------------
+  async function loadSeasons() {
+    try {
+      const response = await fetch("../recaps/seasons.json");
+      const data = await response.json();
 
-    return data.seasons;
-  } catch (err) {
-    console.error("Failed to load seasons:", err);
-    return [];
+      seasonSelect.innerHTML = "";
+
+      data.seasons.forEach(season => {
+        const opt = document.createElement("option");
+        opt.value = season;
+        opt.textContent = season;
+        seasonSelect.appendChild(opt);
+      });
+
+      // Load weeks for the newest season
+      loadWeeks(data.seasons[0]);
+    } catch (err) {
+      console.error("Failed to load seasons:", err);
+    }
   }
-}
 
-// ------------------------------
-// Auto‑detect Weeks
-// ------------------------------
-async function loadWeeks(season, weekSelect) {
-  try {
-    const response = await fetch(`recaps/${season}/weeks.json`);
-    const data = await response.json();
+  // ------------------------------
+  // Load Weeks
+  // ------------------------------
+  async function loadWeeks(season) {
+    try {
+      const response = await fetch(`../recaps/${season}/weeks.json`);
+      const data = await response.json();
 
-    weekSelect.innerHTML = "";
+      weekSelect.innerHTML = "";
 
-    data.weeks.forEach(week => {
-      const opt = document.createElement("option");
-      opt.value = week;
-      opt.textContent = week.replace("week", "Week ");
-      weekSelect.appendChild(opt);
-    });
-
-    return data.weeks;
-  } catch (err) {
-    console.error("Failed to load weeks:", err);
-    return [];
+      data.weeks.forEach(week => {
+        const opt = document.createElement("option");
+        opt.value = week;
+        opt.textContent = week.replace("week", "Week ");
+        weekSelect.appendChild(opt);
+      });
+    } catch (err) {
+      console.error("Failed to load weeks:", err);
+    }
   }
-}
 
-// ------------------------------
-// Load Recap Helper
-// ------------------------------
-function loadRecap(seasonSelect, weekSelect, contentDiv) {
-  const season = seasonSelect.value;
-  const week = weekSelect.value;
+  // ------------------------------
+  // Load Recap
+  // ------------------------------
+  async function loadRecap() {
+    const season = seasonSelect.value;
+    const week = weekSelect.value;
 
-  const filePath = `recaps/${season}/${week}.html`;
+    const filePath = `../recaps/${season}/${week}.html`;
 
-  fetch(filePath)
-    .then(response => {
+    try {
+      const response = await fetch(filePath);
       if (!response.ok) throw new Error("Not found");
-      return response.text();
-    })
-    .then(html => {
+
+      const html = await response.text();
       contentDiv.innerHTML = html;
+
+      // Update title
+      title.textContent = `Week ${week.replace("week", "")} — ${season} Recap`;
+
+      // Scroll to top
       window.scrollTo({ top: 0, behavior: "smooth" });
-    })
-    .catch(() => {
+
+    } catch (err) {
       contentDiv.innerHTML = `
         <p style="color: var(--muted);">
           No recap available for ${season} ${week.replace("week", "Week ")}.
         </p>
       `;
-    });
-}
-
-// ------------------------------
-// Main Loader
-// ------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  const seasonSelect = document.getElementById("seasonSelect");
-  const weekSelect = document.getElementById("weekSelect");
-  const loadBtn = document.getElementById("loadRecapBtn");
-  const contentDiv = document.getElementById("content");
-
-  // Initial load: newest season + its weeks
-  loadSeasons(seasonSelect).then(seasons => {
-    if (seasons.length > 0) {
-      const newestSeason = seasons[0];
-      seasonSelect.value = newestSeason;
-
-      loadWeeks(newestSeason, weekSelect).then(weeks => {
-        if (weeks.length > 0) {
-          const latestWeek = weeks[weeks.length - 1];
-          weekSelect.value = latestWeek;
-        }
-      });
     }
-  });
+  }
 
-  // ✅ When season changes, just reload weeks (no recap auto-load)
+  // ------------------------------
+  // Event Listeners
+  // ------------------------------
   seasonSelect.addEventListener("change", () => {
-    loadWeeks(seasonSelect.value, weekSelect).then(weeks => {
-      if (weeks.length > 0) {
-        const latestWeek = weeks[weeks.length - 1];
-        weekSelect.value = latestWeek;
-      }
-    });
+    loadWeeks(seasonSelect.value);
   });
 
-  // Manual load button ONLY
-  loadBtn.addEventListener("click", () => {
-    loadRecap(seasonSelect, weekSelect, contentDiv);
-  });
+  loadBtn.addEventListener("click", loadRecap);
+
+  // ------------------------------
+  // Initialize
+  // ------------------------------
+  loadSeasons();
 });
