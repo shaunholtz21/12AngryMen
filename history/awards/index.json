@@ -1,1 +1,13 @@
-
+{
+  "awards": [
+    { "folder": "fantasy-fiver", "title": "Fantasy Fiver Award" },
+    { "folder": "golden-ticket", "title": "Golden Ticket Award" },
+    { "folder": "iron-bank", "title": "Iron Bank Award" },
+    { "folder": "king-east", "title": "King of the East Award" },
+    { "folder": "king-west", "title": "King of the West Award" },
+    { "folder": "last-man-standing", "title": "Last Man Standing" },
+    { "folder": "punching-bag", "title": "Punching Bag Award" },
+    { "folder": "reach-around", "title": "Reach Around Award" },
+    { "folder": "ring-seeker", "title": "Ring Seeker Award" }
+  ]
+}
