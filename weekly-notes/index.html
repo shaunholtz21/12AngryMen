@@ -29,14 +29,16 @@
 
         <!-- LEFT COLUMN -->
         <div>
+          <!-- HERO -->
           <div class="hero">
-            <h1 class="hero-title">Weekly Notes</h1>
+            <h1 class="hero-title">Weekly Notes Archive</h1>
             <p class="hero-sub">
-              Select a season and week to view any weekly recap from league history.
+              Choose a season and week to view any weekly recap from league history.
             </p>
           </div>
 
-          <div class="card card-soft" style="padding: 1.25rem;">
+          <!-- SELECT RECAP CARD -->
+          <section class="card card-soft" style="margin-top: 1.5rem; padding: 1.25rem;">
             <div class="card-header">
               <h3 class="card-title">Select Recap</h3>
             </div>
@@ -57,13 +59,24 @@
                 Load Recap
               </button>
             </div>
-          </div>
+          </section>
 
-          <!-- CONTENT AREA -->
-          <div id="content" style="margin-top: 2rem;"></div>
+          <!-- LOADED RECAP CARD -->
+          <section class="card card-soft" style="margin-top: 1.75rem;">
+            <div class="card-header">
+              <h3 class="card-title" id="weeklyRecapTitle">Weekly Recap</h3>
+            </div>
+            <div class="card-body">
+              <div id="content">
+                <p style="color: var(--muted);">
+                  Select a season and week above, then click “Load Recap” to view the weekly note.
+                </p>
+              </div>
+            </div>
+          </section>
         </div>
 
-        <!-- RIGHT SIDEBAR (optional empty space for symmetry) -->
+        <!-- RIGHT SIDEBAR (kept for symmetry / future use) -->
         <aside class="sidebar"></aside>
 
       </div>
