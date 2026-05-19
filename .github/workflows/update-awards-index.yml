@@ -1,0 +1,63 @@
+name: Auto‑Update Awards Index
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-index:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Generate awards index.json
+        run: |
+          ROOT="history/awards"
+          OUTPUT_FILE="$ROOT/index.json"
+
+          echo "{" > $OUTPUT_FILE
+          echo '  "awards": [' >> $OUTPUT_FILE
+
+          # Loop through subfolders inside history/awards/
+          FIRST=true
+          for FOLDER in "$ROOT"/*/; do
+            BASENAME=$(basename "$FOLDER")
+
+            # Skip the hub file
+            if [ "$BASENAME" = "index.html" ]; then
+              continue
+            fi
+
+            # Only include folders that contain index.html
+            if [ -f "$FOLDER/index.html" ]; then
+              TITLE=$(grep -oP '(?<=<title>)(.*?)(?=</title>)' "$FOLDER/index.html" | head -n 1)
+
+              if [ "$FIRST" = true ]; then
+                FIRST=false
+              else
+                echo "," >> $OUTPUT_FILE
+              fi
+
+              echo -n "    { \"folder\": \"$BASENAME\", \"title\": \"$TITLE\" }" >> $OUTPUT_FILE
+            fi
+          done
+
+          echo "" >> $OUTPUT_FILE
+          echo "  ]" >> $OUTPUT_FILE
+          echo "}" >> $OUTPUT_FILE
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          if ! git diff --quiet; then
+            git add history/awards/index.json
+            git commit -m "Auto-update awards index.json"
+            git push
+          else
+            echo "No changes to commit"
+          fi
