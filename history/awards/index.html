@@ -93,7 +93,68 @@ async function loadAwards() {
   }
 }
 
+async function loadSeasonAwards(year = 2025) {
+  const container = document.getElementById("season-awards");
+  if (!container) return;
+
+  try {
+    const indexRes = await fetch("/12AngryMen/history/awards/index.json");
+    const indexData = await indexRes.json();
+
+    const results = [];
+
+    for (const award of indexData.awards) {
+      const folder = award.folder;
+      const jsonPath = `/12AngryMen/history/awards/${folder}/${year}.json`;
+
+      try {
+        const res = await fetch(jsonPath);
+        if (!res.ok) continue;
+
+        const data = await res.json();
+        let winnerText = "";
+
+        // Fantasy Fiver = array of weekly winners
+        if (Array.isArray(data)) {
+          // first 4 rows are header/meta in your sample
+          const weeks = Math.max(0, data.length - 4);
+          winnerText = `${weeks} weekly winners — view award for full breakdown`;
+        }
+        // Normal awards with "Team"
+        else if (data.Team) {
+          winnerText = `Winner: ${data.Team}`;
+        }
+        // Fallback
+        else {
+          winnerText = `Winner data available — view award`;
+        }
+
+        results.push(`
+          <div class="card card-soft" style="margin-bottom:0.75rem;">
+            <div class="card-header">
+              <h3 class="card-title">${award.title}</h3>
+            </div>
+            <div class="card-body">
+              <p>${winnerText}</p>
+            </div>
+          </div>
+        `);
+      } catch (err) {
+        console.error("Error loading award year JSON:", folder, err);
+      }
+    }
+
+    container.innerHTML = `
+      <h2 class="section-title">2025 Completed Season Awards</h2>
+      ${results.join("")}
+    `;
+  } catch (err) {
+    console.error("Error loading season awards index:", err);
+  }
+}
+
 loadAwards();
+loadSeasonAwards();
 </script>
 
 </body>
