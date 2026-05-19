@@ -72,20 +72,25 @@
       <!-- ===================== -->
       <!--        AWARDS         -->
       <!-- ===================== -->
-<section style="margin-top: 2rem;">
+<section style="margin-top:2rem;">
   <h2 class="section-title">Awards</h2>
 
-  <div style="
-    background: rgba(255, 255, 255, 0.03);
-    padding: 1.25rem;
-    border-radius: 0.9rem;
-    border: 1px solid var(--border-subtle);
-    margin-top: 1rem;
-  ">
-    <div id="awards-container" class="card-grid"></div>
-  </div>
-</section>
+  <article class="card card-soft">
+    <div class="card-header">
+      <h3 class="card-title">League Awards</h3>
+      <div class="card-meta">Season Honors • Weekly Wins • Draft Night Chaos</div>
+    </div>
 
+    <div class="card-body">
+      <p>
+        Explore every award in league history — weekly highs, season-long dominance,
+        draft‑day madness, and the annual chase for glory.
+      </p>
+
+      <a href="awards/index.html" class="card-link">View Awards →</a>
+    </div>
+  </article>
+</section>
 
     </section>
 
@@ -211,49 +216,6 @@ async function loadDrafts() {
 }
 
 loadDrafts();
-</script>
-
-<!-- =============================== -->
-<!--   AUTO‑DETECT AWARDS  -->
-<!-- =============================== -->
-
-<script>
-async function loadAwards() {
-  const container = document.getElementById("awards-container");
-  if (!container) return;
-
-  try {
-    const indexRes = await fetch("/12AngryMen/history/awards/index.json");
-    const indexData = await indexRes.json();
-
-    for (const award of indexData.awards) {
-      const url = `/12AngryMen/history/awards/${award.folder}/index.html`;
-      const title = award.title || award.folder;
-
-      const card = document.createElement("article");
-      card.className = "card card-soft";
-      card.style.borderLeft = "4px solid var(--accent)";
-
-      card.innerHTML = `
-        <div class="card-header">
-          <h3 class="card-title">${title}</h3>
-          <div class="card-meta">Award</div>
-        </div>
-        <div class="card-body">
-          <p>Explore the history of the ${title}.</p>
-          <a href="${url}" class="card-link">View Award →</a>
-        </div>
-      `;
-
-      container.appendChild(card);
-    }
-
-  } catch (err) {
-    console.error("Error loading awards:", err);
-  }
-}
-
-loadAwards();
 </script>
 
 </body>
