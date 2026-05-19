@@ -125,48 +125,49 @@ async function loadChampionships() {
   const container = document.getElementById("championships-container");
   if (!container) return;
 
-  let bowls = [];
+  try {
+    // Load the index.json file
+    const indexRes = await fetch("/12AngryMen/history/championships/index.json");
+    const indexData = await indexRes.json();
 
-  // Detect files angry-bowl-1.html through angry-bowl-50.html
-  for (let i = 1; i <= 50; i++) {
-    const file = `angry-bowl-${i}.html`;
-    const url = `/12AngryMen/history/championships/${file}`;
+    // Sort newest → oldest based on the number in the filename
+    const bowls = indexData.bowls.sort((a, b) => {
+      const numA = parseInt(a.match(/\d+/));
+      const numB = parseInt(b.match(/\d+/));
+      return numB - numA;
+    });
 
-    const headCheck = await fetch(url, { method: "HEAD" });
-    if (headCheck.ok) {
-      bowls.push({ number: i, url });
+    // Build cards
+    for (const file of bowls) {
+      const url = `/12AngryMen/history/championships/${file}`;
+
+      // Fetch the file to extract its <title>
+      const response = await fetch(url);
+      const html = await response.text();
+
+      const match = html.match(/<title>(.*?)<\/title>/i);
+      const title = match ? match[1] : file.replace(".html", "");
+
+      const card = document.createElement("article");
+      card.className = "card card-soft";
+      card.style.borderLeft = "4px solid var(--accent)";
+
+      card.innerHTML = `
+        <div class="card-header">
+          <h3 class="card-title">${title}</h3>
+          <div class="card-meta">Championship</div>
+        </div>
+        <div class="card-body">
+          <p>The battle for glory in ${title}.</p>
+          <a href="${url}" class="card-link">View Recap →</a>
+        </div>
+      `;
+
+      container.appendChild(card);
     }
-  }
 
-  // Sort newest → oldest
-  bowls.sort((a, b) => b.number - a.number);
-
-  // Build cards
-  for (const bowl of bowls) {
-    // Fetch the file to read its <title>
-    const response = await fetch(bowl.url);
-    const html = await response.text();
-
-    // Extract <title> text
-    const match = html.match(/<title>(.*?)<\/title>/i);
-    const title = match ? match[1] : `Angry Bowl ${bowl.number}`;
-
-const card = document.createElement("article");
-card.className = "card card-soft";
-card.style.borderLeft = "4px solid var(--accent)";
-
-card.innerHTML = `
-  <div class="card-header">
-    <h3 class="card-title">${title}</h3>
-    <div class="card-meta">Championship</div>
-  </div>
-  <div class="card-body">
-    <p>The battle for glory in ${title}.</p>
-    <a href="${bowl.url}" class="card-link">View Recap →</a>
-  </div>
-`;
-
-    container.appendChild(card);
+  } catch (err) {
+    console.error("Error loading championships:", err);
   }
 }
 
