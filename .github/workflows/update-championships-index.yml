@@ -1,0 +1,55 @@
+name: Auto‑Update Championships Index
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-index:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Generate championships index.json
+        run: |
+          CHAMP_DIR="history/championships"
+          OUTPUT_FILE="$CHAMP_DIR/index.json"
+
+          echo "{" > $OUTPUT_FILE
+          echo '  "bowls": [' >> $OUTPUT_FILE
+
+          # Find all angry-bowl-*.html files and sort them by number
+          FILES=$(ls $CHAMP_DIR/angry-bowl-*.html 2>/dev/null | sort -t'-' -k3 -n)
+
+          COUNT=0
+          TOTAL=$(echo "$FILES" | wc -l)
+
+          for FILE in $FILES; do
+            BASENAME=$(basename "$FILE")
+            COUNT=$((COUNT+1))
+
+            if [ $COUNT -eq $TOTAL ]; then
+              echo "    \"$BASENAME\"" >> $OUTPUT_FILE
+            else
+              echo "    \"$BASENAME\"," >> $OUTPUT_FILE
+            fi
+          done
+
+          echo "  ]" >> $OUTPUT_FILE
+          echo "}" >> $OUTPUT_FILE
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          if ! git diff --quiet; then
+            git add history/championships/index.json
+            git commit -m "Auto-update championships index.json"
+            git push
+          else
+            echo "No changes to commit"
+          fi
