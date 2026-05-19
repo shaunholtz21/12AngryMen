@@ -54,37 +54,20 @@
       <!-- ===================== -->
       <!--        DRAFTS         -->
       <!-- ===================== -->
-      <section style="margin-top:2rem;">
-        <h2 class="section-title">Drafts</h2>
+<section style="margin-top: 2rem;">
+  <h2 class="section-title">Drafts</h2>
 
-        <!-- 2026 Placeholder FIRST -->
-        <article class="card" style="opacity:0.5;">
-          <div class="card-header">
-            <h3 class="card-title">2026 Draft Recap</h3>
-            <div class="card-meta">Coming Soon</div>
-          </div>
-          <div class="card-body">
-            <p>The 2026 draft hasn’t happened yet — recap will be added after Draft Day.</p>
-            <span style="color:var(--accent); font-weight:600;">
-              Recap coming soon
-            </span>
-          </div>
-        </article>
+  <div style="
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.25rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--border-subtle);
+    margin-top: 1rem;
+  ">
+    <div id="drafts-container" class="card-grid"></div>
+  </div>
+</section>
 
-        <!-- 2025 Draft Recap SECOND -->
-        <article class="card">
-          <div class="card-header">
-            <h3 class="card-title">2025 Draft Recap</h3>
-            <div class="card-meta">2025 Season</div>
-          </div>
-          <div class="card-body">
-            <p>The year of rookies, risks, and managers pretending they meant to draft that guy.</p>
-            <a href="drafts/2025-draft-recap.html" style="color:var(--accent); font-weight:600;">
-              View Recap →
-            </a>
-          </div>
-        </article>
-      </section>
 
       <!-- ===================== -->
       <!--        AWARDS         -->
@@ -172,6 +155,64 @@ async function loadChampionships() {
 }
 
 loadChampionships();
+</script>
+
+<!-- =============================== -->
+<!--   AUTO‑DETECT DRAFTS  -->
+<!-- =============================== -->
+
+<script>
+async function loadDrafts() {
+  const container = document.getElementById("drafts-container");
+  if (!container) return;
+
+  try {
+    // Load the index.json file
+    const indexRes = await fetch("/12AngryMen/history/drafts/index.json");
+    const indexData = await indexRes.json();
+
+    // Sort newest → oldest based on the year in the filename
+    const drafts = indexData.drafts.sort((a, b) => {
+      const yearA = parseInt(a.match(/\d+/));
+      const yearB = parseInt(b.match(/\d+/));
+      return yearB - yearA;
+    });
+
+    // Build cards
+    for (const file of drafts) {
+      const url = `/12AngryMen/history/drafts/${file}`;
+
+      // Fetch the file to extract its <title>
+      const response = await fetch(url);
+      const html = await response.text();
+
+      const match = html.match(/<title>(.*?)<\/title>/i);
+      const title = match ? match[1] : file.replace(".html", "");
+
+      const card = document.createElement("article");
+      card.className = "card card-soft";
+      card.style.borderLeft = "4px solid var(--accent)";
+
+      card.innerHTML = `
+        <div class="card-header">
+          <h3 class="card-title">${title}</h3>
+          <div class="card-meta">Draft Recap</div>
+        </div>
+        <div class="card-body">
+          <p>A look back at the picks, steals, reaches, and regrets of ${title}.</p>
+          <a href="${url}" class="card-link">View Recap →</a>
+        </div>
+      `;
+
+      container.appendChild(card);
+    }
+
+  } catch (err) {
+    console.error("Error loading drafts:", err);
+  }
+}
+
+loadDrafts();
 </script>
 
 </body>
