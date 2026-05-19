@@ -37,12 +37,19 @@
       <!-- ===================== -->
       <!--   CHAMPIONSHIPS       -->
       <!-- ===================== -->
-      <section style="margin-top:2rem;">
-        <h2 class="section-title">Championships</h2>
+<section style="margin-top: 2rem;">
+  <h2 class="section-title">Championships</h2>
 
-        <!-- AUTO‑GENERATED CARDS GO HERE -->
-        <div id="championships-container" class="card-grid"></div>
-      </section>
+  <div style="
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.25rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--border-subtle);
+    margin-top: 1rem;
+  ">
+    <div id="championships-container" class="card-grid"></div>
+  </div>
+</section>
 
       <!-- ===================== -->
       <!--        DRAFTS         -->
@@ -144,21 +151,20 @@ async function loadChampionships() {
     const match = html.match(/<title>(.*?)<\/title>/i);
     const title = match ? match[1] : `Angry Bowl ${bowl.number}`;
 
-    const card = document.createElement("article");
-    card.className = "card";
+const card = document.createElement("article");
+card.className = "card card-soft";
+card.style.borderLeft = "4px solid var(--accent)";
 
-    card.innerHTML = `
-      <div class="card-header">
-        <h3 class="card-title">${title}</h3>
-        <div class="card-meta">Championship</div>
-      </div>
-      <div class="card-body">
-        <p>The battle for glory in ${title}.</p>
-        <a href="${bowl.url}" style="color:var(--accent); font-weight:600;">
-          View Recap →
-        </a>
-      </div>
-    `;
+card.innerHTML = `
+  <div class="card-header">
+    <h3 class="card-title">${title}</h3>
+    <div class="card-meta">Championship</div>
+  </div>
+  <div class="card-body">
+    <p>The battle for glory in ${title}.</p>
+    <a href="${bowl.url}" class="card-link">View Recap →</a>
+  </div>
+`;
 
     container.appendChild(card);
   }

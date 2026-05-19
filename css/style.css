@@ -190,6 +190,15 @@ main {
   margin-bottom: 0.35rem;
 }
 
+.card-link {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}
+
 /* Extra spacing for recap award headers */
 #season-recap-container .card-header {
   margin-bottom: 0.6rem;
