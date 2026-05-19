@@ -54,74 +54,58 @@
     <!-- ================================
          AWARD LIST
          ================================ -->
-    <section class="stack">
+    <section style="margin-top: 2rem;">
+      <h2 class="section-title">Awards</h2>
 
-      <a href="fantasy-fiver/" class="card card-soft" style="text-decoration:none;">
-        <div class="card-header">
-          <h3 class="card-title">⭐ Fantasy Fiver</h3>
-          <div class="card-meta">Weekly High Score • Weeks 1–14</div>
-        </div>
-      </a>
-
-      <a href="iron-bank/" class="card card-soft" style="text-decoration:none;">
-        <div class="card-header">
-          <h3 class="card-title">🏦 Iron Bank</h3>
-          <div class="card-meta">Season Points Leader</div>
-        </div>
-      </a>
-
-      <a href="king-east/" class="card card-soft" style="text-decoration:none;">
-        <div class="card-header">
-          <h3 class="card-title">👑 King of the East</h3>
-          <div class="card-meta">Division Champion</div>
-        </div>
-      </a>
-
-      <a href="king-west/" class="card card-soft" style="text-decoration:none;">
-        <div class="card-header">
-          <h3 class="card-title">👑 King of the West</h3>
-          <div class="card-meta">Division Champion</div>
-        </div>
-      </a>
-
-      <a href="punching-bag/" class="card card-soft" style="text-decoration:none;">
-        <div class="card-header">
-          <h3 class="card-title">🥊 Punching Bag</h3>
-          <div class="card-meta">Most Points Against</div>
-        </div>
-      </a>
-
-      <a href="golden-ticket/" class="card card-soft" style="text-decoration:none;">
-        <div class="card-header">
-          <h3 class="card-title">🎫 Golden Ticket</h3>
-          <div class="card-meta">First Overall Draft Pick</div>
-        </div>
-      </a>
-
-      <a href="reach-around/" class="card card-soft" style="text-decoration:none;">
-        <div class="card-header">
-          <h3 class="card-title">🙌 Reach Around</h3>
-          <div class="card-meta">Best Trade of the Season</div>
-        </div>
-      </a>
-
-      <a href="ring-seeker/" class="card card-soft" style="text-decoration:none;">
-        <div class="card-header">
-          <h3 class="card-title">💍 Ring Seeker</h3>
-          <div class="card-meta">Correct Super Bowl Prediction</div>
-        </div>
-      </a>
-
-      <a href="last-man-standing/" class="card card-soft" style="text-decoration:none;">
-        <div class="card-header">
-          <h3 class="card-title">🧨 Last Man Standing</h3>
-          <div class="card-meta">Weekly Elimination Challenge</div>
-        </div>
-      </a>
-
+      <div style="
+        background: rgba(255, 255, 255, 0.03);
+        padding: 1.25rem;
+        border-radius: 0.9rem;
+        border: 1px solid var(--border-subtle);
+        margin-top: 1rem;
+      ">
+        <div id="awards-container" class="card-grid"></div>
+      </div>
     </section>
-
   </div>
+<script>
+async function loadAwards() {
+  const container = document.getElementById("awards-container");
+  if (!container) return;
+
+  try {
+    const indexRes = await fetch("/12AngryMen/history/awards/index.json");
+    const indexData = await indexRes.json();
+
+    for (const award of indexData.awards) {
+      const url = `/12AngryMen/history/awards/${award.folder}/index.html`;
+      const title = award.title || award.folder;
+
+      const card = document.createElement("article");
+      card.className = "card card-soft";
+      card.style.borderLeft = "4px solid var(--accent)";
+
+      card.innerHTML = `
+        <div class="card-header">
+          <h3 class="card-title">${title}</h3>
+          <div class="card-meta">Award</div>
+        </div>
+        <div class="card-body">
+          <p>Explore the history of the ${title}.</p>
+          <a href="${url}" class="card-link">View Award →</a>
+        </div>
+      `;
+
+      container.appendChild(card);
+    }
+
+  } catch (err) {
+    console.error("Error loading awards:", err);
+  }
+}
+
+loadAwards();
+</script>
 
 </body>
 </html>
