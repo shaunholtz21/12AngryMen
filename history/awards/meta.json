@@ -1,0 +1,58 @@
+{
+  "fantasy-fiver": {
+    "title": "Fantasy Fiver Award",
+    "emoji": "🗓",
+    "meta": "Weekly High Score • 14 Winners Per Season",
+    "description": "Awarded each week of the regular season to the manager with the highest point total.",
+    "type": "multi"
+  },
+  "golden-ticket": {
+    "title": "Golden Ticket Award",
+    "emoji": "🎫",
+    "meta": "First Overall Draft Pick",
+    "description": "Awarded annually to the manager who receives the <strong>first overall pick</strong> in the draft.",
+    "type": "single"
+  },
+  "iron-bank": {
+    "title": "Iron Bank Award",
+    "emoji": "🏦",
+    "meta": "Season Points Leader • Total Points Champion",
+    "description": "Awarded annually to the manager who scores the most total points in the season.",
+    "type": "single"
+  },
+  "king-east": {
+    "title": "King of the East",
+    "emoji": "👑",
+    "meta": "Division Champion • East Division",
+    "description": "Awarded annually to the team that finishes atop the East Division standings.",
+    "type": "single"
+  },
+  "king-west": {
+    "title": "King of the West",
+    "emoji": "👑",
+    "meta": "Division Champion • West Division",
+    "description": "Awarded annually to the team that finishes atop the West Division standings.",
+    "type": "single"
+  },
+  "punching-bag": {
+    "title": "Punching Bag Award",
+    "emoji": "🥊",
+    "meta": "Most Points Against • Season Long Misery",
+    "description": "Awarded annually to the manager who suffers the most points against during the season.",
+    "type": "single"
+  },
+  "reach-around": {
+    "title": "Reach Around Award",
+    "emoji": "🙌",
+    "meta": "Best Trade of the Season",
+    "description": "Awarded annually to the manager who pulled off the <strong>best trade</strong> of the season.",
+    "type": "single"
+  },
+  "ring-seeker": {
+    "title": "Ring Seeker Award",
+    "emoji": "💍",
+    "meta": "Correct Super Bowl Prediction",
+    "description": "Awarded to the manager who correctly predicts the <strong>actual NFL Super Bowl champion</strong> based on their draft‑night selection.",
+    "type": "single"
+  }
+}

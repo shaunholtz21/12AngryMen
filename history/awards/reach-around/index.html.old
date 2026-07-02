@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reach Around Award</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+
+<body>
+
+  <!-- BACK LINK -->
+  <div style="width:100%; padding:1.5rem 1rem 0;">
+    <a href="../index.html" style="
+      color:var(--accent);
+      font-weight:600;
+      text-decoration:none;
+    ">
+      ← Back to Awards Hub
+    </a>
+  </div>
+
+  <div class="shell" style="padding-top:1rem;">
+
+    <section class="card card-soft">
+      <div class="card-header">
+        <h3 class="card-title">🙌 Reach Around Award</h3>
+        <div class="card-meta">Best Trade of the Season</div>
+      </div>
+
+      <div class="card-body">
+
+        <p class="hero-sub" style="margin-bottom:1.5rem;">
+          Awarded annually to the manager who pulled off the <strong>best trade</strong> of the season.
+        </p>
+
+        <div id="reach-container">
+          <p>Loading Reach Around history…</p>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+<script>
+async function loadReachAround() {
+  const container = document.getElementById("reach-container");
+  container.innerHTML = "";
+
+  const years = [2021, 2022, 2023, 2024, 2025, 2026];
+
+  const block = document.createElement("div");
+  block.className = "card";
+  block.style.marginBottom = "1.5rem";
+
+  let listHTML = `
+    <h3 style="margin:0 0 1rem 0; font-weight:700;">
+      Reach Around – All-Time Winners
+    </h3>
+  `;
+
+  for (const year of years.reverse()) {
+    const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/reach-around/${year}.json`;
+
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) continue;
+
+      const data = await resp.json();
+      const team = data.Team || "—";
+
+      listHTML += `
+        <div style="
+          padding: 0.5rem 0;
+          border-bottom: 1px solid var(--border);
+          font-size: 1.1rem;
+        ">
+          <strong>${year}</strong> – ${team}
+        </div>
+      `;
+    } catch (err) {
+      console.error("Error loading year", year, err);
+    }
+  }
+
+  block.innerHTML = listHTML;
+  container.appendChild(block);
+}
+
+loadReachAround();
+</script>
+
+</body>
+</html>
