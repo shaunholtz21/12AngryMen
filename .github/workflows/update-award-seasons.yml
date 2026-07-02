@@ -1,0 +1,44 @@
+name: Auto‑Update Award Seasons
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-seasons:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Generate history/awards/seasons.json
+        run: |
+          ROOT="history/awards"
+          OUTPUT_FILE="$ROOT/seasons.json"
+
+          # iron-bank gets one JSON file per season from the spreadsheet sync,
+          # so it's a reliable source of truth for "which years exist".
+          YEARS=$(ls "$ROOT/iron-bank" | grep -E '^[0-9]{4}\.json$' | sed 's/\.json$//' | sort -rn)
+
+          if [ -z "$YEARS" ]; then
+            echo "No season files found under $ROOT/iron-bank — leaving seasons.json untouched."
+            exit 0
+          fi
+
+          echo "[$(echo "$YEARS" | paste -sd, -)]" > "$OUTPUT_FILE"
+          cat "$OUTPUT_FILE"
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          if ! git diff --quiet; then
+            git add history/awards/seasons.json
+            git commit -m "Auto-update award seasons.json"
+            git push
+          else
+            echo "No changes to commit"
+          fi
