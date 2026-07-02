@@ -113,7 +113,7 @@ async function loadChampionships() {
 
   try {
     // Load the index.json file
-    const indexRes = await fetch("championships/index.json");
+    const indexRes = await fetch("/12AngryMen/history/championships/index.json");
     const indexData = await indexRes.json();
 
     // Sort newest → oldest based on the number in the filename
@@ -125,7 +125,7 @@ async function loadChampionships() {
 
     // Build cards
     for (const file of bowls) {
-      const url = `championships/${file}`;
+      const url = `/12AngryMen/history/championships/${file}`;
 
       // Fetch the file to extract its <title>
       const response = await fetch(url);
@@ -171,7 +171,7 @@ async function loadDrafts() {
 
   try {
     // Load the index.json file
-    const indexRes = await fetch("drafts/index.json");
+    const indexRes = await fetch("/12AngryMen/history/drafts/index.json");
     const indexData = await indexRes.json();
 
     // Sort newest → oldest based on the year in the filename
@@ -183,7 +183,7 @@ async function loadDrafts() {
 
     // Build cards
     for (const file of drafts) {
-      const url = `drafts/${file}`;
+      const url = `/12AngryMen/history/drafts/${file}`;
 
       // Fetch the file to extract its <title>
       const response = await fetch(url);

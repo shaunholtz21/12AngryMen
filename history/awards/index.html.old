@@ -63,11 +63,11 @@ async function loadAwards() {
   if (!container) return;
 
   try {
-    const indexRes = await fetch("index.json");
+    const indexRes = await fetch("/12AngryMen/history/awards/index.json");
     const indexData = await indexRes.json();
 
     for (const award of indexData.awards) {
-      const url = `${award.folder}/index.html`;
+      const url = `/12AngryMen/history/awards/${award.folder}/index.html`;
       const title = award.title || award.folder;
 
       const card = document.createElement("article");
@@ -93,41 +93,19 @@ async function loadAwards() {
   }
 }
 
-async function getLatestCompletedYear() {
-  // Use Iron Bank as the reference award (populated every year by the
-  // spreadsheet sync) to find the newest year that actually has a winner.
-  const seasons = await fetch("seasons.json").then((r) => r.json());
-  const sorted = [...seasons].sort((a, b) => b - a);
-
-  for (const year of sorted) {
-    try {
-      const res = await fetch(`iron-bank/${year}.json`);
-      if (!res.ok) continue;
-      const data = await res.json();
-      if (data && data.Team) return year;
-    } catch (err) {
-      continue;
-    }
-  }
-
-  return sorted[0]; // fallback: newest listed season, even if unfinished
-}
-
-async function loadSeasonAwards() {
+async function loadSeasonAwards(year = 2025) {
   const container = document.getElementById("season-awards");
   if (!container) return;
 
   try {
-    const year = await getLatestCompletedYear();
-
-    const indexRes = await fetch("index.json");
+    const indexRes = await fetch("/12AngryMen/history/awards/index.json");
     const indexData = await indexRes.json();
 
     const results = [];
 
     for (const award of indexData.awards) {
       const folder = award.folder;
-      const jsonPath = `${folder}/${year}.json`;
+      const jsonPath = `/12AngryMen/history/awards/${folder}/${year}.json`;
 
       try {
         const res = await fetch(jsonPath);
@@ -167,7 +145,7 @@ async function loadSeasonAwards() {
     }
 
     container.innerHTML = `
-      <h2 class="section-title">${year} Completed Season Awards</h2>
+      <h2 class="section-title">2025 Completed Season Awards</h2>
       ${results.join("")}
     `;
   } catch (err) {
