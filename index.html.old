@@ -124,31 +124,11 @@
 
   </div>
   <script>
-async function getLatestCompletedYear() {
-  // Use Iron Bank as the reference award (populated every year by the
-  // spreadsheet sync) to find the newest year that actually has a winner.
-  const seasons = await fetch("history/awards/seasons.json").then((r) => r.json());
-  const sorted = [...seasons].sort((a, b) => b - a);
-
-  for (const year of sorted) {
-    try {
-      const res = await fetch(`history/awards/iron-bank/${year}.json`);
-      if (!res.ok) continue;
-      const data = await res.json();
-      if (data && data.Team) return year;
-    } catch (err) {
-      continue;
-    }
-  }
-
-  return sorted[0]; // fallback: newest listed season, even if unfinished
-}
-
 async function loadSeasonRecap() {
   const container = document.getElementById("season-recap-container");
   container.innerHTML = "";
 
-  const year = await getLatestCompletedYear();
+  const year = 2025;
 
   const awards = [
     { key: "fantasy-fiver", label: "Fantasy Fiver", type: "multi" },
@@ -167,15 +147,11 @@ async function loadSeasonRecap() {
   for (const award of awards) {
     try {
       if (award.type === "multi") {
-        const url = `history/awards/${award.key}/${year}.json`;
+        const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/${award.key}/${year}.json`;
         const resp = await fetch(url);
         const data = await resp.json();
 
-        const weeks = data.filter(r =>
-          r["Fantasy Fiver Award"] &&
-          r["Fantasy Fiver Award"].startsWith("Week") &&
-          r["Unnamed: 1"] // skip weeks that haven't been played yet
-        );
+        const weeks = data.filter(r => r["Fantasy Fiver Award"] && r["Fantasy Fiver Award"].startsWith("Week"));
 
         results.push({
           label: award.label,
@@ -183,7 +159,7 @@ async function loadSeasonRecap() {
         });
 
       } else if (award.type === "single") {
-        const url = `history/awards/${award.key}/${year}.json`;
+        const url = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/${award.key}/${year}.json`;
         const resp = await fetch(url);
         const data = await resp.json();
 
@@ -193,8 +169,8 @@ async function loadSeasonRecap() {
         });
 
       } else if (award.type === "lms") {
-        const elimUrl = `history/awards/${award.key}/${year}.json`;
-        const teamsUrl = `history/awards/${award.key}/${year}-teams.json`;
+        const elimUrl = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/${award.key}/${year}.json`;
+        const teamsUrl = `https://raw.githubusercontent.com/shaunholtz21/12AngryMen/main/history/awards/${award.key}/${year}-teams.json`;
 
         const elimResp = await fetch(elimUrl);
         const elimData = await elimResp.json();
@@ -247,7 +223,7 @@ async function loadSeasonRecap() {
   }).join("");
 
 container.innerHTML = `
-  <h2 id="recap-title" class="recap-title-bar">${year} Season Recap</h2>
+  <h2 id="recap-title" class="recap-title-bar">Season Recap</h2>
   <div style="
     background: rgba(255, 255, 255, 0.03);
     padding: 1.25rem;
