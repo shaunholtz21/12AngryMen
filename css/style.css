@@ -1,0 +1,503 @@
+:root {
+  --bg: #050608;
+  --bg-alt: #101218;
+  --card: #151822;
+  --accent: #e53935;
+  --accent-soft: rgba(229, 57, 53, 0.12);
+  --text: #f5f5f5;
+  --muted: #a0a4b8;
+  --border-subtle: #262a36;
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background: radial-gradient(circle at top, #151822 0, #050608 55%);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAV */
+
+header {
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(5, 6, 8, 0.96);
+  backdrop-filter: blur(14px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.nav {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: radial-gradient(circle at 30% 0, #2b2f3f 0, #050608 70%);
+}
+
+.nav-title-main {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nav-title-sub {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.nav-links a {
+  position: relative;
+  padding-bottom: 0.15rem;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.18s ease-out;
+}
+
+.back-link {
+  display: inline;
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* LAYOUT */
+
+main {
+  flex: 1;
+}
+
+.shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3rem;
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 880px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* HERO */
+
+.hero {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.hero-title {
+  font-size: clamp(1.9rem, 3vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.hero-sub {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 34rem;
+}
+
+/* CARDS */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.card {
+  border-radius: 0.9rem;
+  border: 1px solid var(--border-subtle);
+  background: radial-gradient(circle at top left, #22263a 0, #151822 40%, #050608 100%);
+  padding: 0.9rem 1rem;
+}
+
+.card-soft {
+  background: linear-gradient(135deg, rgba(229, 57, 53, 0.12), rgba(15, 18, 26, 0.9));
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.card-link {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}
+
+/* Extra spacing for recap award headers */
+#season-recap-container .card-header {
+  margin-bottom: 0.6rem;
+}
+
+.card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Recap award title polish */
+#season-recap-container .card-title {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.card-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.card-body {
+  font-size: 0.9rem;
+  color: #e3e5f0;
+}
+
+.card-body p + p {
+  margin-top: 0.4rem;
+}
+
+.matchup-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  margin-top: 0.55rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* FOOTER */
+
+.footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 1.25rem 1.25rem 1.75rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ============================
+   LAST MAN STANDING
+   ============================ */
+
+.lms-winner {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.6rem;
+}
+
+.lms-winner-name {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.lms-status {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* Two-column layout for tables */
+.lms-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.lms-col {
+  flex: 1;
+  min-width: 260px;
+}
+
+/* Table styling scoped to LMS */
+.lms-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.lms-table th,
+.lms-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.lms-table th {
+  background: rgba(255, 255, 255, 0.02);
+  text-align: left;
+  font-weight: 600;
+}
+
+.lms-table-section h5 {
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+/* Keep "Week Eliminated" on one line */
+.lms-table-alive th:nth-child(3) {
+  white-space: nowrap;
+  
+}
+/* Make the TEAM column expand and prevent wrapping */
+.lms-table-alive td:first-child,
+.lms-table-alive th:first-child {
+  white-space: nowrap;
+  width: Auto;
+}
+/* Expand LMS page to full width */
+body.lms-page .shell {
+  grid-template-columns: 1fr !important;
+}
+/* Center the Week Eliminated numbers */
+.lms-table-alive td:nth-child(3),
+.lms-table-alive th:nth-child(3) {
+  text-align: center;
+}
+/* Make LMS season blocks full-width */
+body.lms-page details {
+  width: 100%;
+}
+
+/* Make the inner season content full-width */
+body.lms-page .lms-season-layout,
+body.lms-page [id^="season-"] {
+  width: 100%;
+}
+
+/* LMS page should be single-column */
+body.lms-page .shell {
+  grid-template-columns: 1fr !important;
+}
+
+/* Card hover polish for Season Recap */
+.card-soft {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card-soft:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transform: translateY(-2px);
+}
+
+/* Season Recap winner text polish */
+.award-winner {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f5f5f5;
+  text-shadow: 0 0 6px rgba(229, 57, 53, 0.25);
+}
+
+/* Recap list bullet */
+.recap-bullet {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 4px;
+}
+
+.recap-bullet-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Recap title bar */
+.recap-title-bar {
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  color: var(--muted);
+}
+
+/* Fade-in animation for recap cards */
+@keyframes recapFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#season-recap-container .card {
+  animation: recapFadeIn 0.35s ease-out;
+}
+
+/* Spacing between recap cards */
+#season-recap-container .card {
+  margin-bottom: 1.25rem;
+}
+
+/* Soft divider between recap cards */
+#season-recap-container .card + .card {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 1.25rem;
+}
+
+/* Recap container spacing */
+#season-recap-container > div {
+  padding: 1.5rem 1.75rem;
+}
+
+/* Normalize recap card body spacing */
+#season-recap-container .card-body {
+  padding-top: 0.25rem;
+}
+
+/* Mobile polish for recap section */
+@media (max-width: 600px) {
+  #season-recap-container > div {
+    padding: 1.25rem 1rem;
+  }
+
+  #season-recap-container .card {
+    border-left-width: 3px;
+  }
+
+  #season-recap-container .card-title {
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+
+  .recap-bullet {
+    gap: 0.4rem;
+  }
+}
+
+/* Hover lift for recap cards */
+#season-recap-container .card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+#season-recap-container .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Soft shadow for recap wrapper */
+#season-recap-container > div {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+/* ============================
+   AWARD PAGES (shared template)
+   ============================ */
+
+.collapse-toggle {
+  cursor: pointer;
+  padding: 0.75rem 0;
+  font-weight: 600;
+  color: var(--accent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collapse-content {
+  display: none;
+  padding-bottom: 1rem;
+}
+
+.collapse.open .collapse-content {
+  display: block;
+}
+
