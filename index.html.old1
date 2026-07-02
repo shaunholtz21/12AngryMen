@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>12 Angry Men League</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/loader.js" defer></script>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- HEADER -->
+    <header>
+      <nav class="nav">
+        <a href="index.html" class="nav-title-main">Home</a>
+
+        <div class="nav-links">
+          <a href="weekly-notes/index.html">Weekly Notes</a>
+          <a href="history/index.html">League History</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+      <div class="shell">
+
+        <!-- LEFT COLUMN -->
+        <div>
+
+          <!-- HERO -->
+          <div class="hero">
+            <h1 class="hero-title">12 Angry Men League</h1>
+            <p class="hero-sub">
+              Your home for league history, weekly notes, and championship glory.
+            </p>
+          </div>
+
+          <!-- ANGRY BOWL V -->
+          <div id="angryBowlContainer" class="stack"></div>
+
+          <script>
+            // Load Angry Bowl V card
+            fetch("history/championships/angry-bowl-5.html")
+              .then(r => r.text())
+              .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, "text/html");
+                const card = doc.querySelector("section.card");
+                if (card) {
+                  document.getElementById("angryBowlContainer").innerHTML = card.outerHTML;
+                }
+              });
+          </script>
+
+          <!-- SEASON RECAP -->
+          <section class="card card-soft" style="margin-top: 1.5rem;">
+            <div class="card-header">
+              <h3 class="card-title"></h3>
+            </div>
+            <div class="card-body">
+            <div id="season-recap-container">
+            <p>Loading season recap…</p>
+            </div>
+            </div>
+
+          </section>
+
+          <script>
+            // Auto-load the newest weekly note
+            async function loadLatestNote() {
+              try {
+                const seasonsRes = await fetch("recaps/seasons.json");
+                const seasonsData = await seasonsRes.json();
+                const newestSeason = seasonsData.seasons[0];
+
+                const weeksRes = await fetch(`recaps/${newestSeason}/weeks.json`);
+                const weeksData = await weeksRes.json();
+                const latestWeek = weeksData.weeks[weeksData.weeks.length - 1];
+
+                const recapRes = await fetch(`recaps/${newestSeason}/${latestWeek}.html`);
+                const recapHtml = await recapRes.text();
+
+                document.getElementById("latestNote").innerHTML = recapHtml;
+
+              } catch (err) {
+                document.getElementById("latestNote").innerHTML =
+                  `<p style="color: var(--muted);">Unable to load latest weekly note.</p>`;
+              }
+            }
+
+            loadLatestNote();
+          </script>
+
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="sidebar">
+
+          <!-- LATEST WEEKLY NOTE (moved to sidebar) -->
+          <section class="card">
+            <div class="card-header">
+              <h3 class="card-title">Latest Weekly Note</h3>
+            </div>
+            <div id="latestNote" class="card-body">
+              <p style="color: var(--muted);">Loading latest note…</p>
+            </div>
+          </section>
+
+          <div id="content" style="margin-top: 1.5rem;"></div>
+
+        </aside>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>© 12 Angry Men League</p>
+    </footer>
+
+  </div>
+  <script>
+async function getLatestCompletedYear() {
+  // Use Iron Bank as the reference award (populated every year by the
+  // spreadsheet sync) to find the newest year that actually has a winner.
+  const seasons = await fetch("history/awards/seasons.json").then((r) => r.json());
+  const sorted = [...seasons].sort((a, b) => b - a);
+
+  for (const year of sorted) {
+    try {
+      const res = await fetch(`history/awards/iron-bank/${year}.json`);
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (data && data.Team) return year;
+    } catch (err) {
+      continue;
+    }
+  }
+
+  return sorted[0]; // fallback: newest listed season, even if unfinished
+}
+
+async function loadSeasonRecap() {
+  const container = document.getElementById("season-recap-container");
+  container.innerHTML = "";
+
+  const year = await getLatestCompletedYear();
+
+  const awards = [
+    { key: "fantasy-fiver", label: "Fantasy Fiver", type: "multi" },
+    { key: "iron-bank", label: "Iron Bank", type: "single" },
+    { key: "king-east", label: "King of the East", type: "single" },
+    { key: "king-west", label: "King of the West", type: "single" },
+    { key: "punching-bag", label: "Punching Bag", type: "single" },
+    { key: "golden-ticket", label: "Golden Ticket", type: "single" },
+    { key: "reach-around", label: "Reach Around", type: "single" },
+    { key: "ring-seeker", label: "Ring Seeker", type: "single" },
+    { key: "last-man-standing", label: "Last Man Standing", type: "lms" }
+  ];
+
+  const results = [];
+
+  for (const award of awards) {
+    try {
+      if (award.type === "multi") {
+        const url = `history/awards/${award.key}/${year}.json`;
+        const resp = await fetch(url);
+        const data = await resp.json();
+
+        const weeks = data.filter(r =>
+          r["Fantasy Fiver Award"] &&
+          r["Fantasy Fiver Award"].startsWith("Week") &&
+          r["Unnamed: 1"] // skip weeks that haven't been played yet
+        );
+
+        results.push({
+          label: award.label,
+          value: weeks.map(w => `${w["Fantasy Fiver Award"]}: ${w["Unnamed: 1"]} (${w["Unnamed: 2"]})`)
+        });
+
+      } else if (award.type === "single") {
+        const url = `history/awards/${award.key}/${year}.json`;
+        const resp = await fetch(url);
+        const data = await resp.json();
+
+        results.push({
+          label: award.label,
+          value: data.Team
+        });
+
+      } else if (award.type === "lms") {
+        const elimUrl = `history/awards/${award.key}/${year}.json`;
+        const teamsUrl = `history/awards/${award.key}/${year}-teams.json`;
+
+        const elimResp = await fetch(elimUrl);
+        const elimData = await elimResp.json();
+
+        const teamsResp = await fetch(teamsUrl);
+        const teamsData = await teamsResp.json();
+
+        const eliminated = elimData.map(e => e.Team);
+        const winner = teamsData.find(t => !eliminated.includes(t));
+
+        results.push({
+          label: award.label,
+          value: winner
+        });
+      }
+
+    } catch (err) {
+      console.error("Error loading award:", award.key, err);
+    }
+  }
+
+  const html = results.map(r => {
+    if (Array.isArray(r.value)) {
+      return `
+        <div class="card card-soft" style="border-left: 4px solid var(--accent);">
+          <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
+          <div class="card-body">
+            ${r.value.map(v => `
+  <div class="recap-bullet">
+    <div class="recap-bullet-dot"></div>
+    <div>${v}</div>
+  </div>
+`).join("")}
+
+          </div>
+        </div>
+      `;
+} else {
+  return `
+    <div class="card card-soft" style="border-left: 4px solid var(--accent);">
+      <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
+      <div class="card-body">
+        <div class="award-winner">
+          ${r.value}
+        </div>
+      </div>
+    </div>
+  `;
+}
+  }).join("");
+
+container.innerHTML = `
+  <h2 id="recap-title" class="recap-title-bar">${year} Season Recap</h2>
+  <div style="
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.25rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--border-subtle);
+  ">
+    ${html}
+  </div>
+`;
+
+}
+
+loadSeasonRecap();
+</script>
+</body>
+</html>
