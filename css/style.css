@@ -642,11 +642,6 @@ body.lms-page .shell {
   opacity: 0.5;
 }
 
-.card-upcoming-faint {
-  margin-bottom: 1.5rem;
-  opacity: 0.4;
-}
-
 /* ============================
    AWARD HISTORY RENDERING (awards.js)
    ============================ */
