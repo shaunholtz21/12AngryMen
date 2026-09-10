@@ -26,81 +26,38 @@
 
     <!-- MAIN -->
     <main>
-      <div class="shell">
 
-        <!-- LEFT COLUMN -->
-        <div>
+      <div class="shell home-grid">
 
-          <!-- HERO -->
-          <div class="hero">
-            <h1 class="hero-title">12 Angry Men League</h1>
-            <p class="hero-sub">
-              Your home for league history, weekly notes, and championship glory.
-            </p>
-          </div>
-
-          <!-- ANGRY BOWL V -->
-          <div id="angryBowlContainer" class="stack"></div>
-
-          <script>
-            // Load Angry Bowl V card
-            fetch("history/championships/angry-bowl-5.html")
-              .then(r => r.text())
-              .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, "text/html");
-                const card = doc.querySelector("section.card");
-                if (card) {
-                  document.getElementById("angryBowlContainer").innerHTML = card.outerHTML;
-                }
-              });
-          </script>
-
-          <!-- SEASON RECAP -->
-          <section class="card card-soft mt-lg">
-            <div class="card-header">
-              <h3 class="card-title"></h3>
-            </div>
-            <div class="card-body">
-            <div id="season-recap-container">
-            <p>Loading season recap…</p>
-            </div>
-            </div>
-
-          </section>
-
-          <script>
-            // Auto-load the newest weekly note
-            async function loadLatestNote() {
-              try {
-                const seasonsRes = await fetch("recaps/seasons.json");
-                const seasonsData = await seasonsRes.json();
-                const newestSeason = seasonsData.seasons[0];
-
-                const weeksRes = await fetch(`recaps/${newestSeason}/weeks.json`);
-                const weeksData = await weeksRes.json();
-                const latestWeek = weeksData.weeks[weeksData.weeks.length - 1];
-
-                const recapRes = await fetch(`recaps/${newestSeason}/${latestWeek}.html`);
-                const recapHtml = await recapRes.text();
-
-                document.getElementById("latestNote").innerHTML = recapHtml;
-
-              } catch (err) {
-                document.getElementById("latestNote").innerHTML =
-                  `<p class="text-muted">Unable to load latest weekly note.</p>`;
-              }
-            }
-
-            loadLatestNote();
-          </script>
-
+        <!-- HERO -->
+        <div class="hero">
+          <h1 class="hero-title">12 Angry Men League</h1>
+          <p class="hero-sub">
+            Your home for league history, weekly notes, and championship glory.
+          </p>
         </div>
 
-        <!-- RIGHT SIDEBAR -->
+        <!-- LEFT COLUMN: LAST MAN STANDING -->
+        <div>
+          <section class="card card-soft">
+            <div class="card-header">
+              <h3 class="card-title">🏆 Last Man Standing</h3>
+              <div class="card-meta" id="lmsHomeMeta"></div>
+            </div>
+            <div class="card-body" id="lmsHomeContainer">
+              <p class="text-muted">Loading Last Man Standing…</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- MIDDLE COLUMN: CURRENT DRAFT RECAP (full length) -->
+        <div id="draftRecapContainer">
+          <p class="text-muted">Loading draft recap…</p>
+        </div>
+
+        <!-- RIGHT SIDEBAR: WEEKLY NOTE / FANTASY FIVER / RING SEEKER -->
         <aside class="sidebar">
 
-          <!-- LATEST WEEKLY NOTE (moved to sidebar) -->
           <section class="card">
             <div class="card-header">
               <h3 class="card-title">Latest Weekly Note</h3>
@@ -110,7 +67,23 @@
             </div>
           </section>
 
-          <div id="content" class="mt-lg"></div>
+          <section class="card card-soft">
+            <div class="card-header">
+              <h3 class="card-title" id="fantasyFiverHomeTitle">🗓 Fantasy Fiver</h3>
+            </div>
+            <div class="card-body" id="fantasyFiverHomeContainer">
+              <p class="text-muted">Loading…</p>
+            </div>
+          </section>
+
+          <section class="card card-soft">
+            <div class="card-header">
+              <h3 class="card-title" id="ringSeekerHomeTitle">💍 Ring Seeker Picks</h3>
+            </div>
+            <div class="card-body" id="ringSeekerHomeContainer">
+              <p class="text-muted">Loading…</p>
+            </div>
+          </section>
 
         </aside>
 
@@ -123,139 +96,183 @@
     </footer>
 
   </div>
+
   <script>
-async function getLatestCompletedYear() {
-  // Use Iron Bank as the reference award (populated every year by the
-  // spreadsheet sync) to find the newest year that actually has a winner.
-  const seasons = await fetch("history/awards/seasons.json").then((r) => r.json());
-  const sorted = [...seasons].sort((a, b) => b - a);
-
-  for (const year of sorted) {
-    try {
-      const res = await fetch(`history/awards/iron-bank/${year}.json`);
-      if (!res.ok) continue;
-      const data = await res.json();
-      if (data && data.Team) return year;
-    } catch (err) {
-      continue;
+    // ------------------------------
+    // Shared: current (newest) season
+    // ------------------------------
+    async function getCurrentSeason() {
+      const seasons = await fetch("history/awards/seasons.json").then((r) => r.json());
+      return [...seasons].sort((a, b) => b - a)[0];
     }
-  }
 
-  return sorted[0]; // fallback: newest listed season, even if unfinished
-}
+    // ------------------------------
+    // Latest weekly note (unchanged)
+    // ------------------------------
+    async function loadLatestNote() {
+      try {
+        const seasonsRes = await fetch("recaps/seasons.json");
+        const seasonsData = await seasonsRes.json();
+        const newestSeason = seasonsData.seasons[0];
 
-async function loadSeasonRecap() {
-  const container = document.getElementById("season-recap-container");
-  container.innerHTML = "";
+        const weeksRes = await fetch(`recaps/${newestSeason}/weeks.json`);
+        const weeksData = await weeksRes.json();
+        const latestWeek = weeksData.weeks[weeksData.weeks.length - 1];
 
-  const year = await getLatestCompletedYear();
+        const recapRes = await fetch(`recaps/${newestSeason}/${latestWeek}.html`);
+        const recapHtml = await recapRes.text();
 
-  const awards = [
-    { key: "fantasy-fiver", label: "Fantasy Fiver", type: "multi" },
-    { key: "iron-bank", label: "Iron Bank", type: "single" },
-    { key: "king-east", label: "King of the East", type: "single" },
-    { key: "king-west", label: "King of the West", type: "single" },
-    { key: "punching-bag", label: "Punching Bag", type: "single" },
-    { key: "golden-ticket", label: "Golden Ticket", type: "single" },
-    { key: "reach-around", label: "Reach Around", type: "single" },
-    { key: "ring-seeker", label: "Ring Seeker", type: "single" },
-    { key: "last-man-standing", label: "Last Man Standing", type: "lms" }
-  ];
+        document.getElementById("latestNote").innerHTML = recapHtml;
 
-  const results = [];
+      } catch (err) {
+        document.getElementById("latestNote").innerHTML =
+          `<p class="text-muted">Unable to load latest weekly note.</p>`;
+      }
+    }
 
-  for (const award of awards) {
-    try {
-      if (award.type === "multi") {
-        const url = `history/awards/${award.key}/${year}.json`;
-        const resp = await fetch(url);
-        const data = await resp.json();
+    // ------------------------------
+    // Middle: current draft recap (full length)
+    // ------------------------------
+    async function loadLatestDraftRecap() {
+      const container = document.getElementById("draftRecapContainer");
 
-        const weeks = data.filter(r =>
+      try {
+        const indexRes = await fetch("history/drafts/index.json");
+        const indexData = await indexRes.json();
+
+        const drafts = indexData.drafts.sort((a, b) => {
+          const yearA = parseInt(a.match(/\d+/));
+          const yearB = parseInt(b.match(/\d+/));
+          return yearB - yearA;
+        });
+
+        const latest = drafts[0];
+        const res = await fetch(`history/drafts/${latest}`);
+        const html = await res.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        const card = doc.querySelector("section.card");
+
+        container.innerHTML = card
+          ? card.outerHTML
+          : `<p class="text-muted">Unable to load the latest draft recap.</p>`;
+
+      } catch (err) {
+        container.innerHTML = `<p class="text-muted">Unable to load the latest draft recap.</p>`;
+      }
+    }
+
+    // ------------------------------
+    // Left: current Last Man Standing status
+    // ------------------------------
+    async function loadLmsHome() {
+      const container = document.getElementById("lmsHomeContainer");
+      const metaEl = document.getElementById("lmsHomeMeta");
+
+      try {
+        const year = await getCurrentSeason();
+        metaEl.textContent = `${year} Season`;
+
+        const elimData = await fetch(`history/awards/last-man-standing/${year}.json`).then((r) => r.json());
+        const teamData = await fetch(`history/awards/last-man-standing/${year}-teams.json`).then((r) => r.json());
+
+        const eliminated = elimData.map((e) => e.Team);
+        const remaining = teamData.filter((t) => !eliminated.includes(t));
+
+        if (elimData.length === 0) {
+          container.innerHTML = `
+            <p>Season just underway — all <strong>${teamData.length}</strong> teams still alive.</p>
+          `;
+        } else if (remaining.length === 1) {
+          container.innerHTML = `
+            <div class="award-winner">🏆 ${remaining[0]}</div>
+            <p class="text-muted mt-sm">Winner — last team standing after ${elimData.length} eliminations.</p>
+          `;
+        } else {
+          const lastElim = [...elimData].sort((a, b) => b.Week - a.Week)[0];
+          container.innerHTML = `
+            <p><strong>${remaining.length}</strong> of ${teamData.length} teams still alive.</p>
+            <p class="text-muted mt-sm">Most recent: <strong>${lastElim.Team}</strong> eliminated in Week ${lastElim.Week} (${lastElim.Score.toFixed(2)} pts).</p>
+          `;
+        }
+
+        container.innerHTML += `<p class="mt-sm"><a href="history/awards/last-man-standing/index.html" class="card-link">View Full History →</a></p>`;
+
+      } catch (err) {
+        console.error("Error loading LMS home tile:", err);
+        container.innerHTML = `<p class="text-muted">Unable to load Last Man Standing data.</p>`;
+      }
+    }
+
+    // ------------------------------
+    // Right: current Fantasy Fiver weekly winners
+    // ------------------------------
+    async function loadFantasyFiverHome() {
+      const container = document.getElementById("fantasyFiverHomeContainer");
+      const titleEl = document.getElementById("fantasyFiverHomeTitle");
+
+      try {
+        const year = await getCurrentSeason();
+        titleEl.textContent = `🗓 Fantasy Fiver — ${year}`;
+
+        const data = await fetch(`history/awards/fantasy-fiver/${year}.json`).then((r) => r.json());
+
+        const weeks = data.filter((r) =>
           r["Fantasy Fiver Award"] &&
-          r["Fantasy Fiver Award"].startsWith("Week") &&
-          r["Unnamed: 1"] // skip weeks that haven't been played yet
+          /^Week \d+/.test(r["Fantasy Fiver Award"]) &&
+          r["Unnamed: 1"]
         );
 
-        results.push({
-          label: award.label,
-          value: weeks.map(w => `${w["Fantasy Fiver Award"]}: ${w["Unnamed: 1"]} (${w["Unnamed: 2"]})`)
-        });
+        container.innerHTML = weeks.length
+          ? weeks.map((w) => `
+              <div class="recap-bullet">
+                <div class="recap-bullet-dot"></div>
+                <div>${w["Fantasy Fiver Award"]}: ${w["Unnamed: 1"]} (${w["Unnamed: 2"]})</div>
+              </div>
+            `).join("")
+          : `<p class="text-muted">No weekly winners recorded yet.</p>`;
 
-      } else if (award.type === "single") {
-        const url = `history/awards/${award.key}/${year}.json`;
-        const resp = await fetch(url);
-        const data = await resp.json();
-
-        results.push({
-          label: award.label,
-          value: data.Team
-        });
-
-      } else if (award.type === "lms") {
-        const elimUrl = `history/awards/${award.key}/${year}.json`;
-        const teamsUrl = `history/awards/${award.key}/${year}-teams.json`;
-
-        const elimResp = await fetch(elimUrl);
-        const elimData = await elimResp.json();
-
-        const teamsResp = await fetch(teamsUrl);
-        const teamsData = await teamsResp.json();
-
-        const eliminated = elimData.map(e => e.Team);
-        const winner = teamsData.find(t => !eliminated.includes(t));
-
-        results.push({
-          label: award.label,
-          value: winner
-        });
+      } catch (err) {
+        console.error("Error loading Fantasy Fiver home tile:", err);
+        container.innerHTML = `<p class="text-muted">Unable to load Fantasy Fiver data.</p>`;
       }
-
-    } catch (err) {
-      console.error("Error loading award:", award.key, err);
     }
-  }
 
-  const html = results.map(r => {
-    if (Array.isArray(r.value)) {
-      return `
-        <div class="card card-soft card-accent-left">
-          <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
-          <div class="card-body">
-            ${r.value.map(v => `
-  <div class="recap-bullet">
-    <div class="recap-bullet-dot"></div>
-    <div>${v}</div>
-  </div>
-`).join("")}
+    // ------------------------------
+    // Right: current Ring Seeker Super Bowl picks
+    // ------------------------------
+    async function loadRingSeekerHome() {
+      const container = document.getElementById("ringSeekerHomeContainer");
+      const titleEl = document.getElementById("ringSeekerHomeTitle");
 
-          </div>
-        </div>
-      `;
-} else {
-  return `
-    <div class="card card-soft card-accent-left">
-      <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
-      <div class="card-body">
-        <div class="award-winner">
-          ${r.value}
-        </div>
-      </div>
-    </div>
-  `;
-}
-  }).join("");
+      try {
+        const year = await getCurrentSeason();
+        titleEl.textContent = `💍 Ring Seeker Picks — ${year}`;
 
-container.innerHTML = `
-  <h2 id="recap-title" class="recap-title-bar">${year} Season Recap</h2>
-  <div class="panel">
-    ${html}
-  </div>
-`;
+        const res = await fetch(`history/awards/ring-seeker/${year}-picks.json`);
+        if (!res.ok) throw new Error("No picks file for this season yet");
+        const picks = await res.json();
 
-}
+        container.innerHTML = picks.length
+          ? picks.map((p) => `
+              <div class="recap-bullet">
+                <div class="recap-bullet-dot"></div>
+                <div><strong>${p.Team}</strong> → ${p.Prediction}</div>
+              </div>
+            `).join("")
+          : `<p class="text-muted">No Ring Seeker picks recorded yet.</p>`;
 
-loadSeasonRecap();
-</script>
+      } catch (err) {
+        container.innerHTML = `<p class="text-muted">Ring Seeker picks aren't available yet.</p>`;
+      }
+    }
+
+    loadLatestNote();
+    loadLatestDraftRecap();
+    loadLmsHome();
+    loadFantasyFiverHome();
+    loadRingSeekerHome();
+  </script>
 </body>
 </html>

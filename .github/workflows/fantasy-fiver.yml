@@ -229,7 +229,40 @@ jobs:
 
               except Exception as e:
                   print(f"Error generating Ring Seeker for {year}: {e}")
-               
+
+              # ================================
+              # RING SEEKER PICKS (each team's Super Bowl pick)
+              # ================================
+              try:
+                  sheet = pd.read_excel(
+                      xlsx,
+                      sheet_name="Awards - Ring Seeker",
+                      skiprows=4
+                  )
+
+                  positions = sheet.iloc[:, 0]
+                  teams = sheet.iloc[:, 1]
+                  predictions = sheet.iloc[:, 2]
+
+                  picks_data = []
+                  for pos, team, pick in zip(positions, teams, predictions):
+                      if pd.isna(team) or pd.isna(pick):
+                          continue
+
+                      picks_data.append({
+                          "DraftPosition": int(pos) if not pd.isna(pos) else None,
+                          "Team": str(team).strip(),
+                          "Prediction": str(pick).strip()
+                      })
+
+                  with open(os.path.join(ring_dir, f"{year}-picks.json"), "w") as f:
+                      json.dump(picks_data, f, indent=2)
+
+                  print(f"Ring Seeker picks JSON written for {year}")
+
+              except Exception as e:
+                  print(f"Error generating Ring Seeker picks for {year}: {e}")
+
               # ================================
               # LAST MAN STANDING (eliminations)
               # ================================
