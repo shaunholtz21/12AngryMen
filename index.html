@@ -144,27 +144,54 @@
         const elimData = await fetch(`history/awards/last-man-standing/${year}.json`).then((r) => r.json());
         const teamData = await fetch(`history/awards/last-man-standing/${year}-teams.json`).then((r) => r.json());
 
-        const eliminated = elimData.map((e) => e.Team);
-        const remaining = teamData.filter((t) => !eliminated.includes(t));
+        const elimMap = new Map(elimData.map((e) => [e.Team, e.Week]));
+        const remaining = teamData.filter((t) => !elimMap.has(t));
+        const eliminated = teamData
+          .filter((t) => elimMap.has(t))
+          .sort((a, b) => elimMap.get(a) - elimMap.get(b));
 
+        let statusHtml;
         if (elimData.length === 0) {
-          container.innerHTML = `
-            <p>Season just underway — all <strong>${teamData.length}</strong> teams still alive.</p>
-          `;
+          statusHtml = `<p>Season just underway — all <strong>${teamData.length}</strong> teams still alive.</p>`;
         } else if (remaining.length === 1) {
-          container.innerHTML = `
+          statusHtml = `
             <div class="award-winner">🏆 ${remaining[0]}</div>
             <p class="text-muted mt-sm">Winner — last team standing after ${elimData.length} eliminations.</p>
           `;
         } else {
-          const lastElim = [...elimData].sort((a, b) => b.Week - a.Week)[0];
-          container.innerHTML = `
-            <p><strong>${remaining.length}</strong> of ${teamData.length} teams still alive.</p>
-            <p class="text-muted mt-sm">Most recent: <strong>${lastElim.Team}</strong> eliminated in Week ${lastElim.Week} (${lastElim.Score.toFixed(2)} pts).</p>
-          `;
+          statusHtml = `<p><strong>${remaining.length}</strong> of ${teamData.length} teams still alive.</p>`;
         }
 
-        container.innerHTML += `<p class="mt-sm"><a href="history/awards/last-man-standing/index.html" class="card-link">View Full History →</a></p>`;
+        const aliveHtml = remaining.length
+          ? remaining.map((t) => `
+              <div class="recap-bullet">
+                <div class="recap-bullet-dot"></div>
+                <div>${t}</div>
+              </div>
+            `).join("")
+          : `<p class="text-muted">No teams remaining.</p>`;
+
+        const eliminatedHtml = eliminated.length
+          ? eliminated.map((t) => `
+              <div class="recap-bullet">
+                <div class="recap-bullet-dot"></div>
+                <div>${t} <span class="text-muted">— Week ${elimMap.get(t)}</span></div>
+              </div>
+            `).join("")
+          : `<p class="text-muted">No eliminations yet.</p>`;
+
+        container.innerHTML = `
+          ${statusHtml}
+          <section class="lms-table-section mt-sm">
+            <h5>Still Alive</h5>
+            ${aliveHtml}
+          </section>
+          <section class="lms-table-section mt-sm">
+            <h5>Eliminated</h5>
+            ${eliminatedHtml}
+          </section>
+          <p class="mt-sm"><a href="history/awards/last-man-standing/index.html" class="card-link">View Full History →</a></p>
+        `;
 
       } catch (err) {
         console.error("Error loading LMS home tile:", err);
