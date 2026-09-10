@@ -83,9 +83,7 @@ function renderSingleYearRow(year, data) {
   const team = (data && data.Team) || "—";
 
   const row = document.createElement("div");
-  row.style.padding = "0.5rem 0";
-  row.style.borderBottom = "1px solid var(--border)";
-  row.style.fontSize = "1.1rem";
+  row.className = "award-year-row";
   row.innerHTML = `<strong>${year}</strong> – ${team}`;
   return row;
 }
@@ -103,8 +101,7 @@ function renderMultiYearBlock(year, data) {
   if (!weeks.length) return null;
 
   const block = document.createElement("div");
-  block.className = "card collapse";
-  block.style.marginBottom = "1.5rem";
+  block.className = "card collapse mb-lg";
 
   block.innerHTML = `
     <div class="collapse-toggle">
@@ -112,22 +109,15 @@ function renderMultiYearBlock(year, data) {
       <span>▼</span>
     </div>
     <div class="collapse-content">
-      <div style="
-        background: var(--accent-soft);
-        padding: 0.75rem 1rem;
-        border-radius: 6px;
-        margin-bottom: 1rem;
-        font-weight: 600;
-        color: var(--accent);
-      ">
+      <div class="award-banner">
         🏆 Awarded Weekly — Highest Score Each Week
       </div>
-      <table style="width:100%; border-collapse:collapse; margin-top:0.5rem;">
+      <table class="award-table">
         <thead>
-          <tr style="border-bottom:1px solid var(--border);">
-            <th style="text-align:left; padding:0.5rem 0;">Week</th>
-            <th style="text-align:left; padding:0.5rem 0;">Winner</th>
-            <th style="text-align:left; padding:0.5rem 0;">Points</th>
+          <tr>
+            <th>Week</th>
+            <th>Winner</th>
+            <th>Points</th>
           </tr>
         </thead>
         <tbody>

@@ -10,49 +10,37 @@
 <body>
 
   <!-- BACK LINK -->
-  <div style="width:100%; padding:1.5rem 1rem 0;">
-    <a href="../index.html" style="
-      color:var(--accent);
-      font-weight:600;
-      text-decoration:none;
-    ">
-      ← Back to League History
-    </a>
+  <div class="back-link-wrap">
+    <a href="../index.html" class="back-link">← Back to League History</a>
   </div>
 
-  <div class="shell" style="padding-top:1rem;">
+  <div class="shell shell-tight">
 
     <!-- ================================
          HEADER
          ================================ -->
-    <section class="card card-soft" style="margin-bottom:2rem;">
+    <section class="card card-soft mb-lg">
       <div class="card-header">
         <h1 class="card-title">🏆 Award History</h1>
         <div class="card-meta">All-time winners for every league award</div>
       </div>
 
       <div class="card-body">
-        <p class="hero-sub" style="margin-bottom:1rem;">
+        <p class="hero-sub mb-1">
           Explore the full history of every award in the league — from season-long dominance to draft‑day chaos.
         </p>
 
-        <div id="season-awards" style="margin-top:1.5rem;"></div>
+        <div id="season-awards" class="mt-lg"></div>
       </div>
     </section>
 
     <!-- ================================
          AWARD LIST
          ================================ -->
-    <section style="margin-top: 2rem;">
+    <section class="section-block">
       <h2 class="section-title">Awards</h2>
 
-      <div style="
-        background: rgba(255, 255, 255, 0.03);
-        padding: 1.25rem;
-        border-radius: 0.9rem;
-        border: 1px solid var(--border-subtle);
-        margin-top: 1rem;
-      ">
+      <div class="panel mt-sm">
         <div id="awards-container" class="card-grid"></div>
       </div>
     </section>
@@ -71,8 +59,7 @@ async function loadAwards() {
       const title = award.title || award.folder;
 
       const card = document.createElement("article");
-      card.className = "card card-soft";
-      card.style.borderLeft = "4px solid var(--accent)";
+      card.className = "card card-soft card-accent-left";
 
       card.innerHTML = `
         <div class="card-header">
@@ -152,7 +139,7 @@ async function loadSeasonAwards() {
         }
 
         results.push(`
-          <div class="card card-soft" style="margin-bottom:0.75rem;">
+          <div class="card card-soft mb-md">
             <div class="card-header">
               <h3 class="card-title">${award.title}</h3>
             </div>

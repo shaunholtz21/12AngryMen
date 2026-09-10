@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } catch (err) {
       contentDiv.innerHTML = `
-        <p style="color: var(--muted);">
+        <p class="text-muted">
           No recap available for ${season} ${week.replace("week", "Week ")}.
         </p>
       `;

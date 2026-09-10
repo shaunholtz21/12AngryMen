@@ -57,7 +57,7 @@
           </script>
 
           <!-- SEASON RECAP -->
-          <section class="card card-soft" style="margin-top: 1.5rem;">
+          <section class="card card-soft mt-lg">
             <div class="card-header">
               <h3 class="card-title"></h3>
             </div>
@@ -88,7 +88,7 @@
 
               } catch (err) {
                 document.getElementById("latestNote").innerHTML =
-                  `<p style="color: var(--muted);">Unable to load latest weekly note.</p>`;
+                  `<p class="text-muted">Unable to load latest weekly note.</p>`;
               }
             }
 
@@ -106,11 +106,11 @@
               <h3 class="card-title">Latest Weekly Note</h3>
             </div>
             <div id="latestNote" class="card-body">
-              <p style="color: var(--muted);">Loading latest note…</p>
+              <p class="text-muted">Loading latest note…</p>
             </div>
           </section>
 
-          <div id="content" style="margin-top: 1.5rem;"></div>
+          <div id="content" class="mt-lg"></div>
 
         </aside>
 
@@ -219,7 +219,7 @@ async function loadSeasonRecap() {
   const html = results.map(r => {
     if (Array.isArray(r.value)) {
       return `
-        <div class="card card-soft" style="border-left: 4px solid var(--accent);">
+        <div class="card card-soft card-accent-left">
           <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
           <div class="card-body">
             ${r.value.map(v => `
@@ -234,7 +234,7 @@ async function loadSeasonRecap() {
       `;
 } else {
   return `
-    <div class="card card-soft" style="border-left: 4px solid var(--accent);">
+    <div class="card card-soft card-accent-left">
       <div class="card-header"><h3 class="card-title">${r.label}</h3></div>
       <div class="card-body">
         <div class="award-winner">
@@ -248,12 +248,7 @@ async function loadSeasonRecap() {
 
 container.innerHTML = `
   <h2 id="recap-title" class="recap-title-bar">${year} Season Recap</h2>
-  <div style="
-    background: rgba(255, 255, 255, 0.03);
-    padding: 1.25rem;
-    border-radius: 0.9rem;
-    border: 1px solid var(--border-subtle);
-  ">
+  <div class="panel">
     ${html}
   </div>
 `;

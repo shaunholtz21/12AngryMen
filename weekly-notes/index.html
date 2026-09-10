@@ -38,37 +38,36 @@
           </div>
 
           <!-- SELECT RECAP CARD -->
-          <section class="card card-soft" style="margin-top: 1.5rem; padding: 1.25rem;">
+          <section class="card card-soft mt-lg p-lg">
             <div class="card-header">
               <h3 class="card-title">Select Recap</h3>
             </div>
 
-            <div class="card-body" style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="card-body form-stack">
               <label>
-                <span style="display:block; margin-bottom: 0.25rem;">Season</span>
-                <select id="wn-seasonSelect" style="width: 100%; padding: 0.5rem; border-radius: 0.4rem;"></select>
+                <span class="form-label">Season</span>
+                <select id="wn-seasonSelect" class="form-select"></select>
               </label>
 
               <label>
-                <span style="display:block; margin-bottom: 0.25rem;">Week</span>
-                <select id="wn-weekSelect" style="width: 100%; padding: 0.5rem; border-radius: 0.4rem;"></select>
+                <span class="form-label">Week</span>
+                <select id="wn-weekSelect" class="form-select"></select>
               </label>
 
-              <button id="wn-loadRecapBtn"
-                style="padding: 0.6rem 1rem; background: var(--accent); border: none; border-radius: 0.4rem; color: white; font-weight: 600; cursor: pointer;">
+              <button id="wn-loadRecapBtn" class="btn-primary">
                 Load Recap
               </button>
             </div>
           </section>
 
           <!-- LOADED RECAP CARD -->
-          <section class="card card-soft" style="margin-top: 1.75rem;">
+          <section class="card card-soft mt-xl">
             <div class="card-header">
               <h3 class="card-title" id="weeklyRecapTitle">Weekly Recap</h3>
             </div>
             <div class="card-body">
               <div id="wn-content">
-                <p style="color: var(--muted);">
+                <p class="text-muted">
                   Select a season and week above, then click “Load Recap” to view the weekly note.
                 </p>
               </div>
