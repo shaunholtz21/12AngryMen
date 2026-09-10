@@ -55,17 +55,8 @@
           <p class="text-muted">Loading draft recap…</p>
         </div>
 
-        <!-- RIGHT SIDEBAR: WEEKLY NOTE / FANTASY FIVER / RING SEEKER -->
+        <!-- RIGHT SIDEBAR: FANTASY FIVER / RING SEEKER -->
         <aside class="sidebar">
-
-          <section class="card">
-            <div class="card-header">
-              <h3 class="card-title">Latest Weekly Note</h3>
-            </div>
-            <div id="latestNote" class="card-body">
-              <p class="text-muted">Loading latest note…</p>
-            </div>
-          </section>
 
           <section class="card card-soft">
             <div class="card-header">
@@ -104,30 +95,6 @@
     async function getCurrentSeason() {
       const seasons = await fetch("history/awards/seasons.json").then((r) => r.json());
       return [...seasons].sort((a, b) => b - a)[0];
-    }
-
-    // ------------------------------
-    // Latest weekly note (unchanged)
-    // ------------------------------
-    async function loadLatestNote() {
-      try {
-        const seasonsRes = await fetch("recaps/seasons.json");
-        const seasonsData = await seasonsRes.json();
-        const newestSeason = seasonsData.seasons[0];
-
-        const weeksRes = await fetch(`recaps/${newestSeason}/weeks.json`);
-        const weeksData = await weeksRes.json();
-        const latestWeek = weeksData.weeks[weeksData.weeks.length - 1];
-
-        const recapRes = await fetch(`recaps/${newestSeason}/${latestWeek}.html`);
-        const recapHtml = await recapRes.text();
-
-        document.getElementById("latestNote").innerHTML = recapHtml;
-
-      } catch (err) {
-        document.getElementById("latestNote").innerHTML =
-          `<p class="text-muted">Unable to load latest weekly note.</p>`;
-      }
     }
 
     // ------------------------------
@@ -268,7 +235,6 @@
       }
     }
 
-    loadLatestNote();
     loadLatestDraftRecap();
     loadLmsHome();
     loadFantasyFiverHome();
