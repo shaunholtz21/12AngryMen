@@ -50,9 +50,9 @@
           </section>
         </div>
 
-        <!-- MIDDLE COLUMN: CURRENT DRAFT RECAP (full length) -->
+        <!-- MIDDLE COLUMN: FEATURED RECAP (full length) -->
         <div id="draftRecapContainer">
-          <p class="text-muted">Loading draft recap…</p>
+          <p class="text-muted">Loading recap…</p>
         </div>
 
         <!-- RIGHT SIDEBAR: FANTASY FIVER / RING SEEKER -->
@@ -98,35 +98,66 @@
     }
 
     // ------------------------------
-    // Middle: current draft recap (full length)
+    // Middle: featured recap (full length)
+    // Shows the latest weekly recap for the current season once one
+    // exists; falls back to the latest draft recap before the season
+    // has any weeks posted.
     // ------------------------------
-    async function loadLatestDraftRecap() {
+    async function loadLatestWeekRecap(container) {
+      const year = await getCurrentSeason();
+      const weeksData = await fetch(`recaps/${year}/weeks.json`).then((r) => r.json());
+
+      if (!weeksData.weeks || weeksData.weeks.length === 0) return false;
+
+      const latestWeek = [...weeksData.weeks].sort(
+        (a, b) => parseInt(b.match(/\d+/)) - parseInt(a.match(/\d+/))
+      )[0];
+
+      const html = await fetch(`recaps/${year}/${latestWeek}.html`).then((r) => r.text());
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const card = doc.querySelector(".card");
+
+      if (!card) return false;
+
+      container.innerHTML = card.outerHTML;
+      return true;
+    }
+
+    async function loadLatestDraftRecap(container) {
+      const indexData = await fetch("history/drafts/index.json").then((r) => r.json());
+
+      const drafts = indexData.drafts.sort((a, b) => {
+        const yearA = parseInt(a.match(/\d+/));
+        const yearB = parseInt(b.match(/\d+/));
+        return yearB - yearA;
+      });
+
+      const latest = drafts[0];
+      const html = await fetch(`history/drafts/${latest}`).then((r) => r.text());
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const card = doc.querySelector(".card");
+
+      container.innerHTML = card
+        ? card.outerHTML
+        : `<p class="text-muted">Unable to load the latest draft recap.</p>`;
+    }
+
+    async function loadFeaturedRecap() {
       const container = document.getElementById("draftRecapContainer");
 
       try {
-        const indexRes = await fetch("history/drafts/index.json");
-        const indexData = await indexRes.json();
-
-        const drafts = indexData.drafts.sort((a, b) => {
-          const yearA = parseInt(a.match(/\d+/));
-          const yearB = parseInt(b.match(/\d+/));
-          return yearB - yearA;
-        });
-
-        const latest = drafts[0];
-        const res = await fetch(`history/drafts/${latest}`);
-        const html = await res.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, "text/html");
-        const card = doc.querySelector("section.card");
-
-        container.innerHTML = card
-          ? card.outerHTML
-          : `<p class="text-muted">Unable to load the latest draft recap.</p>`;
-
+        const loadedWeekRecap = await loadLatestWeekRecap(container);
+        if (!loadedWeekRecap) await loadLatestDraftRecap(container);
       } catch (err) {
-        container.innerHTML = `<p class="text-muted">Unable to load the latest draft recap.</p>`;
+        try {
+          await loadLatestDraftRecap(container);
+        } catch (err2) {
+          container.innerHTML = `<p class="text-muted">Unable to load a recap.</p>`;
+        }
       }
     }
 
@@ -262,7 +293,7 @@
       }
     }
 
-    loadLatestDraftRecap();
+    loadFeaturedRecap();
     loadLmsHome();
     loadFantasyFiverHome();
     loadRingSeekerHome();
