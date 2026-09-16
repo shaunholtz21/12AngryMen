@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: "0 7 * * *"
 
+concurrency:
+  group: main-autocommit
+  cancel-in-progress: false
+
 jobs:
   update-fiver:
     runs-on: ubuntu-latest

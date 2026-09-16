@@ -7,6 +7,10 @@ on:
     paths:
       - "recaps/**"
 
+concurrency:
+  group: main-autocommit
+  cancel-in-progress: false
+
 jobs:
   update-weeks:
     runs-on: ubuntu-latest

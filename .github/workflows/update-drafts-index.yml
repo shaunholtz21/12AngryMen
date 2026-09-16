@@ -3,7 +3,13 @@ name: Auto‑Update Drafts Index
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "history/drafts/**"
   workflow_dispatch:
+
+concurrency:
+  group: main-autocommit
+  cancel-in-progress: false
 
 jobs:
   build-index:

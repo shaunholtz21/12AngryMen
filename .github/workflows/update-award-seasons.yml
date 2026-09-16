@@ -3,7 +3,13 @@ name: Auto‑Update Award Seasons
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "history/awards/**"
   workflow_dispatch:
+
+concurrency:
+  group: main-autocommit
+  cancel-in-progress: false
 
 jobs:
   build-seasons:

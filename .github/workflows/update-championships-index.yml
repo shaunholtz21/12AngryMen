@@ -3,7 +3,13 @@ name: Auto‑Update Championships Index
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "history/championships/**"
   workflow_dispatch:
+
+concurrency:
+  group: main-autocommit
+  cancel-in-progress: false
 
 jobs:
   build-index:
